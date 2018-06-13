@@ -1,12 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-// import TextField from '@material-ui/core/TextField';
-// import Input from '@material-ui/core/Input';
-// import InputLabel from '@material-ui/core/InputLabel';
-// import InputAdornment from '@material-ui/core/InputAdornment';
-// import FormHelperText from '@material-ui/core/FormHelperText';
-// import FormControl from '@material-ui/core/FormControl';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
@@ -37,6 +31,7 @@ import InputFieldRegion from './InputFieldRegion.js'
 import InputFieldArea from './InputFieldArea.js'
 import InputFieldTax from './InputFieldTax.js'
 import InputFieldRegionEnv from './InputFieldRegionEnv.js'
+import InputFieldStride from './InputFieldStride.js'
 // import SimpleTabs from '../Others/TabsExample.js'
 // import VerticalLinearStepper from '../Others/StepperExample'
 import IntegrationReactSelect from './InputFieldRegionAutocomplete.js'
@@ -220,8 +215,6 @@ class InputForm extends React.Component {
                     </Paper>
                 )}
 
-
-
             </div>
         );
     }
@@ -250,7 +243,7 @@ function getStepContent(step, props) {
                     </div>
                     <div class="row">
                         <div class="col">
-                            {/*<IntegrationReactSelect/>*/}
+                            <IntegrationReactSelect/>
                             <InputFieldRegion/>
                         </div>
                         <div className="col">
@@ -390,24 +383,98 @@ function getStepContent(step, props) {
                 <div>
                     <ExpansionPanel className={classes.fullWidth}>
                         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                            <Typography className={classes.heading}>Доходная часть</Typography>
+                            <div className="container no-gutters">
+                                <div className="row justify-content-between">
+                                    <div className="col">
+                                        <Typography className={classes.heading}>Доходная часть</Typography>
+                                    </div>
+                                    <div className="col text-nowrap text-right">
+                                        <InputFieldAmount id="field-input-income-total" label="Всего" helperText="" />
+                                    </div>
+                                </div>
+                            </div>
                         </ExpansionPanelSummary>
                         <ExpansionPanelDetails className={classes.container}>
-                            <InputFieldAmount id="field-input-income-price" label="Средняя цена реализации" helperText="" />
-                            <InputFieldAmount id="field-input-income-amount" label="Среднее количество продаж в день" helperText="" />
-                            <InputFieldAmount id="field-input-income-earning" label="Среднемесячная выручка" helperText="" />
+                            <div className="container no-gutters">
+                                <div className="row justify-content-start">
+                                    <div className="col">
+                                        <InputFieldAmount id="field-input-income-price" label="Цена" helperText="Средняя цена реализации" />
+                                    </div>
+                                    <div class="col">
+                                        <InputFieldNumber id="field-input-income-amount" label="Продажи" helperText="Среднее количество продаж в день" />
+                                    </div>
+                                    <div class="col">
+                                        <InputFieldAmount id="field-input-income-earning" label="Выручка" helperText="Среднемесячная выручка" />
+                                    </div>
+                                </div>
+                            </div>
                         </ExpansionPanelDetails>
                     </ExpansionPanel>
                     <ExpansionPanel className={classes.fullWidth}>
                         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                            <Typography className={classes.heading}>Расходная часть</Typography>
+                            <div className="container no-gutters">
+                                <div className="row justify-content-between">
+                                    <div className="col">
+                                        <Typography className={classes.heading}>Расходная часть</Typography>
+                                    </div>
+                                    <div className="col text-nowrap text-right">
+                                        <InputFieldAmount id="field-input-expenses-total" label="Всего" helperText="" />
+                                    </div>
+                                </div>
+                            </div>
                         </ExpansionPanelSummary>
                         <ExpansionPanelDetails className={classes.container}>
-                            <InputFieldAmount id="field-input-expenses-taxes" label="Налоги" helperText="Введите среднюю сумму налогов в месяц" />
-                            <InputFieldAmount id="field-input-expenses-salary" label="Заработная плата" helperText="Введите среднюю заработную плату в месяц" />
-                            <InputFieldAmount id="field-input-expenses-rent" label="Аренда" helperText="" />
-                            <InputFieldAmount id="field-input-expenses-transport" label="Транспортные расходы" helperText="" />
-                            <InputFieldAmount id="field-input-expenses-others" label="Прочие расходы" helperText="" />
+                            <div className="container no-gutters">
+                                <div className="row justify-content-start">
+                                    <div className="col">
+                                        <InputFieldAmount id="field-input-expenses-taxes" label="Налоги" helperText="Средняя сумма налогов и сбором в месяц" />
+                                    </div>
+                                    <div class="col">
+                                        <InputFieldAmount id="field-input-expenses-salary" label="Заработная плата" helperText="Средняя заработная плата в месяц" />
+                                    </div>
+                                    <div class="col">
+                                        <InputFieldAmount id="field-input-expenses-rent" label="Аренда" helperText="Средняя аредна в месяц" />
+                                    </div>
+                                    <div class="col">
+                                        <InputFieldAmount id="field-input-expenses-transport" label="Транспорт" helperText="Транспортные расходы в месяц" />
+                                    </div>
+                                    <div class="col">
+                                        <InputFieldAmount id="field-input-expenses-others" label="Прочие расходы" helperText="" />
+                                    </div>
+                                    <div className="col">
+                                        <InputFieldNumber id="field-input-expenses-grossmargin" label="Валовая рентабельность" helperText="" adornment="%"/>
+                                    </div>
+                                    <div className="col">
+                                        <InputFieldNumber id="field-input-expenses-netmargin" label="Чистая рентабельность" helperText="" adornment="%"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </ExpansionPanelDetails>
+                    </ExpansionPanel>
+                    <ExpansionPanel className={classes.fullWidth}>
+                        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                            <div className="container no-gutters">
+                                <div className="row justify-content-between">
+                                    <div className="col">
+                                        <Typography className={classes.heading}>Прочее</Typography>
+                                    </div>
+                                </div>
+                            </div>
+                        </ExpansionPanelSummary>
+                        <ExpansionPanelDetails className={classes.container}>
+                            <div className="container no-gutters">
+                                <div className="row justify-content-start">
+                                    <div className="col">
+                                        <InputFieldNumber id="field-input-params-loanrate" label="% ставка" helperText="Ставка привлечения заемных средств" adornment="%"/>
+                                    </div>
+                                    <div className="col">
+                                        <InputFieldAmount id="field-input-params-dividends" label="Дивиденды" helperText="Выплата дивидендов в месяц"/>
+                                    </div>
+                                    <div class="col">
+                                        <InputFieldStride/>
+                                    </div>
+                                </div>
+                            </div>
                         </ExpansionPanelDetails>
                     </ExpansionPanel>
                     <div>
