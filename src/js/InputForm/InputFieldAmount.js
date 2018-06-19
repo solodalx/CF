@@ -7,6 +7,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
+import Tooltip from '@material-ui/core/Tooltip';
 
 const styles = theme => ({
     // container: {
@@ -23,6 +24,9 @@ const styles = theme => ({
     //     marginRight: theme.spacing.unit,
     //     width: 200,
     // },
+    input: {
+        width: 200,
+    },
     inputLabel: {
         color: 'purple',
     }
@@ -44,24 +48,29 @@ class InputFieldAmount extends React.Component {
         return (
             //<div className={classes.container}>
             <div>
-                {/*<FormControl className={classes.formControl}>*/}
-                <TextField
-                    id={this.props.id}
-                    label={this.props.label}
-                    //className={classes.textField}
-                    // value={this.state.assetsLand}
-                    defaultValue=""
-                    helperText={this.props.helperText}
-                    onChange={this.handleChange('assetsLand')}
-                    // margin="normal"
-                    InputProps={{
-                        endAdornment: <InputAdornment position="end">р.</InputAdornment>,
-                    }}
-                    InputLabelProps={{
-                        className: classes.inputLabel
-                    }}
-                />
-                {/*</FormControl>*/}
+                <Tooltip title={this.props.tip} placement="center">
+                    {/*<FormControl className={classes.formControl}>*/}
+                    <TextField
+                        id={this.props.id}
+                        label={this.props.label}
+                        //className={classes.textField}
+                        // value={this.state.assetsLand}
+                        defaultValue=""
+                        helperText={this.props.helperText}
+                        onChange={this.handleChange('assetsLand')}
+                        // margin="normal"
+                        InputProps={{
+                            endAdornment: <InputAdornment position="end">р.</InputAdornment>,
+                            className: classes.input
+                        }}
+                        InputLabelProps={{
+                            className: classes.inputLabel
+                        }}
+                        disabled={this.props.disabled}
+                    />
+                    {/*</FormControl>*/}
+                </Tooltip>
+                {/*<Tooltip id={this.props.id}>Подсказка</Tooltip>*/}
             </div>
         );
     }

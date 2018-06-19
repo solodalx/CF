@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import {withStyles} from '@material-ui/core/styles';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -15,8 +15,8 @@ const styles = theme => ({
     // },
     formControl: {
         margin: theme.spacing.unit,
-        minWidth: 200,
-        //minWidth: 350,
+        // minWidth: 200,
+        minWidth: 350,
     },
     // selectEmpty: {
     //     marginTop: theme.spacing.unit * 2,
@@ -30,11 +30,11 @@ class InputFieldTax extends React.Component {
     };
 
     handleChange = event => {
-        this.setState({ [event.target.name]: event.target.value });
+        this.setState({[event.target.name]: event.target.value});
     };
 
     render() {
-        const { classes } = this.props;
+        const {classes} = this.props;
 
         return (
             //<form className={classes.root} autoComplete="off">

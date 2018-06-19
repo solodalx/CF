@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import {withStyles} from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
+import Tooltip from '@material-ui/core/Tooltip';
 
 const styles = theme => ({
     // container: {
@@ -27,19 +28,21 @@ class InputFieldDate extends React.Component {
         return (
             //<form className={classes.container} noValidate>
             <div>
-                <TextField
-                    id={this.props.id}
-                    label={this.props.label}
-                    type="date"
-                    // defaultValue="2018-07-02"
-                    defaultValue={this.props.defaultValue}
-                    helperText={this.props.helperText}
-                    //className={classes.textField}
-                    InputLabelProps={{
-                        shrink: true,
-                        className: classes.inputLabel
-                    }}
-                />
+                <Tooltip title={this.props.tip} placement="center">
+                    <TextField
+                        id={this.props.id}
+                        label={this.props.label}
+                        type="date"
+                        // defaultValue="2018-07-02"
+                        defaultValue={this.props.defaultValue}
+                        helperText={this.props.helperText}
+                        //className={classes.textField}
+                        InputLabelProps={{
+                            shrink: true,
+                            className: classes.inputLabel
+                        }}
+                    />
+                </Tooltip>
             </div>
             // </form>
         );
