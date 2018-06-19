@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
+import StepButton from '@material-ui/core/StepButton';
 import StepLabel from '@material-ui/core/StepLabel';
 import StepContent from '@material-ui/core/StepContent';
 import Button from '@material-ui/core/Button';
@@ -120,6 +121,12 @@ class InputForm extends React.Component {
         value: 0,
     };
 
+    handleStep = step => () => {
+        this.setState({
+            activeStep: step,
+        });
+    };
+
     handleNext = () => {
         this.setState({
             activeStep: this.state.activeStep + 1,
@@ -179,13 +186,18 @@ class InputForm extends React.Component {
                         </Toolbar>
                     </AppBar>
 
-                    <Stepper activeStep={activeStep} orientation="vertical">
+                    <Stepper activeStep={activeStep} orientation="vertical" nonLinear>
                         {steps.map((label, index) => {
                             return (
                                 <Step key={label} className={classes.alignLeft}>
                                 {/*<Step key={label}>*/}
                                     {/*<StepLabel className={classes.stepHeading}>{label}</StepLabel>*/}
-                                    <StepLabel>{label}</StepLabel>
+                                    {/*<StepLabel>{label}</StepLabel>*/}
+                                    <StepButton
+                                        onClick={this.handleStep(index)}
+                                    >
+                                        {label}
+                                    </StepButton>
                                     <StepContent>
                                         {/*<div class="container">*/}
                                             {/*<div class="row">*/}
@@ -250,9 +262,9 @@ function getStepContent(step, props) {
                         <div class="col">
                             <InputFieldDate id="field-input-general-datestart" label="Дата" tip="Дата начала проекта" defaultValue=""/>
                         </div>
-                        <div class="col">
-                            <InputFieldNumber id="field-input-general-term" label="Срок" tip="Срок проекта" defaultValue="60" adornment="мес." disabled/>
-                        </div>
+                        {/*<div class="col">*/}
+                            {/*<InputFieldNumber id="field-input-general-term" label="Срок" tip="Срок проекта" defaultValue="60" adornment="мес." disabled/>*/}
+                        {/*</div>*/}
                     </div>
                     <div class="row">
                         <div class="col">
@@ -281,14 +293,14 @@ function getStepContent(step, props) {
             return (
                 <div>
                     <ExpansionPanel className={classes.fullWidth}>
-                        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
                             <div class="container no-gutters">
                                 <div class="row justify-content-between">
                                     <div class="col">
                                         <Typography className={classes.heading}>Имеющиеся активы</Typography>
                                     </div>
                                     <div className="col text-nowrap text-right">
-                                        <InputFieldAmount id="field-input-assets-total" label="Всего" tip="Всего собственных средств" />
+                                        <InputFieldAmount id="field-input-assets-total" label="Всего" tip="Всего собственных средств" disabled/>
                                     </div>
                                 </div>
                             </div>
@@ -331,7 +343,7 @@ function getStepContent(step, props) {
                                         <Typography className={classes.heading}>Планируемые инвестиции</Typography>
                                     </div>
                                     <div className="col text-nowrap text-right">
-                                        <InputFieldAmount id="field-input-inv-total" label="Всего" tip="Всего заемных средств" />
+                                        <InputFieldAmount id="field-input-inv-total" label="Всего" tip="Всего заемных средств" disabled/>
                                     </div>
                                 </div>
                             </div>
@@ -365,14 +377,15 @@ function getStepContent(step, props) {
                     <div>
                         <br/>
                         <br/>
-                        <br/>
-                        <br/>
                     </div>
                     {/*<div className={classes.container}>*/}
                     <div class="container no-gutters">
                         <div class="row">
                             <div class="col">
-                                <InputFieldAmount id="field-input-inv-total" label="Инвестиции" tip="Всего инвестиций" />
+                                <InputFieldAmount id="field-input-inv-total" label="Инвестиции" tip="Всего инвестиций" disabled/>
+                            </div>
+                            <div className="col">
+                                <InputFieldAmount id="field-input-inv-total" label="в т.ч. уже вложено" tip="в т.ч. уже вложено" disabled/>
                             </div>
                             {/*<div class="col">*/}
                                 {/*<InputFieldAmount id="field-input-inv-own" label="Собственные средства" tip="" />*/}
@@ -381,7 +394,7 @@ function getStepContent(step, props) {
                                 {/*<InputFieldAmount id="field-input-inv-borrowed" label="Заемные средства" tip="" />*/}
                             {/*</div>*/}
                             <div class="col">
-                                <InputFieldNumber id="field-calc-inv-ratio" label="Собст./Заем." tip="Соотношение собственных и заемных средств" />
+                                <InputFieldNumber id="field-calc-inv-ratio" label="Собст./Заем." tip="Соотношение собственных и заемных средств" disabled/>
                             </div>
                         </div>
                     </div>
@@ -402,7 +415,7 @@ function getStepContent(step, props) {
                                         <Typography className={classes.heading}>Доходная часть</Typography>
                                     </div>
                                     <div className="col text-nowrap text-right">
-                                        <InputFieldAmount id="field-input-income-total" label="Всего" tip="Всего по доходов" />
+                                        <InputFieldAmount id="field-input-income-total" label="Всего" tip="Всего доходов" />
                                     </div>
                                 </div>
                             </div>
@@ -440,7 +453,7 @@ function getStepContent(step, props) {
                             <div className="container no-gutters">
                                 <div className="row justify-content-start">
                                     <div className="col">
-                                        <InputFieldAmount id="field-input-expenses-taxes" label="Налоги" tip="Средняя сумма налогов и сбором в месяц" />
+                                        <InputFieldAmount id="field-input-expenses-taxes" label="Налоги" tip="Средняя сумма налогов и сборов в месяц" />
                                     </div>
                                     <div class="col">
                                         <InputFieldAmount id="field-input-expenses-salary" label="З/П" tip="Средняя заработная плата в месяц" />
@@ -464,17 +477,17 @@ function getStepContent(step, props) {
                             </div>
                         </ExpansionPanelDetails>
                     </ExpansionPanel>
-                    <ExpansionPanel className={classes.fullWidth}>
-                        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                            <div className="container no-gutters">
-                                <div className="row justify-content-between">
-                                    <div className="col">
-                                        <Typography className={classes.heading}>Прочее</Typography>
-                                    </div>
-                                </div>
-                            </div>
-                        </ExpansionPanelSummary>
-                        <ExpansionPanelDetails className={classes.container}>
+                    {/*<ExpansionPanel className={classes.fullWidth}>*/}
+                        {/*<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>*/}
+                            {/*<div className="container no-gutters">*/}
+                                {/*<div className="row justify-content-between">*/}
+                                    {/*<div className="col">*/}
+                                        {/*<Typography className={classes.heading}>Прочее</Typography>*/}
+                                    {/*</div>*/}
+                                {/*</div>*/}
+                            {/*</div>*/}
+                        {/*</ExpansionPanelSummary>*/}
+                        {/*<ExpansionPanelDetails className={classes.container}>*/}
                             <div className="container no-gutters">
                                 <div className="row justify-content-start">
                                     <div className="col">
@@ -488,8 +501,8 @@ function getStepContent(step, props) {
                                     </div>
                                 </div>
                             </div>
-                        </ExpansionPanelDetails>
-                    </ExpansionPanel>
+                        {/*</ExpansionPanelDetails>*/}
+                    {/*</ExpansionPanel>*/}
                     <div>
                         <br/>
                         <br/>
