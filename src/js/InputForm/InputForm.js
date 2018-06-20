@@ -24,6 +24,7 @@ import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
+import FormGroup from '@material-ui/core/FormGroup';
 
 import InputFieldAmount from './InputFieldAmount.js'
 import InputFieldNumber from './InputFieldNumber.js'
@@ -33,6 +34,7 @@ import InputFieldArea from './InputFieldArea.js'
 import InputFieldTax from './InputFieldTax.js'
 import InputFieldRegionEnv from './InputFieldRegionEnv.js'
 import InputFieldStride from './InputFieldStride.js'
+import InputFieldsManualExpenses from './InputFieldsManualExpenses.js'
 // import SimpleTabs from '../Others/TabsExample.js'
 // import VerticalLinearStepper from '../Others/StepperExample'
 import IntegrationReactSelect from './InputFieldRegionAutocomplete.js'
@@ -123,7 +125,7 @@ class InputForm extends React.Component {
 
     handleStep = step => () => {
         this.setState({
-            activeStep: step,
+            activeStep: step
         });
     };
 
@@ -251,7 +253,7 @@ InputForm.propTypes = {
 
 export default withStyles(styles)(InputForm);
 
-function getStepContent(step, props) {
+function getStepContent(step, props, state) {
     const { classes } = props;
 
     switch (step) {
@@ -455,18 +457,18 @@ function getStepContent(step, props) {
                                     <div className="col">
                                         <InputFieldAmount id="field-input-expenses-taxes" label="Налоги" tip="Средняя сумма налогов и сборов в месяц" />
                                     </div>
-                                    <div class="col">
-                                        <InputFieldAmount id="field-input-expenses-salary" label="З/П" tip="Средняя заработная плата в месяц" />
-                                    </div>
-                                    <div class="col">
-                                        <InputFieldAmount id="field-input-expenses-rent" label="Аренда" tip="Средняя аредна в месяц" />
-                                    </div>
-                                    <div class="col">
-                                        <InputFieldAmount id="field-input-expenses-transport" label="Транспорт" tip="Транспортные расходы в месяц" />
-                                    </div>
-                                    <div class="col">
-                                        <InputFieldAmount id="field-input-expenses-others" label="Прочее" tip="Прочие расходы" />
-                                    </div>
+                                    {/*<div class="col">*/}
+                                        {/*<InputFieldAmount id="field-input-expenses-salary" label="З/П" tip="Средняя заработная плата в месяц" />*/}
+                                    {/*</div>*/}
+                                    {/*<div class="col">*/}
+                                        {/*<InputFieldAmount id="field-input-expenses-rent" label="Аренда" tip="Средняя аредна в месяц" />*/}
+                                    {/*</div>*/}
+                                    {/*<div class="col">*/}
+                                        {/*<InputFieldAmount id="field-input-expenses-transport" label="Транспорт" tip="Транспортные расходы в месяц" />*/}
+                                    {/*</div>*/}
+                                    {/*<div class="col">*/}
+                                        {/*<InputFieldAmount id="field-input-expenses-others" label="Прочее" tip="Прочие расходы" />*/}
+                                    {/*</div>*/}
                                     <div className="col">
                                         <InputFieldNumber id="field-input-expenses-grossmargin" label="Валовая рентабельность" tip="Валовая рентабельность" adornment="%"/>
                                     </div>
@@ -474,7 +476,12 @@ function getStepContent(step, props) {
                                         <InputFieldNumber id="field-input-expenses-netmargin" label="Чистая рентабельность" tip="Чистая рентабельность" adornment="%"/>
                                     </div>
                                 </div>
-                            </div>
+                                <div className="row justify-content-start">
+                                    <div className="col">
+                                        <InputFieldsManualExpenses/>
+                                    </div>
+                                </div>
+                           </div>
                         </ExpansionPanelDetails>
                     </ExpansionPanel>
                     {/*<ExpansionPanel className={classes.fullWidth}>*/}

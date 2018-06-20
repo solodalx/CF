@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
@@ -28,11 +26,11 @@ const styles = theme => ({
         width: 200,
     },
     inputLabel: {
-        // color: 'purple',
+        color: 'purple',
     }
 });
 
-class InputFieldAmount extends React.Component {
+class InputFieldNumber extends React.Component {
     // state = {
     //     assetsLand: '',
     //     assetsBuildings: '',
@@ -55,13 +53,14 @@ class InputFieldAmount extends React.Component {
                         label={this.props.label}
                         //className={classes.textField}
                         // value={this.state.assetsLand}
-                        defaultValue=""
+                        defaultValue={this.props.defaultValue}
                         helperText={this.props.helperText}
-                        onChange={this.handleChange('assetsLand')}
+                        onChange={this.handleChange("Value")}
                         // margin="normal"
                         InputProps={{
-                            endAdornment: <InputAdornment position="end">р.</InputAdornment>,
+                            endAdornment: <InputAdornment position="end">{this.props.adornment}</InputAdornment>,
                             className: classes.input
+                            // disabled: {this.props.disabled},
                         }}
                         InputLabelProps={{
                             className: classes.inputLabel
@@ -70,17 +69,15 @@ class InputFieldAmount extends React.Component {
                     />
                     {/*</FormControl>*/}
                 </Tooltip>
-                {/*<Tooltip id={this.props.id}>Подсказка</Tooltip>*/}
             </div>
         );
     }
 }
 
-InputFieldAmount.propTypes = {
+InputFieldNumber.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(InputFieldAmount);
-// export default ComposedTextField;
+export default withStyles(styles)(InputFieldNumber);
 
 
