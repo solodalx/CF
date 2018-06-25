@@ -59,10 +59,10 @@ const styles = theme => ({
     //     // width: '100%',
     //     backgroundColor: theme.palette.background.paper,
     // },
-    menuButton: {
-        marginLeft: -12,
-        marginRight: 20,
-    },
+    // menuButton: {
+    //     marginLeft: -12,
+    //     marginRight: 20,
+    // },
     flex: {
         // flex: 1,
     },
@@ -312,25 +312,25 @@ function getStepContent(step, props, state) {
                         <ExpansionPanelDetails>
                             <div class="container no-gutters">
                                 <div class="row justify-content-start">
-                                    <div class="col">
+                                    <div class="col-auto">
                                         <InputFieldAmount id="field-input-assets-land" label="Земля" tip="Стоимость земли" />
                                     </div>
-                                    <div class="col">
+                                    <div class="col-auto">
                                         <InputFieldAmount id="field-input-assets-buildings" label="Здания" tip="Стоимость зданий" />
                                     </div>
-                                    <div class="col">
+                                    <div class="col-auto">
                                         <InputFieldAmount id="field-input-assets-equipment" label="Оборудование" tip="Стоимость оборудования" />
                                     </div>
-                                    <div class="col">
+                                    <div class="col-auto">
                                         <InputFieldAmount id="field-input-assets-transport" label="Транспорт" tip="Стоимость транспорта" />
                                     </div>
-                                    <div class="col">
+                                    <div class="col-auto">
                                         <InputFieldAmount id="field-input-assets-intangible" label="НМА" tip="Стоимость нематериальных активов" />
                                     </div>
-                                    <div class="col">
+                                    <div class="col-auto">
                                         <InputFieldAmount id="field-input-assets-others" label="Прочее" tip="Стоимость прочих активов" />
                                     </div>
-                                    <div className="col">
+                                    <div className="col-auto">
                                         <InputFieldAmount id="field-input-assets-additional" label="Доп. средства" tip="Дополнительные собственные средства"/>
                                     </div>
                                 </div>
@@ -354,22 +354,22 @@ function getStepContent(step, props, state) {
                         <ExpansionPanelDetails>
                             <div className="container no-gutters">
                                 <div className="row justify-content-start">
-                                    <div className="col">
+                                    <div className="col-auto">
                                         <InputFieldAmount id="field-input-inv-land" label="Земля" tip="Инвестиции в землю"/>
                                     </div>
-                                    <div className="col">
+                                    <div className="col-auto">
                                         <InputFieldAmount id="field-input-inv-buildings" label="Здания" tip="Инвестиции в здания"/>
                                     </div>
-                                    <div className="col">
+                                    <div className="col-auto">
                                         <InputFieldAmount id="field-input-inv-equipment" label="Оборудование" tip="Инвестиции в оборудование"/>
                                     </div>
-                                    <div className="col">
+                                    <div className="col-auto">
                                         <InputFieldAmount id="field-input-inv-transport" label="Транспорт" tip="Инвестиции в транспорт"/>
                                     </div>
-                                    <div className="col">
+                                    <div className="col-auto">
                                         <InputFieldAmount id="field-input-inv-intangible" label="НМА" tip="Инвестиции в нематериальные активы"/>
                                     </div>
-                                    <div className="col">
+                                    <div className="col-auto">
                                         <InputFieldAmount id="field-input-inv-others" label="Прочее" tip="Инвестиции в прочие активы"/>
                                     </div>
                                 </div>

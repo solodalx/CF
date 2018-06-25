@@ -16,7 +16,17 @@ const styles = theme => ({
     formControl: {
         margin: theme.spacing.unit,
         // minWidth: 200,
-        minWidth: 350,
+        // minWidth: 350,
+        // minWidth: '100%',
+        // width: '100%',
+        [theme.breakpoints.down('xs')]: {
+            minWidth: 150,
+            maxWidth:350,
+            width: '100%',
+        },
+        [theme.breakpoints.up('sm')]: {
+            minWidth: 350,
+        },
     },
     // selectEmpty: {
     //     marginTop: theme.spacing.unit * 2,

@@ -25,7 +25,8 @@ const styles = theme => ({
     //     width: 200,
     // },
     input: {
-        width: 200,
+        // width: 200,
+        // width: '50%',
     },
     inputLabel: {
         // color: 'purple',

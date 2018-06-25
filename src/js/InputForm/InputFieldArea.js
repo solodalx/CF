@@ -9,14 +9,24 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
 const styles = theme => ({
-    root: {
-        display: 'flex',
-        flexWrap: 'wrap',
-    },
+    // root: {
+    //     display: 'flex',
+    //     flexWrap: 'wrap',
+    // },
     formControl: {
         margin: theme.spacing.unit,
         // minWidth: 200,
-        minWidth: 350,
+        // minWidth: 350,
+        // minWidth: '100%',
+        // width: '100%',
+        [theme.breakpoints.down('xs')]: {
+            minWidth: 150,
+            maxWidth:350,
+            width: '100%',
+        },
+        [theme.breakpoints.up('sm')]: {
+            minWidth: 350,
+        },
     },
     selectEmpty: {
         marginTop: theme.spacing.unit * 2,
@@ -37,7 +47,8 @@ class InputFieldArea extends React.Component {
         const { classes } = this.props;
 
         return (
-            <form className={classes.root} autoComplete="off">
+            //<form className={classes.root} autoComplete="off">
+            <form autoComplete="off">
                 <FormControl className={classes.formControl}>
                     <InputLabel htmlFor="field-input-general-area">Направление деятельности</InputLabel>
                     <Select
