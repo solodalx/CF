@@ -21,7 +21,7 @@ const styles = theme => ({
         // width: '100%',
         [theme.breakpoints.down('xs')]: {
             minWidth: 150,
-            maxWidth:350,
+            maxWidth: 350,
             width: '100%',
         },
         [theme.breakpoints.up('sm')]: {

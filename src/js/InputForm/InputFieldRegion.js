@@ -22,7 +22,7 @@ const styles = theme => ({
         [theme.breakpoints.down('xs')]: {
             // minWidth: '100%',
             minWidth: 150,
-            maxWidth:350,
+            maxWidth: 350,
             width: '100%',
         },
         [theme.breakpoints.up('sm')]: {

@@ -59,57 +59,54 @@ class InputFieldsManualExpenses extends React.Component {
                         <div className="container no-gutters">
                             <div className="row justify-content-start">
                                 <div className="col">
-
                                     <div className="container no-gutters">
                                         <div className="row justify-content-start">
                                             Затраты на управленческий персонал
                                         </div>
                                         <div className="row justify-content-start">
-                                            <div className="col">
+                                            <div className="col-auto">
                                                 <InputFieldSwitchable id="field-input-expenses-managementcount" label="Кол-во" tip="Количество сотрудников"/>
                                             </div>
-                                            <div className="col">
+                                            <div className="col-auto">
                                                 <InputFieldSwitchable id="field-input-expenses-managementsalary" label="З/П" tip="Средняя заработная плата в месяц"/>
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
-
                                 <div className="col">
-
                                     <div className="container no-gutters">
                                         <div className="row justify-content-start">
                                             Затраты на персонал производства
                                         </div>
                                         <div className="row justify-content-start">
-                                            <div className="col">
+                                            <div className="col-auto">
                                                 <InputFieldSwitchable id="field-input-expenses-employeecount" label="Кол-во" tip="Количество сотрудников"/>
                                             </div>
-                                            <div className="col">
+                                            <div className="col-auto">
                                                 <InputFieldSwitchable id="field-input-expenses-employeesalary" label="З/П" tip="Средняя заработная плата в месяц"/>
                                             </div>
                                         </div>
                                     </div>
-
-                                </div>
-                            </div>
-
-
-                            <div className="row justify-content-start">
-                                <div className="col">
-                                    Другие расходы
                                 </div>
                             </div>
                             <div className="row justify-content-start">
                                 <div className="col">
-                                    <InputFieldSwitchable id="field-input-expenses-rent" label="Аренда" tip="Средняя аредна в месяц"/>
-                                </div>
-                                <div className="col">
-                                    <InputFieldSwitchable id="field-input-expenses-transport" label="Транспорт" tip="Транспортные расходы в месяц" />
-                                </div>
-                                <div className="col">
-                                    <InputFieldSwitchable id="field-input-expenses-others" label="Прочее" tip="Прочие расходы" />
+                                    <div className="container no-gutters">
+                                        <div className="row justify-content-start">
+                                            Другие расходы
+                                        </div>
+                                        <div className="row justify-content-start">
+                                            <div className="col-auto">
+                                                <InputFieldSwitchable id="field-input-expenses-rent" label="Аренда" tip="Средняя аредна в месяц"/>
+                                            </div>
+                                            <div className="col-auto">
+                                                <InputFieldSwitchable id="field-input-expenses-transport" label="Транспорт" tip="Транспортные расходы в месяц" />
+                                            </div>
+                                            <div className="col-auto">
+                                                <InputFieldSwitchable id="field-input-expenses-others" label="Прочее" tip="Прочие расходы" />
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

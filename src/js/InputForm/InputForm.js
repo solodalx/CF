@@ -178,6 +178,7 @@ class InputForm extends React.Component {
                                         <Typography variant="title" color="inherit" className={classes.flex}>
                                             {/*Ввод данных для расчета модели*/}
                                             Независимая экспертиза проектов
+                                            {/*НЭП*/}
                                         </Typography>
                                     {/*</div>*/}
                                     {/*<div className="col-1 order-last">*/}
@@ -383,10 +384,10 @@ function getStepContent(step, props, state) {
                     {/*<div className={classes.container}>*/}
                     <div class="container no-gutters">
                         <div class="row">
-                            <div class="col">
+                            <div class="col-auto">
                                 <InputFieldAmount id="field-input-inv-total" label="Инвестиции" tip="Всего инвестиций" disabled/>
                             </div>
-                            <div className="col">
+                            <div className="col-auto">
                                 <InputFieldAmount id="field-input-inv-total" label="в т.ч. уже вложено" tip="в т.ч. уже вложено" disabled/>
                             </div>
                             {/*<div class="col">*/}
@@ -395,7 +396,7 @@ function getStepContent(step, props, state) {
                             {/*<div class="col">*/}
                                 {/*<InputFieldAmount id="field-input-inv-borrowed" label="Заемные средства" tip="" />*/}
                             {/*</div>*/}
-                            <div class="col">
+                            <div class="col-auto">
                                 <InputFieldNumber id="field-calc-inv-ratio" label="Собст./Заем." tip="Соотношение собственных и заемных средств" disabled/>
                             </div>
                         </div>
@@ -411,7 +412,8 @@ function getStepContent(step, props, state) {
                 <div>
                     <ExpansionPanel className={classes.fullWidth}>
                         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                            <div className="container no-gutters">
+                            {/*<div className="container no-gutters">*/}
+                            <div className={classes.fullWidth}>
                                 <div className="row justify-content-between">
                                     <div className="col">
                                         <Typography className={classes.heading}>Доходная часть</Typography>
@@ -425,13 +427,13 @@ function getStepContent(step, props, state) {
                         <ExpansionPanelDetails className={classes.container}>
                             <div className="container no-gutters">
                                 <div className="row justify-content-start">
-                                    <div className="col">
+                                    <div className="col-auto">
                                         <InputFieldAmount id="field-input-income-price" label="Цена" tip="Средняя цена реализации" />
                                     </div>
-                                    <div class="col">
+                                    <div class="col-auto">
                                         <InputFieldNumber id="field-input-income-amount" label="Продажи" tip="Среднее количество продаж в день" />
                                     </div>
-                                    <div class="col">
+                                    <div class="col-auto">
                                         <InputFieldAmount id="field-input-income-earning" label="Выручка" tip="Среднемесячная выручка" />
                                     </div>
                                 </div>
@@ -440,7 +442,8 @@ function getStepContent(step, props, state) {
                     </ExpansionPanel>
                     <ExpansionPanel className={classes.fullWidth}>
                         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                            <div className="container no-gutters">
+                            {/*<div className="container no-gutters">*/}
+                            <div className={classes.fullWidth}>
                                 <div className="row justify-content-between">
                                     <div className="col">
                                         <Typography className={classes.heading}>Расходная часть</Typography>
@@ -452,9 +455,10 @@ function getStepContent(step, props, state) {
                             </div>
                         </ExpansionPanelSummary>
                         <ExpansionPanelDetails className={classes.container}>
-                            <div className="container no-gutters">
+                            {/*<div className="container no-gutters">*/}
+                            <div className={classes.fullWidth}>
                                 <div className="row justify-content-start">
-                                    <div className="col">
+                                    <div className="col-auto">
                                         <InputFieldAmount id="field-input-expenses-taxes" label="Налоги" tip="Средняя сумма налогов и сборов в месяц" />
                                     </div>
                                     {/*<div class="col">*/}
@@ -469,13 +473,15 @@ function getStepContent(step, props, state) {
                                     {/*<div class="col">*/}
                                         {/*<InputFieldAmount id="field-input-expenses-others" label="Прочее" tip="Прочие расходы" />*/}
                                     {/*</div>*/}
-                                    <div className="col">
-                                        <InputFieldNumber id="field-input-expenses-grossmargin" label="Валовая рентабельность" tip="Валовая рентабельность" adornment="%"/>
+                                    <div className="col-auto">
+                                        <InputFieldNumber id="field-input-expenses-grossmargin" label="Валовая рентабельность" tip="Валовая рентабельность" adornment="%" disabled/>
                                     </div>
-                                    <div className="col">
-                                        <InputFieldNumber id="field-input-expenses-netmargin" label="Чистая рентабельность" tip="Чистая рентабельность" adornment="%"/>
+                                    <div className="col-auto">
+                                        <InputFieldNumber id="field-input-expenses-netmargin" label="Чистая рентабельность" tip="Чистая рентабельность" adornment="%" disabled/>
                                     </div>
                                 </div>
+                                <br/>
+                                <br/>
                                 <div className="row justify-content-start">
                                     <div className="col">
                                         <InputFieldsManualExpenses/>
@@ -496,11 +502,11 @@ function getStepContent(step, props, state) {
                         {/*</ExpansionPanelSummary>*/}
                         {/*<ExpansionPanelDetails className={classes.container}>*/}
                             <div className="container no-gutters">
-                                <div className="row justify-content-start">
-                                    <div className="col">
+                                <div className="row justify-content-start align-items-center">
+                                    <div className="col-auto">
                                         <InputFieldNumber id="field-input-params-loanrate" label="% ставка" tip="Ставка привлечения заемных средств" adornment="%"/>
                                     </div>
-                                    <div className="col">
+                                    <div className="col-auto">
                                         <InputFieldAmount id="field-input-params-dividends" label="Дивиденды" tip="Выплата дивидендов в месяц"/>
                                     </div>
                                     <div class="col">
