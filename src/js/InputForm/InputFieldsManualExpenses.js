@@ -15,7 +15,27 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import InputFieldSwitchable from './InputFieldSwitchable'
 
-const styles = theme => ({});
+const styles = theme => ({
+    marginMinus15: {
+        marginLeft: -15,
+    },
+    marginMinus10: {
+        marginLeft: -10,
+    },
+    marginZero: {
+        marginLeft: 0,
+    },
+    paddingMinus15: {
+        paddingLeft: -15,
+    },
+    paddingMinus10: {
+        paddingLeft: -10,
+    },
+    paddingZero: {
+        paddingLeft: 0,
+    },
+
+});
 
 class InputFieldsManualExpenses extends React.Component {
     state = {
@@ -30,14 +50,14 @@ class InputFieldsManualExpenses extends React.Component {
         const {classes} = this.props;
 
         return (
-            <div>
+            <div className={classes.marginMinus15}>
                 {/*<ExpansionPanel className={classes.fullWidth}>*/}
                 <ExpansionPanel expanded={this.state.checkedManualExpenses}>
                     {/*<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>*/}
-                    <ExpansionPanelSummary>
+                    <ExpansionPanelSummary className={classes.paddingZero}>
                         <div className="container no-gutters">
                             <div className="row justify-content-between">
-                                <div className="col">
+                                <div className="col no-gutters">
                                     <Tooltip title="Применять ручные корректировки себестоимости" placement="center">
                                         <FormControlLabel
                                             control={
@@ -55,7 +75,7 @@ class InputFieldsManualExpenses extends React.Component {
                         </div>
                     </ExpansionPanelSummary>
                     {/*<ExpansionPanelDetails className={classes.container}>*/}
-                    <ExpansionPanelDetails>
+                    <ExpansionPanelDetails className={classes.paddingZero}>
                         <div className="container no-gutters">
                             <div className="row justify-content-start">
                                 <div className="col">

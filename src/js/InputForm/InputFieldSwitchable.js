@@ -11,7 +11,18 @@ import Switch from '@material-ui/core/Switch';
 
 import InputFieldAmount from './InputFieldAmount'
 
-const styles = theme => ({});
+const styles = theme => ({
+    marginMinus30: {
+        marginLeft: -30,
+    },
+    marginMinus15: {
+        marginLeft: -15,
+    },
+    paddingMinus15: {
+        paddingLeft: -15,
+    },
+
+});
 
 class InputFieldSwitchable extends React.Component {
     state = {
@@ -26,7 +37,7 @@ class InputFieldSwitchable extends React.Component {
         const {classes} = this.props;
 
         return (
-            <div>
+            <div className={classes.marginMinus30}>
                 <div className="container">
                     <div className="row justify-content-start flex-nowrap">
                         <div className="col-1">

@@ -45,7 +45,8 @@ import green from '@material-ui/core/colors/green'
 
 const theme = createMuiTheme({
     palette: {
-        primary: {main: green[400]}, // Purple and green play nicely together.
+        // primary: {main: green[400]}, // Purple and green play nicely together.
+        primary: {main: '#558B2F'}, // Purple and green play nicely together.
         //primary: { main: purple[500] }, // Purple and green play nicely together.
         //secondary: { main: '#11cb5f' }, // This is just green.A700 as hex.
     },
@@ -94,6 +95,28 @@ const styles = theme => ({
     resetContainer: {
         padding: theme.spacing.unit * 3,
     },
+    marginMinus15: {
+        marginLeft: -15,
+    },
+    marginMinus10: {
+        marginLeft: -10,
+    },
+    marginZero: {
+        marginLeft: 0,
+    },
+    paddingMinus15: {
+        paddingLeft: -15,
+    },
+    paddingMinus10: {
+        paddingLeft: -10,
+    },
+    paddingZero: {
+        paddingLeft: 0,
+    },
+    paddingPlus15: {
+        paddingLeft: 15,
+    },
+
 });
 
 function tabContainer(props) {
@@ -117,7 +140,8 @@ function getSteps() {
 
 class InputForm extends React.Component {
     state = {
-        activeStep: 0,
+        // activeStep: 0,
+        activeStep: 2,
         assetsLand: '',
         assetsBuildings: '',
         value: 0,
@@ -201,7 +225,7 @@ class InputForm extends React.Component {
                                     >
                                         {label}
                                     </StepButton>
-                                    <StepContent>
+                                    <StepContent className={classes.paddingZero}>
                                         {/*<div class="container">*/}
                                             {/*<div class="row">*/}
                                                 {/*<div class="col">*/}
@@ -296,7 +320,8 @@ function getStepContent(step, props, state) {
             return (
                 <div>
                     <ExpansionPanel className={classes.fullWidth}>
-                        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
+                    {/*<ExpansionPanel className={[classes.fullWidth, classes.paddingZero].join(' ')}>*/}
+                        <ExpansionPanelSummary className={classes.paddingZero} expandIcon={<ExpandMoreIcon/>}>
                             <div class="container no-gutters">
                                 <div class="row justify-content-between">
                                     <div class="col">
@@ -310,7 +335,7 @@ function getStepContent(step, props, state) {
                             {/*<InputFieldAmount className={classes.alignRight} id="field-input-assets-total" label="" tip="" />*/}
                         </ExpansionPanelSummary>
                         {/*<ExpansionPanelDetails className={classes.container}>*/}
-                        <ExpansionPanelDetails>
+                        <ExpansionPanelDetails className={classes.paddingZero}>
                             <div class="container no-gutters">
                                 <div class="row justify-content-start">
                                     <div class="col-auto">
@@ -339,7 +364,7 @@ function getStepContent(step, props, state) {
                         </ExpansionPanelDetails>
                     </ExpansionPanel>
                     <ExpansionPanel className={classes.fullWidth}>
-                        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                        <ExpansionPanelSummary className={classes.paddingZero} expandIcon={<ExpandMoreIcon />}>
                             <div className="container no-gutters">
                                 <div className="row justify-content-between">
                                     <div className="col">
@@ -352,7 +377,7 @@ function getStepContent(step, props, state) {
                             </div>
                         </ExpansionPanelSummary>
                         {/*<ExpansionPanelDetails className={classes.container}>*/}
-                        <ExpansionPanelDetails>
+                        <ExpansionPanelDetails className={classes.paddingZero}>
                             <div className="container no-gutters">
                                 <div className="row justify-content-start">
                                     <div className="col-auto">
@@ -411,7 +436,7 @@ function getStepContent(step, props, state) {
             return (
                 <div>
                     <ExpansionPanel className={classes.fullWidth}>
-                        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                        <ExpansionPanelSummary className={classes.paddingPlus15} expandIcon={<ExpandMoreIcon />}>
                             {/*<div className="container no-gutters">*/}
                             <div className={classes.fullWidth}>
                                 <div className="row justify-content-between">
@@ -419,12 +444,12 @@ function getStepContent(step, props, state) {
                                         <Typography className={classes.heading}>Доходная часть</Typography>
                                     </div>
                                     <div className="col text-nowrap text-right">
-                                        <InputFieldAmount id="field-input-income-total" label="Всего" tip="Всего доходов" />
+                                        <InputFieldAmount id="field-input-income-total" label="Всего" tip="Всего доходов" disabled/>
                                     </div>
                                 </div>
                             </div>
                         </ExpansionPanelSummary>
-                        <ExpansionPanelDetails className={classes.container}>
+                        <ExpansionPanelDetails className={classes.paddingZero}>
                             <div className="container no-gutters">
                                 <div className="row justify-content-start">
                                     <div className="col-auto">
@@ -441,7 +466,7 @@ function getStepContent(step, props, state) {
                         </ExpansionPanelDetails>
                     </ExpansionPanel>
                     <ExpansionPanel className={classes.fullWidth}>
-                        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                        <ExpansionPanelSummary className={classes.paddingPlus15} expandIcon={<ExpandMoreIcon />}>
                             {/*<div className="container no-gutters">*/}
                             <div className={classes.fullWidth}>
                                 <div className="row justify-content-between">
@@ -449,12 +474,12 @@ function getStepContent(step, props, state) {
                                         <Typography className={classes.heading}>Расходная часть</Typography>
                                     </div>
                                     <div className="col text-nowrap text-right">
-                                        <InputFieldAmount id="field-input-expenses-total" label="Всего" tip="Всего расходов" />
+                                        <InputFieldAmount id="field-input-expenses-total" label="Всего" tip="Всего расходов" disabled/>
                                     </div>
                                 </div>
                             </div>
                         </ExpansionPanelSummary>
-                        <ExpansionPanelDetails className={classes.container}>
+                        <ExpansionPanelDetails className={classes.paddingPlus15}>
                             {/*<div className="container no-gutters">*/}
                             <div className={classes.fullWidth}>
                                 <div className="row justify-content-start">
