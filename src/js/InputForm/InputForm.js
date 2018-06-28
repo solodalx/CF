@@ -116,6 +116,12 @@ const styles = theme => ({
     paddingPlus15: {
         paddingLeft: 15,
     },
+    noShadow: {
+        boxShadow: 'none',
+    },
+    dotted: {
+        borderBottom: '1px dotted',
+    },
 
 });
 
@@ -216,14 +222,18 @@ class InputForm extends React.Component {
                     <Stepper activeStep={activeStep} orientation="vertical" nonLinear>
                         {steps.map((label, index) => {
                             return (
-                                <Step key={label} className={classes.alignLeft}>
+                                <Step key={label} className={[classes.alignLeft, classes.noShaddow].join(' ')}>
+                                {/*<Step key={label} className={classes.alignLeft}>*/}
                                 {/*<Step key={label}>*/}
                                     {/*<StepLabel className={classes.stepHeading}>{label}</StepLabel>*/}
                                     {/*<StepLabel>{label}</StepLabel>*/}
                                     <StepButton
+                                        className={classes.noShadow}
                                         onClick={this.handleStep(index)}
                                     >
-                                        {label}
+                                        <div className={classes.dotted}>
+                                            {label}
+                                        </div>
                                     </StepButton>
                                     <StepContent className={classes.paddingZero}>
                                         {/*<div class="container">*/}
@@ -319,8 +329,9 @@ function getStepContent(step, props, state) {
         case 1:
             return (
                 <div>
-                    <ExpansionPanel className={classes.fullWidth}>
-                    {/*<ExpansionPanel className={[classes.fullWidth, classes.paddingZero].join(' ')}>*/}
+                    {/*<ExpansionPanel className={classes.fullWidth}>*/}
+                    <ExpansionPanel className={[classes.fullWidth, classes.noShadow].join(' ')}>
+                        {/*<ExpansionPanel className={[classes.fullWidth, classes.paddingZero].join(' ')}>*/}
                         <ExpansionPanelSummary className={classes.paddingZero} expandIcon={<ExpandMoreIcon/>}>
                             <div class="container no-gutters">
                                 <div class="row justify-content-between">
@@ -363,7 +374,8 @@ function getStepContent(step, props, state) {
                             </div>
                         </ExpansionPanelDetails>
                     </ExpansionPanel>
-                    <ExpansionPanel className={classes.fullWidth}>
+                    {/*<ExpansionPanel className={classes.fullWidth}>*/}
+                    <ExpansionPanel className={[classes.fullWidth, classes.noShadow].join(' ')}>
                         <ExpansionPanelSummary className={classes.paddingZero} expandIcon={<ExpandMoreIcon />}>
                             <div className="container no-gutters">
                                 <div className="row justify-content-between">
@@ -404,7 +416,7 @@ function getStepContent(step, props, state) {
                     </ExpansionPanel>
                     <div>
                         <br/>
-                        <br/>
+                        {/*<br/>*/}
                     </div>
                     {/*<div className={classes.container}>*/}
                     <div class="container no-gutters">
@@ -435,7 +447,8 @@ function getStepContent(step, props, state) {
         case 2:
             return (
                 <div>
-                    <ExpansionPanel className={classes.fullWidth}>
+                    {/*<ExpansionPanel className={classes.fullWidth}>*/}
+                    <ExpansionPanel className={[classes.fullWidth, classes.noShadow].join(' ')}>
                         <ExpansionPanelSummary className={classes.paddingPlus15} expandIcon={<ExpandMoreIcon />}>
                             {/*<div className="container no-gutters">*/}
                             <div className={classes.fullWidth}>
@@ -465,7 +478,8 @@ function getStepContent(step, props, state) {
                             </div>
                         </ExpansionPanelDetails>
                     </ExpansionPanel>
-                    <ExpansionPanel className={classes.fullWidth}>
+                    {/*<ExpansionPanel className={classes.fullWidth}>*/}
+                    <ExpansionPanel className={[classes.fullWidth, classes.noShadow].join(' ')}>
                         <ExpansionPanelSummary className={classes.paddingPlus15} expandIcon={<ExpandMoreIcon />}>
                             {/*<div className="container no-gutters">*/}
                             <div className={classes.fullWidth}>

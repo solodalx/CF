@@ -34,6 +34,9 @@ const styles = theme => ({
     paddingZero: {
         paddingLeft: 0,
     },
+    noShadow: {
+        boxShadow: 'none',
+    },
 
 });
 
@@ -52,7 +55,7 @@ class InputFieldsManualExpenses extends React.Component {
         return (
             <div className={classes.marginMinus15}>
                 {/*<ExpansionPanel className={classes.fullWidth}>*/}
-                <ExpansionPanel expanded={this.state.checkedManualExpenses}>
+                <ExpansionPanel className={classes.noShadow} expanded={this.state.checkedManualExpenses}>
                     {/*<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>*/}
                     <ExpansionPanelSummary className={classes.paddingZero}>
                         <div className="container no-gutters">
@@ -108,8 +111,8 @@ class InputFieldsManualExpenses extends React.Component {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="row justify-content-start">
+                            {/*</div>*/}
+                            {/*<div className="row justify-content-start">*/}
                                 <div className="col">
                                     <div className="container no-gutters">
                                         <div className="row justify-content-start">
@@ -119,9 +122,11 @@ class InputFieldsManualExpenses extends React.Component {
                                             <div className="col-auto">
                                                 <InputFieldSwitchable id="field-input-expenses-rent" label="Аренда" tip="Средняя аредна в месяц"/>
                                             </div>
+                                            <div className="w-100"></div>
                                             <div className="col-auto">
                                                 <InputFieldSwitchable id="field-input-expenses-transport" label="Транспорт" tip="Транспортные расходы в месяц" />
                                             </div>
+                                            <div className="w-100"></div>
                                             <div className="col-auto">
                                                 <InputFieldSwitchable id="field-input-expenses-others" label="Прочее" tip="Прочие расходы" />
                                             </div>
