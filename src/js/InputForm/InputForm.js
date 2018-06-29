@@ -146,8 +146,7 @@ function getSteps() {
 
 class InputForm extends React.Component {
     state = {
-        // activeStep: 0,
-        activeStep: 2,
+        activeStep: 0,
         assetsLand: '',
         assetsBuildings: '',
         value: 0,
