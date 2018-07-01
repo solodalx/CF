@@ -26,6 +26,9 @@ const styles = theme => ({
             minWidth: 350,
         },
     },
+    marginZero: {
+        marginLeft: 0,
+    },
     // selectEmpty: {
     //     marginTop: theme.spacing.unit * 2,
     // },
@@ -47,7 +50,7 @@ class InputFieldStride extends React.Component {
         return (
             //<form className={classes.root} autoComplete="off">
             <div>
-                <FormControl className={classes.formControl}>
+                <FormControl className={[classes.formControl, classes.marginZero].join(' ')}>
                     <InputLabel htmlFor="field-input-general-env">Шаг планирования</InputLabel>
                     <Select
                         value={this.state.fieldValue}

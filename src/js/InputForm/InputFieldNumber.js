@@ -22,8 +22,17 @@ const styles = theme => ({
     //     marginRight: theme.spacing.unit,
     //     width: 200,
     // },
-    input: {
+    inputWidth: {
         // width: 200,
+        [theme.breakpoints.down('xs')]: {
+            // minWidth: '100%',
+            minWidth: 50,
+            maxWidth: 200,
+            width: '100%',
+        },
+        [theme.breakpoints.up('sm')]: {
+            width: 200,
+        },
     },
     inputLabel: {
         color: 'purple',
@@ -52,6 +61,7 @@ class InputFieldNumber extends React.Component {
                         id={this.props.id}
                         label={this.props.label}
                         //className={classes.textField}
+                        className={classes.inputWidth}
                         // value={this.state.assetsLand}
                         defaultValue={this.props.defaultValue}
                         helperText={this.props.helperText}
@@ -59,7 +69,7 @@ class InputFieldNumber extends React.Component {
                         // margin="normal"
                         InputProps={{
                             endAdornment: <InputAdornment position="end">{this.props.adornment}</InputAdornment>,
-                            className: classes.input
+                            // className: classes.input
                             // disabled: {this.props.disabled},
                         }}
                         InputLabelProps={{

@@ -34,6 +34,9 @@ const styles = theme => ({
     paddingZero: {
         paddingLeft: 0,
     },
+    paddingBottomZero: {
+        paddingBottom: 0,
+    },
     noShadow: {
         boxShadow: 'none',
     },
@@ -78,7 +81,7 @@ class InputFieldsManualExpenses extends React.Component {
                         </div>
                     </ExpansionPanelSummary>
                     {/*<ExpansionPanelDetails className={classes.container}>*/}
-                    <ExpansionPanelDetails className={classes.paddingZero}>
+                    <ExpansionPanelDetails className={[classes.paddingZero, classes.paddingBottomZero].join(' ')}>
                         <div className="container no-gutters">
                             <div className="row justify-content-start">
                                 <div className="col">
@@ -87,10 +90,10 @@ class InputFieldsManualExpenses extends React.Component {
                                             Затраты на управленческий персонал
                                         </div>
                                         <div className="row justify-content-start">
-                                            <div className="col-auto">
+                                            <div className="col-sm-auto col-12">
                                                 <InputFieldSwitchable id="field-input-expenses-managementcount" label="Кол-во" tip="Количество сотрудников"/>
                                             </div>
-                                            <div className="col-auto">
+                                            <div className="col-sm-auto col-12">
                                                 <InputFieldSwitchable id="field-input-expenses-managementsalary" label="З/П" tip="Средняя заработная плата в месяц"/>
                                             </div>
                                         </div>
@@ -102,10 +105,10 @@ class InputFieldsManualExpenses extends React.Component {
                                             Затраты на персонал производства
                                         </div>
                                         <div className="row justify-content-start">
-                                            <div className="col-auto">
+                                            <div className="col-sm-auto col-12">
                                                 <InputFieldSwitchable id="field-input-expenses-employeecount" label="Кол-во" tip="Количество сотрудников"/>
                                             </div>
-                                            <div className="col-auto">
+                                            <div className="col-sm-auto col-12">
                                                 <InputFieldSwitchable id="field-input-expenses-employeesalary" label="З/П" tip="Средняя заработная плата в месяц"/>
                                             </div>
                                         </div>
@@ -119,15 +122,15 @@ class InputFieldsManualExpenses extends React.Component {
                                             Другие расходы
                                         </div>
                                         <div className="row justify-content-start">
-                                            <div className="col-auto">
+                                            <div className="col-sm-auto col-12">
                                                 <InputFieldSwitchable id="field-input-expenses-rent" label="Аренда" tip="Средняя аредна в месяц"/>
                                             </div>
                                             <div className="w-100"></div>
-                                            <div className="col-auto">
+                                            <div className="col-sm-auto col-12">
                                                 <InputFieldSwitchable id="field-input-expenses-transport" label="Транспорт" tip="Транспортные расходы в месяц" />
                                             </div>
                                             <div className="w-100"></div>
-                                            <div className="col-auto">
+                                            <div className="col-sm-auto col-12">
                                                 <InputFieldSwitchable id="field-input-expenses-others" label="Прочее" tip="Прочие расходы" />
                                             </div>
                                         </div>
@@ -137,10 +140,6 @@ class InputFieldsManualExpenses extends React.Component {
                         </div>
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
-
-
-
-
             </div>
         );
     }

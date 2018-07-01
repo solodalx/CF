@@ -24,9 +24,17 @@ const styles = theme => ({
     //     marginRight: theme.spacing.unit,
     //     width: 200,
     // },
-    input: {
+    inputWidth: {
         // width: 200,
-        // width: '50%',
+        [theme.breakpoints.down('xs')]: {
+            // minWidth: '100%',
+            minWidth: 50,
+            maxWidth: 200,
+            width: '100%',
+        },
+        [theme.breakpoints.up('sm')]: {
+            width: 200,
+        },
     },
     inputLabel: {
         // color: 'purple',
@@ -48,13 +56,17 @@ class InputFieldAmount extends React.Component {
 
         return (
             //<div className={classes.container}>
+            //<div className={classes.input}>
+            //<div className={classes.input}>
             <div>
+                {/*<Tooltip className={classes.input} title={this.props.tip} placement="center">*/}
                 <Tooltip title={this.props.tip} placement="center">
                     {/*<FormControl className={classes.formControl}>*/}
                     <TextField
                         id={this.props.id}
                         label={this.props.label}
-                        //className={classes.textField}
+                        // className={classes.textField}
+                        className={classes.inputWidth}
                         // value={this.state.assetsLand}
                         defaultValue=""
                         helperText={this.props.helperText}
@@ -62,7 +74,7 @@ class InputFieldAmount extends React.Component {
                         // margin="normal"
                         InputProps={{
                             endAdornment: <InputAdornment position="end">р.</InputAdornment>,
-                            className: classes.input
+                            //className: classes.input
                         }}
                         InputLabelProps={{
                             className: classes.inputLabel

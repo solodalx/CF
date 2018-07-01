@@ -35,6 +35,8 @@ import InputFieldTax from './InputFieldTax.js'
 import InputFieldRegionEnv from './InputFieldRegionEnv.js'
 import InputFieldStride from './InputFieldStride.js'
 import InputFieldsManualExpenses from './InputFieldsManualExpenses.js'
+
+import HorizontalNonLinearAlternativeLabelStepper from './TestStepper.js'
 // import SimpleTabs from '../Others/TabsExample.js'
 // import VerticalLinearStepper from '../Others/StepperExample'
 import IntegrationReactSelect from './InputFieldRegionAutocomplete.js'
@@ -74,16 +76,57 @@ const styles = theme => ({
     heading: {
         fontSize: theme.typography.pxToRem(24),
         fontWeight: theme.typography.fontWeightRegular,
+        // [theme.breakpoints.down('xs')]: {
+        //     // fontSize: theme.typography.pxToRem(24),
+        //     fontWeight: 'bold',
+        // },
+        // [theme.breakpoints.up('sm')]: {
+        //     fontSize: theme.typography.pxToRem(24),
+        //     fontWeight: theme.typography.fontWeightRegular,
+        // },
         // color: "",
+    },
+    overflowHidden: {
+        overflow: 'hidden !important',
+        // overflow: 'hidden',
+        width: '95%',
     },
     fullWidth: {
         width: '100%',
+    },
+    fixedWidth: {
+        minWidth: 100,
+        maxWidth: 200,
+        width: 200,
+    },
+    clientWidth: {
+        [theme.breakpoints.down('md')]: {
+            width: '100%',
+        },
+        [theme.breakpoints.up('lg')]: {
+            width: '75%',
+        },
+    },
+    compWidth: {
+        // width: 200,
+        [theme.breakpoints.down('xs')]: {
+            // minWidth: '100%',
+            minWidth: 50,
+            maxWidth: 350,
+            width: '100%',
+        },
+        [theme.breakpoints.up('sm')]: {
+            width: 350,
+        },
     },
     alignLeft: {
         textAlign: 'left',
     },
     alignRight: {
         textAlign: 'right',
+    },
+    justifyStart: {
+        justifyContent: 'start',
     },
     button: {
         marginTop: theme.spacing.unit,
@@ -104,6 +147,9 @@ const styles = theme => ({
     marginZero: {
         marginLeft: 0,
     },
+    marginBottomZero: {
+        marginBottom: 0,
+    },
     paddingMinus15: {
         paddingLeft: -15,
     },
@@ -113,11 +159,34 @@ const styles = theme => ({
     paddingZero: {
         paddingLeft: 0,
     },
+    paddingBottomZero: {
+        paddingBottom: 0,
+    },
     paddingPlus15: {
         paddingLeft: 15,
     },
     noShadow: {
         boxShadow: 'none',
+    },
+    noBorder: {
+        // outline: 'none !important',
+        '&:focus': {
+            outline: 'none',
+        },
+        // '&:focus, &$focusVisible': {
+        // '&:focus': {
+        //     zIndex: 1,
+        //     '& $imageBackdrop': {
+        //         opacity: 0.15,
+        //     },
+        //     '& $imageMarked': {
+        //         opacity: 0,
+        //     },
+        //     '& $imageTitle': {
+        //         border: '4px solid currentColor',
+        //     },
+        //     outline: 'none',
+        // },
     },
     dotted: {
         borderBottom: '1px dotted',
@@ -193,7 +262,8 @@ class InputForm extends React.Component {
         return (
             <MuiThemeProvider theme={theme}>
                 {/*<div className={classes.fullWidth}>*/}
-                <div>
+                <div className={classes.overflowHidden}>
+                    {/*<HorizontalNonLinearAlternativeLabelStepper/>*/}
                     <AppBar position="static" color="primary">
                         <Toolbar>
                             {/*<div class="contaner">*/}
@@ -218,16 +288,20 @@ class InputForm extends React.Component {
                         </Toolbar>
                     </AppBar>
 
-                    <Stepper activeStep={activeStep} orientation="vertical" nonLinear>
+                    <Stepper
+                        className={[classes.clientWidth, classes.overflowHidden].join(' ')}
+                        activeStep={activeStep}
+                        orientation="vertical" nonLinear
+                    >
                         {steps.map((label, index) => {
                             return (
-                                <Step key={label} className={[classes.alignLeft, classes.noShaddow].join(' ')}>
-                                {/*<Step key={label} className={classes.alignLeft}>*/}
+                                //<Step key={label} className={[classes.alignLeft, classes.noBorder].join(' ')}>
+                                <Step key={label} className={classes.alignLeft}>
                                 {/*<Step key={label}>*/}
                                     {/*<StepLabel className={classes.stepHeading}>{label}</StepLabel>*/}
                                     {/*<StepLabel>{label}</StepLabel>*/}
                                     <StepButton
-                                        className={classes.noShadow}
+                                        className={classes.noBorder}
                                         onClick={this.handleStep(index)}
                                     >
                                         <div className={classes.dotted}>
@@ -331,13 +405,22 @@ function getStepContent(step, props, state) {
                     {/*<ExpansionPanel className={classes.fullWidth}>*/}
                     <ExpansionPanel className={[classes.fullWidth, classes.noShadow].join(' ')}>
                         {/*<ExpansionPanel className={[classes.fullWidth, classes.paddingZero].join(' ')}>*/}
-                        <ExpansionPanelSummary className={classes.paddingZero} expandIcon={<ExpandMoreIcon/>}>
+                        {/*<ExpansionPanelSummary className={classes.paddingZero} expandIcon={<ExpandMoreIcon/>}>*/}
+                        <ExpansionPanelSummary
+                            classes={{
+                                root: [classes.paddingZero, classes.justifyStart].join(' '),
+                                content: classes.compWidth,
+                            }}
+                            expandIcon={<ExpandMoreIcon />}
+                        >
                             <div class="container no-gutters">
-                                <div class="row justify-content-between">
-                                    <div class="col">
+                                <div class="row justify-content-sm-between">
+                                    <div class="col-sm-auto col-12">
                                         <Typography className={classes.heading}>Имеющиеся активы</Typography>
                                     </div>
-                                    <div className="col text-nowrap text-right">
+                                    <div className="w-100 d-sm-none"/>
+                                    {/*<div className="col text-nowrap text-right">*/}
+                                    <div className="col-sm-auto col-12">
                                         <InputFieldAmount id="field-input-assets-total" label="Всего" tip="Всего собственных средств" disabled/>
                                     </div>
                                 </div>
@@ -348,25 +431,26 @@ function getStepContent(step, props, state) {
                         <ExpansionPanelDetails className={classes.paddingZero}>
                             <div class="container no-gutters">
                                 <div class="row justify-content-start">
-                                    <div class="col-auto">
+                                    {/*<div className={"col " + classes.fixedWidth}>*/}
+                                    <div className="col-sm-auto col-12">
                                         <InputFieldAmount id="field-input-assets-land" label="Земля" tip="Стоимость земли" />
                                     </div>
-                                    <div class="col-auto">
+                                    <div className="col-sm-auto col-12">
                                         <InputFieldAmount id="field-input-assets-buildings" label="Здания" tip="Стоимость зданий" />
                                     </div>
-                                    <div class="col-auto">
+                                    <div className="col-sm-auto col-12">
                                         <InputFieldAmount id="field-input-assets-equipment" label="Оборудование" tip="Стоимость оборудования" />
                                     </div>
-                                    <div class="col-auto">
+                                    <div className="col-sm-auto col-12">
                                         <InputFieldAmount id="field-input-assets-transport" label="Транспорт" tip="Стоимость транспорта" />
                                     </div>
-                                    <div class="col-auto">
+                                    <div className="col-sm-auto col-12">
                                         <InputFieldAmount id="field-input-assets-intangible" label="НМА" tip="Стоимость нематериальных активов" />
                                     </div>
-                                    <div class="col-auto">
+                                    <div className="col-sm-auto col-12">
                                         <InputFieldAmount id="field-input-assets-others" label="Прочее" tip="Стоимость прочих активов" />
                                     </div>
-                                    <div className="col-auto">
+                                    <div className="col-sm-auto col-12">
                                         <InputFieldAmount id="field-input-assets-additional" label="Доп. средства" tip="Дополнительные собственные средства"/>
                                     </div>
                                 </div>
@@ -375,13 +459,22 @@ function getStepContent(step, props, state) {
                     </ExpansionPanel>
                     {/*<ExpansionPanel className={classes.fullWidth}>*/}
                     <ExpansionPanel className={[classes.fullWidth, classes.noShadow].join(' ')}>
-                        <ExpansionPanelSummary className={classes.paddingZero} expandIcon={<ExpandMoreIcon />}>
+                        {/*<ExpansionPanelSummary className={classes.paddingZero} expandIcon={<ExpandMoreIcon />}>*/}
+                        <ExpansionPanelSummary
+                            classes={{
+                                root: [classes.paddingZero, classes.justifyStart].join(' '),
+                                content: classes.compWidth,
+                            }}
+                            expandIcon={<ExpandMoreIcon />}
+                        >
                             <div className="container no-gutters">
-                                <div className="row justify-content-between">
-                                    <div className="col">
+                                <div className="row justify-content-sm-between">
+                                    <div className="col-sm-auto col-12">
                                         <Typography className={classes.heading}>Планируемые инвестиции</Typography>
                                     </div>
-                                    <div className="col text-nowrap text-right">
+                                    <div className="w-100 d-sm-none"/>
+                                    {/*<div className="col text-nowrap text-right">*/}
+                                    <div className="col-sm-auto col-12">
                                         <InputFieldAmount id="field-input-inv-total" label="Всего" tip="Всего заемных средств" disabled/>
                                     </div>
                                 </div>
@@ -391,22 +484,22 @@ function getStepContent(step, props, state) {
                         <ExpansionPanelDetails className={classes.paddingZero}>
                             <div className="container no-gutters">
                                 <div className="row justify-content-start">
-                                    <div className="col-auto">
+                                    <div className="col-sm-auto col-12">
                                         <InputFieldAmount id="field-input-inv-land" label="Земля" tip="Инвестиции в землю"/>
                                     </div>
-                                    <div className="col-auto">
+                                    <div className="col-sm-auto col-12">
                                         <InputFieldAmount id="field-input-inv-buildings" label="Здания" tip="Инвестиции в здания"/>
                                     </div>
-                                    <div className="col-auto">
+                                    <div className="col-sm-auto col-12">
                                         <InputFieldAmount id="field-input-inv-equipment" label="Оборудование" tip="Инвестиции в оборудование"/>
                                     </div>
-                                    <div className="col-auto">
+                                    <div className="col-sm-auto col-12">
                                         <InputFieldAmount id="field-input-inv-transport" label="Транспорт" tip="Инвестиции в транспорт"/>
                                     </div>
-                                    <div className="col-auto">
+                                    <div className="col-sm-auto col-12">
                                         <InputFieldAmount id="field-input-inv-intangible" label="НМА" tip="Инвестиции в нематериальные активы"/>
                                     </div>
-                                    <div className="col-auto">
+                                    <div className="col-sm-auto col-12">
                                         <InputFieldAmount id="field-input-inv-others" label="Прочее" tip="Инвестиции в прочие активы"/>
                                     </div>
                                 </div>
@@ -420,10 +513,10 @@ function getStepContent(step, props, state) {
                     {/*<div className={classes.container}>*/}
                     <div class="container no-gutters">
                         <div class="row">
-                            <div class="col-auto">
+                            <div className="col-sm-auto col-12">
                                 <InputFieldAmount id="field-input-inv-total" label="Инвестиции" tip="Всего инвестиций" disabled/>
                             </div>
-                            <div className="col-auto">
+                            <div className="col-sm-auto col-12">
                                 <InputFieldAmount id="field-input-inv-total" label="в т.ч. уже вложено" tip="в т.ч. уже вложено" disabled/>
                             </div>
                             {/*<div class="col">*/}
@@ -432,7 +525,7 @@ function getStepContent(step, props, state) {
                             {/*<div class="col">*/}
                                 {/*<InputFieldAmount id="field-input-inv-borrowed" label="Заемные средства" tip="" />*/}
                             {/*</div>*/}
-                            <div class="col-auto">
+                            <div className="col-sm-auto col-12">
                                 <InputFieldNumber id="field-calc-inv-ratio" label="Собст./Заем." tip="Соотношение собственных и заемных средств" disabled/>
                             </div>
                         </div>
@@ -448,14 +541,24 @@ function getStepContent(step, props, state) {
                 <div>
                     {/*<ExpansionPanel className={classes.fullWidth}>*/}
                     <ExpansionPanel className={[classes.fullWidth, classes.noShadow].join(' ')}>
-                        <ExpansionPanelSummary className={classes.paddingPlus15} expandIcon={<ExpandMoreIcon />}>
+                        <ExpansionPanelSummary
+                            classes={{
+                                root: [classes.paddingPlus15, classes.justifyStart].join(' '),
+                                content: classes.compWidth,
+                            }}
+                            expandIcon={<ExpandMoreIcon />}
+                        >
                             {/*<div className="container no-gutters">*/}
                             <div className={classes.fullWidth}>
-                                <div className="row justify-content-between">
-                                    <div className="col">
-                                        <Typography className={classes.heading}>Доходная часть</Typography>
+                                <div className="row justify-content-sm-between">
+                                    <div className="col-sm-auto col-12">
+                                        <Typography className={classes.heading}>
+                                            Доходная часть
+                                        </Typography>
                                     </div>
-                                    <div className="col text-nowrap text-right">
+                                    <div className="w-100 d-sm-none"/>
+                                    {/*<div className="col-sm-auto col-12 text-nowrap text-right">*/}
+                                    <div className="col-sm-auto col-12">
                                         <InputFieldAmount id="field-input-income-total" label="Всего" tip="Всего доходов" disabled/>
                                     </div>
                                 </div>
@@ -464,13 +567,13 @@ function getStepContent(step, props, state) {
                         <ExpansionPanelDetails className={classes.paddingZero}>
                             <div className="container no-gutters">
                                 <div className="row justify-content-start">
-                                    <div className="col-auto">
+                                    <div className="col-sm-auto col-12">
                                         <InputFieldAmount id="field-input-income-price" label="Цена" tip="Средняя цена реализации" />
                                     </div>
-                                    <div class="col-auto">
+                                    <div className="col-sm-auto col-12">
                                         <InputFieldNumber id="field-input-income-amount" label="Продажи" tip="Среднее количество продаж в день" />
                                     </div>
-                                    <div class="col-auto">
+                                    <div className="col-sm-auto col-12">
                                         <InputFieldAmount id="field-input-income-earning" label="Выручка" tip="Среднемесячная выручка" />
                                     </div>
                                 </div>
@@ -479,24 +582,33 @@ function getStepContent(step, props, state) {
                     </ExpansionPanel>
                     {/*<ExpansionPanel className={classes.fullWidth}>*/}
                     <ExpansionPanel className={[classes.fullWidth, classes.noShadow].join(' ')}>
-                        <ExpansionPanelSummary className={classes.paddingPlus15} expandIcon={<ExpandMoreIcon />}>
+                        {/*<ExpansionPanelSummary className={classes.paddingPlus15} expandIcon={<ExpandMoreIcon />}>*/}
+                        <ExpansionPanelSummary
+                            classes={{
+                                root: [classes.paddingPlus15, classes.justifyStart].join(' '),
+                                content: classes.compWidth,
+                            }}
+                            expandIcon={<ExpandMoreIcon />}
+                        >
                             {/*<div className="container no-gutters">*/}
                             <div className={classes.fullWidth}>
-                                <div className="row justify-content-between">
-                                    <div className="col">
+                                <div className="row justify-content-sm-between">
+                                    <div className="col-sm-auto col-12">
                                         <Typography className={classes.heading}>Расходная часть</Typography>
                                     </div>
-                                    <div className="col text-nowrap text-right">
+                                    <div className="w-100 d-sm-none"/>
+                                    {/*<div className="col text-nowrap text-right">*/}
+                                    <div className="col-sm-auto col-12">
                                         <InputFieldAmount id="field-input-expenses-total" label="Всего" tip="Всего расходов" disabled/>
                                     </div>
                                 </div>
                             </div>
                         </ExpansionPanelSummary>
-                        <ExpansionPanelDetails className={classes.paddingPlus15}>
+                        <ExpansionPanelDetails className={[classes.paddingPlus15, classes.paddingBottomZero].join(' ')}>
                             {/*<div className="container no-gutters">*/}
                             <div className={classes.fullWidth}>
                                 <div className="row justify-content-start">
-                                    <div className="col-auto">
+                                    <div className="col-sm-auto col-12">
                                         <InputFieldAmount id="field-input-expenses-taxes" label="Налоги" tip="Средняя сумма налогов и сборов в месяц" />
                                     </div>
                                     {/*<div class="col">*/}
@@ -511,15 +623,14 @@ function getStepContent(step, props, state) {
                                     {/*<div class="col">*/}
                                         {/*<InputFieldAmount id="field-input-expenses-others" label="Прочее" tip="Прочие расходы" />*/}
                                     {/*</div>*/}
-                                    <div className="col-auto">
+                                    <div className="col-sm-auto col-12">
                                         <InputFieldNumber id="field-input-expenses-grossmargin" label="Валовая рентабельность" tip="Валовая рентабельность" adornment="%" disabled/>
                                     </div>
-                                    <div className="col-auto">
+                                    <div className="col-sm-auto col-12">
                                         <InputFieldNumber id="field-input-expenses-netmargin" label="Чистая рентабельность" tip="Чистая рентабельность" adornment="%" disabled/>
                                     </div>
                                 </div>
-                                <br/>
-                                <br/>
+                                {/*<br/>*/}
                                 <div className="row justify-content-start">
                                     <div className="col">
                                         <InputFieldsManualExpenses/>
@@ -541,10 +652,10 @@ function getStepContent(step, props, state) {
                         {/*<ExpansionPanelDetails className={classes.container}>*/}
                             <div className="container no-gutters">
                                 <div className="row justify-content-start align-items-center">
-                                    <div className="col-auto">
+                                    <div className="col-sm-auto col-12">
                                         <InputFieldNumber id="field-input-params-loanrate" label="% ставка" tip="Ставка привлечения заемных средств" adornment="%"/>
                                     </div>
-                                    <div className="col-auto">
+                                    <div className="col-sm-auto col-12">
                                         <InputFieldAmount id="field-input-params-dividends" label="Дивиденды" tip="Выплата дивидендов в месяц"/>
                                     </div>
                                     <div class="col">
