@@ -5,6 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
+import NumberFormat from 'react-number-format';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -41,6 +42,33 @@ const styles = theme => ({
     }
 });
 
+
+function NumberFormatCustom(props) {
+    const { inputRef, onChange, ...other } = props;
+
+    return (
+        <NumberFormat
+            {...other}
+            ref={inputRef}
+            onValueChange={values => {
+                onChange({
+                    target: {
+                        value: values.value,
+                    },
+                });
+            }}
+            thousandSeparator=' '
+            // prefix="$"
+        />
+    );
+}
+
+NumberFormatCustom.propTypes = {
+    inputRef: PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired,
+};
+
+
 class InputFieldAmount extends React.Component {
     // state = {
     //     assetsLand: '',
@@ -75,6 +103,7 @@ class InputFieldAmount extends React.Component {
                         InputProps={{
                             endAdornment: <InputAdornment position="end">р.</InputAdornment>,
                             //className: classes.input
+                            inputComponent: NumberFormatCustom,
                         }}
                         InputLabelProps={{
                             className: classes.inputLabel
