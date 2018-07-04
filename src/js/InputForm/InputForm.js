@@ -26,6 +26,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import FormGroup from '@material-ui/core/FormGroup';
 
+import InputAppBar from './InputAppBar'
 import InputFieldAmount from './InputFieldAmount.js'
 import InputFieldNumber from './InputFieldNumber.js'
 import InputFieldDate from './InputFieldDate.js'
@@ -51,6 +52,10 @@ const theme = createMuiTheme({
         primary: {main: '#558B2F'}, // Purple and green play nicely together.
         //primary: { main: purple[500] }, // Purple and green play nicely together.
         //secondary: { main: '#11cb5f' }, // This is just green.A700 as hex.
+        // background: {
+        //     default: '#FFC107',
+        //     paper: '#FAFAFA',
+        // },
     },
 });
 
@@ -66,9 +71,9 @@ const styles = theme => ({
     //     marginLeft: -12,
     //     marginRight: 20,
     // },
-    flex: {
-        // flex: 1,
-    },
+    // flex: {
+    //     // flex: 1,
+    // },
     // stepHeading: {
     //     fontSize: theme.typography.pxToRem(32),
     //     fontWeight: theme.typography.fontWeightRegular,
@@ -93,6 +98,7 @@ const styles = theme => ({
     },
     fullWidth: {
         width: '100%',
+        // width: '95%',
     },
     fixedWidth: {
         minWidth: 100,
@@ -131,6 +137,7 @@ const styles = theme => ({
     button: {
         marginTop: theme.spacing.unit,
         marginRight: theme.spacing.unit,
+        borderRadius: '25px',
     },
     actionsContainer: {
         marginBottom: theme.spacing.unit * 2,
@@ -167,6 +174,16 @@ const styles = theme => ({
     },
     noShadow: {
         boxShadow: 'none',
+    },
+    panel: {
+        padding: '15px',
+        background: '#FFFFFF',
+        boxShadow: '0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)',
+        borderRadius: '25px !important',
+        margin: '10px',
+        width: '95%'
+        //marginLeft: '15px',
+        // height: 'auto',
     },
     noBorder: {
         // outline: 'none !important',
@@ -262,34 +279,40 @@ class InputForm extends React.Component {
         return (
             <MuiThemeProvider theme={theme}>
                 {/*<div className={classes.fullWidth}>*/}
-                <div className={classes.overflowHidden}>
+                {/*<div className={classes.overflowHidden}>*/}
+                <div>
+                    <InputAppBar/>
                     {/*<HorizontalNonLinearAlternativeLabelStepper/>*/}
-                    <AppBar position="static" color="primary">
-                        <Toolbar>
-                            {/*<div class="contaner">*/}
+                    {/*<AppBar position="static" color="primary">*/}
+                        {/*<Toolbar>*/}
+                            {/*<div class="contaner w-100">*/}
                                 {/*<div class="row align-items-center justify-content-between">*/}
-                                    {/*<div class="col-1 no-gutters">*/}
+                                    {/*/!*<div class="col-1 no-gutters">*!/*/}
+                                    {/*<div class="col-1">*/}
                                         {/*<IconButton className={classes.menuButton} color="inherit" aria-label="Menu">*/}
                                             {/*<Cancel />*/}
                                         {/*</IconButton>*/}
                                     {/*</div>*/}
-                                    {/*<div className="col-10 justify-content-start no-gutters">*/}
-                                        <Typography variant="title" color="inherit" className={classes.flex}>
-                                            {/*Ввод данных для расчета модели*/}
-                                            Независимая экспертиза проектов
-                                            {/*НЭП*/}
-                                        </Typography>
+                                    {/*/!*<div className="col-10 justify-content-start no-gutters">*!/*/}
+                                    {/*<div className="col-10 text-left">*/}
+                                        {/*/!*<Typography variant="title" color="inherit" className={classes.flex}>*!/*/}
+                                        {/*<Typography variant="title" color="inherit" className={classes.flex}>*/}
+                                            {/*/!*Ввод данных для расчета модели*!/*/}
+                                            {/*Независимая экспертиза проектов*/}
+                                            {/*/!*НЭП*!/*/}
+                                        {/*</Typography>*/}
                                     {/*</div>*/}
-                                    {/*<div className="col-1 order-last">*/}
+                                    {/*<div className="col-1">*/}
                                         {/*<Button color="inherit">Login</Button>*/}
                                     {/*</div>*/}
                                 {/*</div>*/}
                             {/*</div>*/}
-                        </Toolbar>
-                    </AppBar>
+                        {/*</Toolbar>*/}
+                    {/*</AppBar>*/}
 
                     <Stepper
-                        className={[classes.clientWidth, classes.overflowHidden].join(' ')}
+                        className={[classes.clientWidth, classes.inputBackground].join(' ')}
+                        // className={classes.clientWidth}
                         activeStep={activeStep}
                         orientation="vertical" nonLinear
                     >
@@ -309,6 +332,7 @@ class InputForm extends React.Component {
                                         </div>
                                     </StepButton>
                                     <StepContent className={classes.paddingZero}>
+                                    {/*<StepContent>*/}
                                         {/*<div class="container">*/}
                                             {/*<div class="row">*/}
                                                 {/*<div class="col">*/}
@@ -367,7 +391,7 @@ function getStepContent(step, props, state) {
     switch (step) {
         case 0:
             return (
-                <div class="container no-gutters">
+                <div class={classes.panel + " container no-gutters"}>
                     <div class="row justify-content-start">
                         <div class="col">
                             <InputFieldDate id="field-input-general-datestart" label="Дата" tip="Дата начала проекта" defaultValue=""/>
@@ -403,13 +427,15 @@ function getStepContent(step, props, state) {
             return (
                 <div>
                     {/*<ExpansionPanel className={classes.fullWidth}>*/}
-                    <ExpansionPanel className={[classes.fullWidth, classes.noShadow].join(' ')}>
+                    {/*<ExpansionPanel className={[classes.fullWidth, classes.noShadow].join(' ')}>*/}
+                    {/*<ExpansionPanel className={[classes.panel, classes.fullWidth].join(' ')}>*/}
+                    <ExpansionPanel className={classes.panel}>
                         {/*<ExpansionPanel className={[classes.fullWidth, classes.paddingZero].join(' ')}>*/}
                         {/*<ExpansionPanelSummary className={classes.paddingZero} expandIcon={<ExpandMoreIcon/>}>*/}
                         <ExpansionPanelSummary
                             classes={{
                                 root: [classes.paddingZero, classes.justifyStart].join(' '),
-                                content: classes.compWidth,
+                                firstChild: classes.compWidth,
                             }}
                             expandIcon={<ExpandMoreIcon />}
                         >
@@ -451,14 +477,15 @@ function getStepContent(step, props, state) {
                                         <InputFieldAmount id="field-input-assets-others" label="Прочее" tip="Стоимость прочих активов" />
                                     </div>
                                     <div className="col-sm-auto col-12">
-                                        <InputFieldAmount id="field-input-assets-additional" label="Доп. средства" tip="Дополнительные собственные средства"/>
+                                        <InputFieldAmount id="field-input-assets-additional" label="Ден. средства" tip="Денежные средства"/>
                                     </div>
                                 </div>
                             </div>
                         </ExpansionPanelDetails>
                     </ExpansionPanel>
                     {/*<ExpansionPanel className={classes.fullWidth}>*/}
-                    <ExpansionPanel className={[classes.fullWidth, classes.noShadow].join(' ')}>
+                    {/*<ExpansionPanel className={[classes.fullWidth, classes.noShadow].join(' ')}>*/}
+                    <ExpansionPanel className={classes.panel}>
                         {/*<ExpansionPanelSummary className={classes.paddingZero} expandIcon={<ExpandMoreIcon />}>*/}
                         <ExpansionPanelSummary
                             classes={{
@@ -506,27 +533,29 @@ function getStepContent(step, props, state) {
                             </div>
                         </ExpansionPanelDetails>
                     </ExpansionPanel>
-                    <div>
-                        <br/>
+                    {/*<div>*/}
                         {/*<br/>*/}
-                    </div>
+                        {/*<br/>*/}
+                    {/*</div>*/}
                     {/*<div className={classes.container}>*/}
-                    <div class="container no-gutters">
-                        <div class="row">
-                            <div className="col-sm-auto col-12">
-                                <InputFieldAmount id="field-input-inv-total" label="Инвестиции" tip="Всего инвестиций" disabled/>
-                            </div>
-                            <div className="col-sm-auto col-12">
-                                <InputFieldAmount id="field-input-inv-total" label="в т.ч. уже вложено" tip="в т.ч. уже вложено" disabled/>
-                            </div>
-                            {/*<div class="col">*/}
-                                {/*<InputFieldAmount id="field-input-inv-own" label="Собственные средства" tip="" />*/}
-                            {/*</div>*/}
-                            {/*<div class="col">*/}
-                                {/*<InputFieldAmount id="field-input-inv-borrowed" label="Заемные средства" tip="" />*/}
-                            {/*</div>*/}
-                            <div className="col-sm-auto col-12">
-                                <InputFieldNumber id="field-calc-inv-ratio" label="Собст./Заем." tip="Соотношение собственных и заемных средств" disabled/>
+                    <div className={classes.panel}>
+                        <div class="container no-gutters">
+                            <div class="row">
+                                <div className="col-sm-auto col-12">
+                                    <InputFieldAmount id="field-input-inv-total" label="Инвестиции" tip="Всего инвестиций" disabled/>
+                                </div>
+                                <div className="col-sm-auto col-12">
+                                    <InputFieldAmount id="field-input-inv-total" label="в т.ч. уже вложено" tip="в т.ч. уже вложено" disabled/>
+                                </div>
+                                {/*<div class="col">*/}
+                                    {/*<InputFieldAmount id="field-input-inv-own" label="Собственные средства" tip="" />*/}
+                                {/*</div>*/}
+                                {/*<div class="col">*/}
+                                    {/*<InputFieldAmount id="field-input-inv-borrowed" label="Заемные средства" tip="" />*/}
+                                {/*</div>*/}
+                                <div className="col-sm-auto col-12">
+                                    <InputFieldNumber id="field-calc-inv-ratio" label="Собст./Заем." tip="Соотношение собственных и заемных средств" disabled/>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -540,7 +569,8 @@ function getStepContent(step, props, state) {
             return (
                 <div>
                     {/*<ExpansionPanel className={classes.fullWidth}>*/}
-                    <ExpansionPanel className={[classes.fullWidth, classes.noShadow].join(' ')}>
+                    {/*<ExpansionPanel className={[classes.fullWidth, classes.noShadow].join(' ')}>*/}
+                    <ExpansionPanel className={classes.panel}>
                         <ExpansionPanelSummary
                             classes={{
                                 root: [classes.paddingPlus15, classes.justifyStart].join(' '),
@@ -581,7 +611,8 @@ function getStepContent(step, props, state) {
                         </ExpansionPanelDetails>
                     </ExpansionPanel>
                     {/*<ExpansionPanel className={classes.fullWidth}>*/}
-                    <ExpansionPanel className={[classes.fullWidth, classes.noShadow].join(' ')}>
+                    {/*<ExpansionPanel className={[classes.fullWidth, classes.noShadow].join(' ')}>*/}
+                    <ExpansionPanel className={classes.panel}>
                         {/*<ExpansionPanelSummary className={classes.paddingPlus15} expandIcon={<ExpandMoreIcon />}>*/}
                         <ExpansionPanelSummary
                             classes={{
@@ -650,6 +681,7 @@ function getStepContent(step, props, state) {
                             {/*</div>*/}
                         {/*</ExpansionPanelSummary>*/}
                         {/*<ExpansionPanelDetails className={classes.container}>*/}
+                     <div className={classes.panel}>
                             <div className="container no-gutters">
                                 <div className="row justify-content-start align-items-center">
                                     <div className="col-sm-auto col-12">
@@ -663,6 +695,7 @@ function getStepContent(step, props, state) {
                                     </div>
                                 </div>
                             </div>
+                     </div>
                         {/*</ExpansionPanelDetails>*/}
                     {/*</ExpansionPanel>*/}
                     <div>
