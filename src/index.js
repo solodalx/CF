@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import 'typeface-roboto'
+import 'core-js/es6/number';
 
 ReactDOM.render(<App />, document.getElementById('root'));
 registerServiceWorker();

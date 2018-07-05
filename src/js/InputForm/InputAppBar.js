@@ -20,6 +20,16 @@ const styles = theme => ({
             outline: 'none',
         },
     },
+    iconWidth: {
+        minWidth: 60,
+        // maxWidth: 40,
+        width: 60,
+        paddingLeft: 0,
+        paddingRight: 0,
+    },
+    paddingZero: {
+        paddingLeft: 0,
+    },
 })
 
 class InputAppBar extends React.Component {
@@ -45,9 +55,10 @@ class InputAppBar extends React.Component {
             <AppBar position="static" color="primary">
                 <Toolbar>
                     <div class="contaner w-100">
-                        <div class="row align-items-center justify-content-between">
+                        <div class="row align-items-center justify-content-between flex-nowrap">
                             {/*<div class="col-1 no-gutters">*/}
-                            <div class="col-1">
+                            {/*<div class="col-auto text-left">*/}
+                            <div className={classes.iconWidth + " col-1 text-left"}>
                                 <Tooltip title='Отменить ввод параметров' placement="center">
                                     <IconButton className={classes.noBorder} color="inherit" aria-label="Menu">
                                         <Cancel/>
@@ -55,9 +66,10 @@ class InputAppBar extends React.Component {
                                 </Tooltip>
                             </div>
                             {/*<div className="col-10 justify-content-start no-gutters">*/}
-                            <div className="col-10 text-left">
+                            {/*<div className="col-10 text-left">*/}
+                            <div className={classes.paddingZero + " col text-left"}>
                                 {/*<Typography variant="title" color="inherit" className={classes.flex}>*/}
-                                <Typography variant="title" color="inherit" className={classes.flex}>
+                                <Typography variant="title" color="inherit">
                                     {/*Ввод данных для расчета модели*/}
                                     Независимая экспертиза проектов
                                     {/*НЭП*/}
@@ -66,7 +78,7 @@ class InputAppBar extends React.Component {
                             {/*<div className="col-1">*/}
                                 {/*<Button color="inherit">Login</Button>*/}
                             {/*</div>*/}
-                            <div>
+                            <div className={classes.iconWidth + " col-1 text-right"}>
                                 <IconButton
                                     aria-owns={open ? 'menu-appbar' : null}
                                     aria-haspopup="true"
