@@ -1,4 +1,8 @@
 import React from 'react';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import * as regionsAction from '../common/actions/regionsAction';
+
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Input from '@material-ui/core/Input';
@@ -40,7 +44,15 @@ class InputFieldRegion extends React.Component {
         name: '',
     };
 
+    componentDidMount = (event) => {
+        this.props.regionsAction.getRegions(event);
+    };
+    // componentDidMount(event) {
+    //     this.props.regionsAction.getRegions();
+    // };
+
     handleChange = event => {
+        // this.props.regionsAction.getRegions();
         this.setState({ [event.target.name]: event.target.value });
     };
 
@@ -63,21 +75,26 @@ class InputFieldRegion extends React.Component {
                         <MenuItem value="">
                             <em>None</em>
                         </MenuItem>
-                        <MenuItem value={77}>Москва</MenuItem>
-                        <MenuItem value={50}>Московская обл.</MenuItem>
-                        <MenuItem value={22}>Алтайский край</MenuItem>
-                        <MenuItem value={28}>Амурская область</MenuItem>
-                        <MenuItem value={29}>Архангельская область</MenuItem>
-                        <MenuItem value={30}>Астраханская область</MenuItem>
-                        <MenuItem value={31}>Белгородская область</MenuItem>
-                        <MenuItem value={32}>Брянская область</MenuItem>
-                        <MenuItem value={33}>Владимирская область</MenuItem>
-                        <MenuItem value={34}>Волгоградская область</MenuItem>
-                        <MenuItem value={35}>Вологодская область</MenuItem>
-                        <MenuItem value={36}>Воронежская область</MenuItem>
-                        <MenuItem value={79}>Еврейская автономная область</MenuItem>
-                        <MenuItem value={75}>Забайкальский край</MenuItem>
-                        <MenuItem value={37}>Ивановская область</MenuItem>
+                        {
+                            this.props.regions.map(region => {
+                                return <MenuItem value={region.id}>{region.name}</MenuItem>
+                            })
+                        }
+                        {/*<MenuItem value={77}>Москва</MenuItem>*/}
+                        {/*<MenuItem value={50}>Московская обл.</MenuItem>*/}
+                        {/*<MenuItem value={22}>Алтайский край</MenuItem>*/}
+                        {/*<MenuItem value={28}>Амурская область</MenuItem>*/}
+                        {/*<MenuItem value={29}>Архангельская область</MenuItem>*/}
+                        {/*<MenuItem value={30}>Астраханская область</MenuItem>*/}
+                        {/*<MenuItem value={31}>Белгородская область</MenuItem>*/}
+                        {/*<MenuItem value={32}>Брянская область</MenuItem>*/}
+                        {/*<MenuItem value={33}>Владимирская область</MenuItem>*/}
+                        {/*<MenuItem value={34}>Волгоградская область</MenuItem>*/}
+                        {/*<MenuItem value={35}>Вологодская область</MenuItem>*/}
+                        {/*<MenuItem value={36}>Воронежская область</MenuItem>*/}
+                        {/*<MenuItem value={79}>Еврейская автономная область</MenuItem>*/}
+                        {/*<MenuItem value={75}>Забайкальский край</MenuItem>*/}
+                        {/*<MenuItem value={37}>Ивановская область</MenuItem>*/}
                     </Select>
                 </FormControl>
             </form>
@@ -85,8 +102,23 @@ class InputFieldRegion extends React.Component {
     }
 }
 
+function mapStateToProps(store) {
+    return {
+        regions: store.regionsState.regions,
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        regionsAction: bindActionCreators(regionsAction, dispatch),
+    }
+}
+
+// export default connect(mapStateToProps, mapDispatchToProps)(InputFieldRegion)
+
 InputFieldRegion.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(InputFieldRegion);
+// export default withStyles(styles)(InputFieldRegion);
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(InputFieldRegion));

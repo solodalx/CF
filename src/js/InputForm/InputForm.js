@@ -708,3 +708,4 @@ function getStepContent(step, props, state) {
             return 'Unknown step';
     }
 }
+
