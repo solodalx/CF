@@ -5,22 +5,37 @@ import {GET_REGIONS_SUCCESS} from "../constants/regionsConstants";
 export function getRegions() {
     return (dispatch) => {
         if (properties.BACKEND_SERVER_IP != '') {
-            // url = '40.115.40.71/api/data/regions'
-            let url = properties.BACKEND_SERVER_IP + properties.GET_REGIONS_API
+            let url = 'http://40.115.40.71/api/data/regions'
+            // let url = 'http://' + properties.BACKEND_SERVER_IP + properties.GET_REGIONS_API
 
-            get(url).then((response) => {
+            // get(url).then((response) => {
+            //     dispatch({
+            //         type: GET_REGIONS_SUCCESS,
+            //         data: response.data,
+            //     })
+            // })
+            let responseRest = get(url)
+            if (responseRest != undefined) {
+                responseRest.then((response) => {
+                    dispatch({
+                        type: GET_REGIONS_SUCCESS,
+                        data: response.data,
+                    })
+                })
+            }
+            else {
                 dispatch({
                     type: GET_REGIONS_SUCCESS,
-                    data: response.data,
+                    data: getRegionsStatic(),
                 })
-            })
+            }
         }
         else {
             dispatch({
                 type: GET_REGIONS_SUCCESS,
                 // data: []
                 // data: 'Москва',
-                data: getRegionsStatic(),
+                data: getRegionsStatic2(),
             })
         }
     }
@@ -44,4 +59,8 @@ function getRegionsStatic() {
         {uuid: 75, name: 'Забайкальский край'},
         {uuid: 37, name: 'Ивановская область'},
     ];
+}
+
+function getRegionsStatic2() {
+    return [{"uuid":"8f36c000-e283-4638-9141-a6032d71c41b","name":"Хакасия"},{"uuid":"d362423e-24cb-4ff1-8b9d-648e28f21ccf","name":"Оренбургская область"},{"uuid":"c4931bc2-6623-450f-8bde-8ff7dad642f0","name":"Краснодарский край"},{"uuid":"d709d561-3f3e-456c-9940-5b48ff0f8396","name":"Башкортостан"},{"uuid":"ccc3ae63-f5c2-43aa-bd01-2706c562a9fe","name":"Татарстан"},{"uuid":"16af67c1-9aca-44b8-a718-2c9a2221fbb7","name":"Адыгея"}];
 }

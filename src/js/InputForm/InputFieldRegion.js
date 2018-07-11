@@ -11,6 +11,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import TextField from '@material-ui/core/TextField';
+import * as properties from "../common/properties";
 
 const styles = theme => ({
     // root: {
@@ -62,6 +64,8 @@ class InputFieldRegion extends React.Component {
         return (
             //<form className={classes.root} autoComplete="off">
             <form autoComplete="off">
+                {/*<p>{'http://40.115.40.71/api/data/regions'}</p>*/}
+                <p>{this.props.regions.map((r) => {return r.name + ';'})}</p>
                 <FormControl className={classes.formControl}>
                     <InputLabel htmlFor="field-input-general-region">Регион</InputLabel>
                     <Select
