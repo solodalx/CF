@@ -1,0 +1,3 @@
+export const GET_BUSINESSAREA_SUCCESS = 'GET_BUSINESSAREA_SUCCESS';
+
+export const businessAreaActions = [GET_BUSINESSAREA_SUCCESS];

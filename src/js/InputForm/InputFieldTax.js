@@ -1,4 +1,8 @@
 import React from 'react';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import * as taxmodeAction from '../common/actions/taxmodeAction';
+
 import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
 import Input from '@material-ui/core/Input';
@@ -7,6 +11,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import * as environmentAction from "../common/actions/environmentAction";
 
 const styles = theme => ({
     // root: {
@@ -39,6 +44,10 @@ class InputFieldTax extends React.Component {
         name: '',
     };
 
+    componentDidMount = (event) => {
+        this.props.taxmodeAction.getTaxmode(event);
+    };
+
     handleChange = event => {
         this.setState({[event.target.name]: event.target.value});
     };
@@ -62,10 +71,15 @@ class InputFieldTax extends React.Component {
                         <MenuItem value="">
                             <em>Выберите значение...</em>
                         </MenuItem>
-                        <MenuItem value={'УСН'}>УСН</MenuItem>
-                        <MenuItem value={'ЕНВД'}>ЕНВД</MenuItem>
-                        <MenuItem value={'ЕСХН'}>ЕСХН</MenuItem>
-                        <MenuItem value={'ОСН'}>ОСН</MenuItem>
+                        {
+                            this.props.taxmode.map(tax => {
+                                return <MenuItem value={tax.uuid}>{tax.name}</MenuItem>
+                            })
+                        }
+                        {/*<MenuItem value={'УСН'}>УСН</MenuItem>*/}
+                        {/*<MenuItem value={'ЕНВД'}>ЕНВД</MenuItem>*/}
+                        {/*<MenuItem value={'ЕСХН'}>ЕСХН</MenuItem>*/}
+                        {/*<MenuItem value={'ОСН'}>ОСН</MenuItem>*/}
                     </Select>
                 </FormControl>
             </div>
@@ -74,8 +88,23 @@ class InputFieldTax extends React.Component {
     }
 }
 
+function mapStateToProps(store) {
+    return {
+        taxmode: store.taxmodeState.taxmode,
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        taxmodeAction: bindActionCreators(taxmodeAction, dispatch),
+    }
+}
+
 InputFieldTax.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(InputFieldTax);
+// export default withStyles(styles)(InputFieldTax);
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(InputFieldTax));
+
+

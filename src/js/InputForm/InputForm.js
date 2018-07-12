@@ -345,7 +345,8 @@ class InputForm extends React.Component {
                                                 <Button
                                                     disabled={activeStep === 0}
                                                     onClick={this.handleBack}
-                                                    className={classes.button}
+                                                    // className={classes.button}
+                                                    className={[classes.button, classes.noBorder].join(' ')}
                                                 >
                                                     Назад
                                                 </Button>
@@ -353,7 +354,8 @@ class InputForm extends React.Component {
                                                     variant="raised"
                                                     color="primary"
                                                     onClick={this.handleNext}
-                                                    className={classes.button}
+                                                    // className={classes.button}
+                                                    className={[classes.button, classes.noBorder].join(' ')}
                                                 >
                                                     {activeStep === steps.length - 1 ? 'Рассчитать модель' : 'Далее'}
                                                 </Button>

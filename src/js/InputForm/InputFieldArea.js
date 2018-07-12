@@ -1,4 +1,8 @@
 import React from 'react';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import * as businessAreaAction from '../common/actions/businessAreaAction';
+
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Input from '@material-ui/core/Input';
@@ -7,6 +11,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import * as regionsAction from "../common/actions/regionsAction";
 
 const styles = theme => ({
     // root: {
@@ -39,6 +44,10 @@ class InputFieldArea extends React.Component {
         name: '',
     };
 
+    componentDidMount = (event) => {
+        this.props.businessAreaAction.getBusinessArea(event);
+    };
+
     handleChange = event => {
         this.setState({ [event.target.name]: event.target.value });
     };
@@ -62,8 +71,13 @@ class InputFieldArea extends React.Component {
                         <MenuItem value="">
                             <em>None</em>
                         </MenuItem>
-                        <MenuItem value={1}>Сельское хозяйство (мясное животноводство)</MenuItem>
-                        <MenuItem value={2}>Торговля</MenuItem>
+                        {
+                            this.props.businessArea.map(area => {
+                                return <MenuItem value={area.uuid}>{area.mainName + ' - ' + area.detailedName}</MenuItem>
+                            })
+                        }
+                        {/*<MenuItem value={1}>Сельское хозяйство (мясное животноводство)</MenuItem>*/}
+                        {/*<MenuItem value={2}>Торговля</MenuItem>*/}
                     </Select>
                 </FormControl>
             </form>
@@ -71,8 +85,23 @@ class InputFieldArea extends React.Component {
     }
 }
 
+function mapStateToProps(store) {
+    return {
+        businessArea: store.businessAreaState.businessArea,
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        businessAreaAction: bindActionCreators(businessAreaAction, dispatch),
+    }
+}
+
 InputFieldArea.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(InputFieldArea);
+//export default withStyles(styles)(InputFieldArea);
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(InputFieldArea));
+
+

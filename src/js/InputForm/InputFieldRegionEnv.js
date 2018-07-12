@@ -1,4 +1,8 @@
 import React from 'react';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import * as environmentAction from '../common/actions/environmentAction';
+
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Input from '@material-ui/core/Input';
@@ -7,6 +11,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import * as businessAreaAction from "../common/actions/businessAreaAction";
 
 const styles = theme => ({
     // root: {
@@ -39,6 +44,10 @@ class InputFieldRegionEnv extends React.Component {
         name: '',
     };
 
+    componentDidMount = (event) => {
+        this.props.environmentAction.getEnvironment(event);
+    };
+
     handleChange = event => {
         this.setState({ [event.target.name]: event.target.value });
     };
@@ -62,10 +71,15 @@ class InputFieldRegionEnv extends React.Component {
                         <MenuItem value="">
                             <em>Выберите значение...</em>
                         </MenuItem>
-                        <MenuItem value={1}>Центр города</MenuItem>
-                        <MenuItem value={2}>Деловой район (не центр)</MenuItem>
-                        <MenuItem value={3}>Спальный район</MenuItem>
-                        <MenuItem value={4}>Сельская местность</MenuItem>
+                        {
+                            this.props.environment.map(env => {
+                                return <MenuItem value={env.uuid}>{env.name}</MenuItem>
+                            })
+                        }
+                        {/*<MenuItem value={1}>Центр города</MenuItem>*/}
+                        {/*<MenuItem value={2}>Деловой район (не центр)</MenuItem>*/}
+                        {/*<MenuItem value={3}>Спальный район</MenuItem>*/}
+                        {/*<MenuItem value={4}>Сельская местность</MenuItem>*/}
                     </Select>
                 </FormControl>
             </div>
@@ -74,8 +88,21 @@ class InputFieldRegionEnv extends React.Component {
     }
 }
 
+function mapStateToProps(store) {
+    return {
+        environment: store.environmentState.environment,
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        environmentAction: bindActionCreators(environmentAction, dispatch),
+    }
+}
+
 InputFieldRegionEnv.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(InputFieldRegionEnv);
+// export default withStyles(styles)(InputFieldRegionEnv);
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(InputFieldRegionEnv));

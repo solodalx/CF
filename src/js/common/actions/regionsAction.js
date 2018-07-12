@@ -10,7 +10,7 @@ export function getRegions() {
             let url = 'http://' + properties.BACKEND_SERVER_IP + properties.GET_REGIONS_API
 
             get(url).then((response) => {
-                console.log('REST response:')
+                console.log('Regions REST response:')
                 console.log(response.data);
 
                 dispatch({

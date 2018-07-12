@@ -59,7 +59,7 @@ class InputAppBar extends React.Component {
                             {/*<div class="col-1 no-gutters">*/}
                             {/*<div class="col-auto text-left">*/}
                             <div className={classes.iconWidth + " col-1 text-left"}>
-                                <Tooltip title='Отменить ввод параметров' placement="center">
+                                <Tooltip title='Вернуться назад' placement="center">
                                     <IconButton className={classes.noBorder} color="inherit" aria-label="Menu">
                                         <Cancel/>
                                     </IconButton>
@@ -71,7 +71,8 @@ class InputAppBar extends React.Component {
                                 {/*<Typography variant="title" color="inherit" className={classes.flex}>*/}
                                 <Typography variant="title" color="inherit">
                                     {/*Ввод данных для расчета модели*/}
-                                    Независимая экспертиза проектов
+                                    {/*Независимая экспертиза проектов*/}
+                                    Бизнес - стартер
                                     {/*НЭП*/}
                                 </Typography>
                             </div>
