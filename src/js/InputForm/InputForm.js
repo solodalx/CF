@@ -37,7 +37,7 @@ import InputFieldRegionEnv from './InputFieldRegionEnv.js'
 import InputFieldStride from './InputFieldStride.js'
 import InputFieldsManualExpenses from './InputFieldsManualExpenses.js'
 
-import HorizontalNonLinearAlternativeLabelStepper from './TestStepper.js'
+// import HorizontalNonLinearAlternativeLabelStepper from './TestStepper.js'
 // import SimpleTabs from '../Others/TabsExample.js'
 // import VerticalLinearStepper from '../Others/StepperExample'
 import IntegrationReactSelect from './InputFieldRegionAutocomplete.js'

@@ -1,34 +1,60 @@
 import {get} from '../http';
+// import axios from 'axios';
 import * as properties from '../properties';
 import {GET_REGIONS_SUCCESS} from "../constants/regionsConstants";
 
 export function getRegions() {
     return (dispatch) => {
         if (properties.BACKEND_SERVER_IP != '') {
-            let url = 'http://40.115.40.71/api/data/regions'
-            // let url = 'http://' + properties.BACKEND_SERVER_IP + properties.GET_REGIONS_API
+            // let url = 'http://40.115.40.71/api/data/regions'
+            let url = 'http://' + properties.BACKEND_SERVER_IP + properties.GET_REGIONS_API
 
-            // get(url).then((response) => {
-            //     dispatch({
-            //         type: GET_REGIONS_SUCCESS,
-            //         data: response.data,
-            //     })
-            // })
-            let responseRest = get(url)
-            if (responseRest != undefined) {
-                responseRest.then((response) => {
-                    dispatch({
-                        type: GET_REGIONS_SUCCESS,
-                        data: response.data,
-                    })
-                })
-            }
-            else {
+            get(url).then((response) => {
+                console.log('REST response:')
+                console.log(response.data);
+
                 dispatch({
                     type: GET_REGIONS_SUCCESS,
-                    data: getRegionsStatic(),
+                    data: response.data,
                 })
-            }
+            })
+
+            // let url = 'http://40.115.40.71/api/data/regions'
+            // let config = {headers: {"Access-Control-Allow-Origin": "*"}};
+            // let config = {headers: {"Access-Control-Allow-Origin": "http://localhost:3000"}};
+            // axios.get(url, config).then((res) => {
+            // axios.get(url).then((res) => {
+            //     console.log('The response (0):')
+            //     console.log(res.data);
+            //
+            //     dispatch({
+            //         type: GET_REGIONS_SUCCESS,
+            //         data: res.data,
+            //     })
+            // })
+
+
+            // let responseRest = get(url)
+            // if (responseRest != undefined) {
+            //     responseRest.then((response) => {
+            //         console.log('The response (1):')
+            //         console.log(response)
+            //         console.log('The response (2):')
+            //         console.log(response.data)
+            //         console.log('The response (3):')
+            //         console.log(response.data.data)
+            //         dispatch({
+            //             type: GET_REGIONS_SUCCESS,
+            //             data: response.data,
+            //         })
+            //     })
+            // }
+            // else {
+            //     dispatch({
+            //         type: GET_REGIONS_SUCCESS,
+            //         data: getRegionsStatic(),
+            //     })
+            // }
         }
         else {
             dispatch({

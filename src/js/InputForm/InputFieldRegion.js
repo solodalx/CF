@@ -65,7 +65,7 @@ class InputFieldRegion extends React.Component {
             //<form className={classes.root} autoComplete="off">
             <form autoComplete="off">
                 {/*<p>{'http://40.115.40.71/api/data/regions'}</p>*/}
-                <p>{this.props.regions.map((r) => {return r.name + ';'})}</p>
+                {/*<p>{this.props.regions.map((r) => {return r.name + ';'})}</p>*/}
                 <FormControl className={classes.formControl}>
                     <InputLabel htmlFor="field-input-general-region">Регион</InputLabel>
                     <Select
