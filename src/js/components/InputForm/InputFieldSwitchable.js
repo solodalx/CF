@@ -56,7 +56,7 @@ class InputFieldSwitchable extends React.Component {
                             </Tooltip>
                         </div>
                         <div className="col offset-1">
-                            <InputFieldAmount id={this.props.id} label={this.props.label} tip={this.props.tip} disabled={!this.state.checkedField}/>
+                            <InputFieldAmount id={this.props.id} label={this.props.label} tip={this.props.tip} flType={this.props.flType} disabled={!this.state.checkedField}/>
                         </div>
                     </div>
                 </div>

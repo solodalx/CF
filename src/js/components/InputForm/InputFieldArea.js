@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import * as businessAreaAction from '../common/actions/businessAreaAction';
+import * as businessAreaAction from '../../common/actions/businessAreaAction';
 
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -11,7 +11,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import * as regionsAction from "../common/actions/regionsAction";
+import * as regionsAction from "../../common/actions/regionsAction";
 
 const styles = theme => ({
     // root: {

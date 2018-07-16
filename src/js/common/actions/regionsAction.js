@@ -1,4 +1,4 @@
-import {get} from '../http';
+import {get} from '../utils/http';
 // import axios from 'axios';
 import * as properties from '../properties';
 import {GET_REGIONS_SUCCESS} from "../constants/regionsConstants";
@@ -10,7 +10,7 @@ export function getRegions() {
             let url = 'http://' + properties.BACKEND_SERVER_IP + properties.GET_REGIONS_API
 
             get(url).then((response) => {
-                console.log('Regions REST response:')
+                console.log('NEPLOG: Regions REST response:')
                 console.log(response.data);
 
                 dispatch({

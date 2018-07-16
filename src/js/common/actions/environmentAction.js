@@ -1,4 +1,4 @@
-import {get} from '../http';
+import {get} from '../utils/http';
 import * as properties from '../properties';
 import {GET_ENVIRONMENT_SUCCESS} from "../constants/environmentConstants";
 
@@ -8,7 +8,7 @@ export function getEnvironment() {
             let url = 'http://' + properties.BACKEND_SERVER_IP + properties.GET_ENVIRONMENT_API
 
             get(url).then((response) => {
-                console.log('Environment REST response:')
+                console.log('NEPLOG: Environment REST response:')
                 console.log(response.data);
 
                 dispatch({

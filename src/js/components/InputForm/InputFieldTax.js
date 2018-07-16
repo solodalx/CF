@@ -1,17 +1,17 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import * as environmentAction from '../common/actions/environmentAction';
+import * as taxmodeAction from '../../common/actions/taxmodeAction';
 
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import {withStyles} from '@material-ui/core/styles';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import * as businessAreaAction from "../common/actions/businessAreaAction";
+import * as environmentAction from "../../common/actions/environmentAction";
 
 const styles = theme => ({
     // root: {
@@ -22,11 +22,11 @@ const styles = theme => ({
         // margin: theme.spacing.unit,
         // minWidth: 200,
         // minWidth: 350,
-        // minWidth: '100%',
+         // minWidth: '100%',
         // width: '100%',
         [theme.breakpoints.down('xs')]: {
             minWidth: 150,
-            // maxWidth: 350,
+            maxWidth: 350,
             width: '100%',
         },
         [theme.breakpoints.up('sm')]: {
@@ -38,48 +38,48 @@ const styles = theme => ({
     // },
 });
 
-class InputFieldRegionEnv extends React.Component {
+class InputFieldTax extends React.Component {
     state = {
         fieldValue: '',
         name: '',
     };
 
     componentDidMount = (event) => {
-        this.props.environmentAction.getEnvironment(event);
+        this.props.taxmodeAction.getTaxmode(event);
     };
 
     handleChange = event => {
-        this.setState({ [event.target.name]: event.target.value });
+        this.setState({[event.target.name]: event.target.value});
     };
 
     render() {
-        const { classes } = this.props;
+        const {classes} = this.props;
 
         return (
             //<form className={classes.root} autoComplete="off">
             <div>
                 <FormControl className={classes.formControl}>
-                    <InputLabel htmlFor="field-input-general-env">Характер окружения</InputLabel>
+                    <InputLabel htmlFor="field-input-general-tax">Налоговый режим</InputLabel>
                     <Select
                         value={this.state.fieldValue}
                         onChange={this.handleChange}
                         inputProps={{
                             name: 'fieldValue',
-                            id: 'field-input-general-env',
+                            id: 'field-input-general-tax',
                         }}
                     >
                         <MenuItem value="">
                             <em>Выберите значение...</em>
                         </MenuItem>
                         {
-                            this.props.environment.map(env => {
-                                return <MenuItem value={env.uuid}>{env.name}</MenuItem>
+                            this.props.taxmode.map(tax => {
+                                return <MenuItem value={tax.uuid}>{tax.name}</MenuItem>
                             })
                         }
-                        {/*<MenuItem value={1}>Центр города</MenuItem>*/}
-                        {/*<MenuItem value={2}>Деловой район (не центр)</MenuItem>*/}
-                        {/*<MenuItem value={3}>Спальный район</MenuItem>*/}
-                        {/*<MenuItem value={4}>Сельская местность</MenuItem>*/}
+                        {/*<MenuItem value={'УСН'}>УСН</MenuItem>*/}
+                        {/*<MenuItem value={'ЕНВД'}>ЕНВД</MenuItem>*/}
+                        {/*<MenuItem value={'ЕСХН'}>ЕСХН</MenuItem>*/}
+                        {/*<MenuItem value={'ОСН'}>ОСН</MenuItem>*/}
                     </Select>
                 </FormControl>
             </div>
@@ -90,19 +90,21 @@ class InputFieldRegionEnv extends React.Component {
 
 function mapStateToProps(store) {
     return {
-        environment: store.environmentState.environment,
+        taxmode: store.taxmodeState.taxmode,
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        environmentAction: bindActionCreators(environmentAction, dispatch),
+        taxmodeAction: bindActionCreators(taxmodeAction, dispatch),
     }
 }
 
-InputFieldRegionEnv.propTypes = {
+InputFieldTax.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-// export default withStyles(styles)(InputFieldRegionEnv);
-export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(InputFieldRegionEnv));
+// export default withStyles(styles)(InputFieldTax);
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(InputFieldTax));
+
+

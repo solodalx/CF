@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import * as regionsAction from '../common/actions/regionsAction';
+import * as regionsAction from '../../common/actions/regionsAction';
 
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -12,7 +12,7 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
-import * as properties from "../common/properties";
+import * as properties from "../../common/properties";
 
 const styles = theme => ({
     // root: {

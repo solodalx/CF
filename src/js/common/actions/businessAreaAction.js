@@ -1,4 +1,4 @@
-import {get} from '../http';
+import {get} from '../utils/http';
 import * as properties from '../properties';
 import {GET_BUSINESSAREA_SUCCESS} from "../constants/businessAreaConstants";
 
@@ -8,7 +8,7 @@ export function getBusinessArea() {
             let url = 'http://' + properties.BACKEND_SERVER_IP + properties.GET_BUSINESSAREA_API
 
             get(url).then((response) => {
-                console.log('Business Area REST response:')
+                console.log('NEPLOG: Business Area REST response:')
                 console.log(response.data);
 
                 dispatch({

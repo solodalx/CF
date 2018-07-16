@@ -1,4 +1,8 @@
 import React from 'react';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import * as modelAction from '../../common/actions/modelAction';
+
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
@@ -26,6 +30,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import FormGroup from '@material-ui/core/FormGroup';
 
+import * as fields from '../../common/constants/fieldConstants'
 import InputAppBar from './InputAppBar'
 import InputFieldAmount from './InputFieldAmount.js'
 import InputFieldNumber from './InputFieldNumber.js'
@@ -36,6 +41,9 @@ import InputFieldTax from './InputFieldTax.js'
 import InputFieldRegionEnv from './InputFieldRegionEnv.js'
 import InputFieldStride from './InputFieldStride.js'
 import InputFieldsManualExpenses from './InputFieldsManualExpenses.js'
+import InputFieldCalculator from './InputFieldCalculator'
+
+import {IS_DEBUG} from '../../common/properties';
 
 // import HorizontalNonLinearAlternativeLabelStepper from './TestStepper.js'
 // import SimpleTabs from '../Others/TabsExample.js'
@@ -233,9 +241,9 @@ function getSteps() {
 class InputForm extends React.Component {
     state = {
         activeStep: 0,
-        assetsLand: '',
-        assetsBuildings: '',
-        value: 0,
+        // assetsLand: '',
+        // assetsBuildings: '',
+        // value: 0,
     };
 
     handleStep = step => () => {
@@ -270,11 +278,32 @@ class InputForm extends React.Component {
         this.setState({ [name]: event.target.value });
     };
 
+    constructor(props) {
+        super(props);
+        props.modelAction.setInitialState();
+        if (IS_DEBUG) {
+            console.log('NEPLOG: InputForm: constructor: model = ' + props.model);
+            console.log(props.model);
+        }
+    }
+
+    componentDidMount = (event) => {
+        // this.props.modelAction.setInitialState();
+        if (IS_DEBUG) {
+            console.log('NEPLOG: InputForm: componentDidMount: model = ' + this.props.model);
+            console.log(this.props.model);
+        }
+    };
+
     render() {
         const { classes } = this.props;
         const steps = getSteps();
         const { activeStep } = this.state;
         const { value } = this.state;
+        if (IS_DEBUG) {
+            console.log('NEPLOG: InputForm: render: model = ' + this.props.model);
+            console.log(this.props.model);
+        }
 
         return (
             <MuiThemeProvider theme={theme}>
@@ -381,11 +410,25 @@ class InputForm extends React.Component {
     }
 }
 
+function mapStateToProps(store) {
+    return {
+        model: store.modelState.model,
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        modelAction: bindActionCreators(modelAction, dispatch),
+    }
+}
+
 InputForm.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(InputForm);
+// export default withStyles(styles)(InputForm);
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(InputForm));
+
 
 function getStepContent(step, props, state) {
     const { classes } = props;
@@ -449,7 +492,7 @@ function getStepContent(step, props, state) {
                                     <div className="w-100 d-sm-none"/>
                                     {/*<div className="col text-nowrap text-right">*/}
                                     <div className="col-sm-auto col-12">
-                                        <InputFieldAmount id="field-input-assets-total" label="Всего" tip="Всего собственных средств" disabled/>
+                                        <InputFieldAmount id={fields.FL_ASSETS_TOTAL} label="Всего" tip="Всего собственных средств" defaultValue={0} disabled/>
                                     </div>
                                 </div>
                             </div>
@@ -461,25 +504,25 @@ function getStepContent(step, props, state) {
                                 <div class="row justify-content-start">
                                     {/*<div className={"col " + classes.fixedWidth}>*/}
                                     <div className="col-sm-auto col-12">
-                                        <InputFieldAmount id="field-input-assets-land" label="Земля" tip="Стоимость земли" />
+                                        <InputFieldAmount id={fields.FL_ASSETS_LAND} label="Земля" tip="Стоимость земли"/>
                                     </div>
                                     <div className="col-sm-auto col-12">
-                                        <InputFieldAmount id="field-input-assets-buildings" label="Здания" tip="Стоимость зданий" />
+                                        <InputFieldAmount id={fields.FL_ASSETS_BUILDINGS} label="Здания" tip="Стоимость зданий"/>
                                     </div>
                                     <div className="col-sm-auto col-12">
-                                        <InputFieldAmount id="field-input-assets-equipment" label="Оборудование" tip="Стоимость оборудования" />
+                                        <InputFieldAmount id={fields.FL_ASSETS_EQUIPMENT} label="Оборудование" tip="Стоимость оборудования"/>
                                     </div>
                                     <div className="col-sm-auto col-12">
-                                        <InputFieldAmount id="field-input-assets-transport" label="Транспорт" tip="Стоимость транспорта" />
+                                        <InputFieldAmount id={fields.FL_ASSETS_TRANSPORT} label="Транспорт" tip="Стоимость транспорта"/>
                                     </div>
                                     <div className="col-sm-auto col-12">
-                                        <InputFieldAmount id="field-input-assets-intangible" label="НМА" tip="Стоимость нематериальных активов" />
+                                        <InputFieldAmount id={fields.FL_ASSETS_INTANGIBLE} label="НМА" tip="Стоимость нематериальных активов"/>
                                     </div>
                                     <div className="col-sm-auto col-12">
-                                        <InputFieldAmount id="field-input-assets-others" label="Прочее" tip="Стоимость прочих активов" />
+                                        <InputFieldAmount id={fields.FL_ASSETS_OTHERS} label="Прочее" tip="Стоимость прочих активов"/>
                                     </div>
                                     <div className="col-sm-auto col-12">
-                                        <InputFieldAmount id="field-input-assets-additional" label="Ден. средства" tip="Денежные средства"/>
+                                        <InputFieldAmount id={fields.FL_ASSETS_CASH} label="Ден. средства" tip="Денежные средства"/>
                                     </div>
                                 </div>
                             </div>
@@ -504,7 +547,7 @@ function getStepContent(step, props, state) {
                                     <div className="w-100 d-sm-none"/>
                                     {/*<div className="col text-nowrap text-right">*/}
                                     <div className="col-sm-auto col-12">
-                                        <InputFieldAmount id="field-input-inv-total" label="Всего" tip="Всего заемных средств" disabled/>
+                                        <InputFieldAmount id={fields.FL_INVEST_TOTAL} label="Всего" tip="Всего заемных средств" defaultValue={0} disabled/>
                                     </div>
                                 </div>
                             </div>
@@ -514,22 +557,22 @@ function getStepContent(step, props, state) {
                             <div className="container no-gutters">
                                 <div className="row justify-content-start">
                                     <div className="col-sm-auto col-12">
-                                        <InputFieldAmount id="field-input-inv-land" label="Земля" tip="Инвестиции в землю"/>
+                                        <InputFieldAmount id={fields.FL_INVEST_LAND} label="Земля" tip="Инвестиции в землю"/>
                                     </div>
                                     <div className="col-sm-auto col-12">
-                                        <InputFieldAmount id="field-input-inv-buildings" label="Здания" tip="Инвестиции в здания"/>
+                                        <InputFieldAmount id={fields.FL_INVEST_BUILDINGS} label="Здания" tip="Инвестиции в здания"/>
                                     </div>
                                     <div className="col-sm-auto col-12">
-                                        <InputFieldAmount id="field-input-inv-equipment" label="Оборудование" tip="Инвестиции в оборудование"/>
+                                        <InputFieldAmount id={fields.FL_INVEST_EQUIPMENT} label="Оборудование" tip="Инвестиции в оборудование"/>
                                     </div>
                                     <div className="col-sm-auto col-12">
-                                        <InputFieldAmount id="field-input-inv-transport" label="Транспорт" tip="Инвестиции в транспорт"/>
+                                        <InputFieldAmount id={fields.FL_INVEST_TRANSPORT} label="Транспорт" tip="Инвестиции в транспорт"/>
                                     </div>
                                     <div className="col-sm-auto col-12">
-                                        <InputFieldAmount id="field-input-inv-intangible" label="НМА" tip="Инвестиции в нематериальные активы"/>
+                                        <InputFieldAmount id={fields.FL_INVEST_INTANGIBLE} label="НМА" tip="Инвестиции в нематериальные активы"/>
                                     </div>
                                     <div className="col-sm-auto col-12">
-                                        <InputFieldAmount id="field-input-inv-others" label="Прочее" tip="Инвестиции в прочие активы"/>
+                                        <InputFieldAmount id={fields.FL_INVEST_OTHERS} label="Прочее" tip="Инвестиции в прочие активы"/>
                                     </div>
                                 </div>
                             </div>
@@ -544,10 +587,10 @@ function getStepContent(step, props, state) {
                         <div class="container no-gutters">
                             <div class="row">
                                 <div className="col-sm-auto col-12">
-                                    <InputFieldAmount id="field-input-inv-total" label="Инвестиции" tip="Всего инвестиций" disabled/>
+                                    <InputFieldAmount id={fields.FL_INVESTMENTS_ALL} label="Инвестиции" tip="Всего инвестиций" disabled/>
                                 </div>
                                 <div className="col-sm-auto col-12">
-                                    <InputFieldAmount id="field-input-inv-total" label="в т.ч. уже вложено" tip="в т.ч. уже вложено" disabled/>
+                                    <InputFieldAmount id={fields.FL_INVESTMENTS_ALREADY_INVESTED} label="в т.ч. уже вложено" tip="в т.ч. уже вложено" disabled/>
                                 </div>
                                 {/*<div class="col">*/}
                                     {/*<InputFieldAmount id="field-input-inv-own" label="Собственные средства" tip="" />*/}
@@ -556,7 +599,8 @@ function getStepContent(step, props, state) {
                                     {/*<InputFieldAmount id="field-input-inv-borrowed" label="Заемные средства" tip="" />*/}
                                 {/*</div>*/}
                                 <div className="col-sm-auto col-12">
-                                    <InputFieldNumber id="field-calc-inv-ratio" label="Собст./Заем." tip="Соотношение собственных и заемных средств" disabled/>
+                                    {/*<InputFieldNumber id={fields.FL_INVESTMENTS_RATIO} fltype={fields.FLTYPE_STRING} label="Собст./Заем." tip="Соотношение собственных и заемных средств" disabled/>*/}
+                                    <InputFieldAmount id={fields.FL_INVESTMENTS_RATIO} label="Собст./Заем." tip="Соотношение собственных и заемных средств" flType={fields.FLTYPE_STRING} disabled/>
                                 </div>
                             </div>
                         </div>
@@ -599,11 +643,15 @@ function getStepContent(step, props, state) {
                         <ExpansionPanelDetails className={classes.paddingZero}>
                             <div className="container no-gutters">
                                 <div className="row justify-content-start">
+                                    <InputFieldCalculator/>
+                                </div>
+                                <div className="row justify-content-start">
                                     <div className="col-sm-auto col-12">
                                         <InputFieldAmount id="field-input-income-price" label="Цена" tip="Средняя цена реализации" />
                                     </div>
                                     <div className="col-sm-auto col-12">
-                                        <InputFieldNumber id="field-input-income-amount" label="Продажи" tip="Среднее количество продаж в день" />
+                                        {/*<InputFieldNumber id="field-input-income-amount" label="Продажи" tip="Среднее количество продаж в день" />*/}
+                                        <InputFieldAmount id="field-input-income-amount" label="Продажи" tip="Среднее количество продаж в день" flType={fields.FLTYPE_NUMBER} adornment="ед."/>
                                     </div>
                                     <div className="col-sm-auto col-12">
                                         <InputFieldAmount id="field-input-income-earning" label="Выручка" tip="Среднемесячная выручка" />
@@ -657,10 +705,12 @@ function getStepContent(step, props, state) {
                                         {/*<InputFieldAmount id="field-input-expenses-others" label="Прочее" tip="Прочие расходы" />*/}
                                     {/*</div>*/}
                                     <div className="col-sm-auto col-12">
-                                        <InputFieldNumber id="field-input-expenses-grossmargin" label="Валовая рентабельность" tip="Валовая рентабельность" adornment="%" disabled/>
+                                        {/*<InputFieldNumber id="field-input-expenses-grossmargin" label="Валовая рентабельность" tip="Валовая рентабельность" adornment="%" disabled/>*/}
+                                        <InputFieldAmount id="field-input-expenses-grossmargin" label="Валовая рентабельность" tip="Валовая рентабельность"  flType={fields.FLTYPE_NUMBER} adornment="%" disabled/>
                                     </div>
                                     <div className="col-sm-auto col-12">
-                                        <InputFieldNumber id="field-input-expenses-netmargin" label="Чистая рентабельность" tip="Чистая рентабельность" adornment="%" disabled/>
+                                        {/*<InputFieldNumber id="field-input-expenses-netmargin" label="Чистая рентабельность" tip="Чистая рентабельность" adornment="%" disabled/>*/}
+                                        <InputFieldAmount id="field-input-expenses-netmargin" label="Чистая рентабельность" tip="Чистая рентабельность" flType={fields.FLTYPE_NUMBER} adornment="%" disabled/>
                                     </div>
                                 </div>
                                 {/*<br/>*/}
@@ -687,7 +737,8 @@ function getStepContent(step, props, state) {
                             <div className="container no-gutters">
                                 <div className="row justify-content-start align-items-center">
                                     <div className="col-sm-auto col-12">
-                                        <InputFieldNumber id="field-input-params-loanrate" label="% ставка" tip="Ставка привлечения заемных средств" adornment="%"/>
+                                        {/*<InputFieldNumber id="field-input-params-loanrate" label="% ставка" tip="Ставка привлечения заемных средств" adornment="%"/>*/}
+                                        <InputFieldAmount id="field-input-params-loanrate" label="% ставка" tip="Ставка привлечения заемных средств" flType={fields.FLTYPE_NUMBER} adornment="%"/>
                                     </div>
                                     <div className="col-sm-auto col-12">
                                         <InputFieldAmount id="field-input-params-dividends" label="Дивиденды" tip="Выплата дивидендов в месяц"/>

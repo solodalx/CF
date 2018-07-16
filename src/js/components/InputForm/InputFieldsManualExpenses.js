@@ -14,6 +14,7 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import InputFieldSwitchable from './InputFieldSwitchable'
+import * as fields from "../../common/constants/fieldConstants";
 
 const styles = theme => ({
     marginMinus15: {
@@ -87,11 +88,11 @@ class InputFieldsManualExpenses extends React.Component {
                                 <div className="col">
                                     <div className="container no-gutters">
                                         <div className="row justify-content-start">
-                                            Затраты на управленческий персонал
+                                            Управленческий персонал
                                         </div>
                                         <div className="row justify-content-start">
                                             <div className="col-sm-auto col-12">
-                                                <InputFieldSwitchable id="field-input-expenses-managementcount" label="Кол-во" tip="Количество сотрудников"/>
+                                                <InputFieldSwitchable id="field-input-expenses-managementcount" label="Численность" tip="Количество сотрудников" flType={fields.FLTYPE_NUMBER}/>
                                             </div>
                                             <div className="col-sm-auto col-12">
                                                 <InputFieldSwitchable id="field-input-expenses-managementsalary" label="З/П" tip="Средняя заработная плата в месяц"/>
@@ -102,11 +103,11 @@ class InputFieldsManualExpenses extends React.Component {
                                 <div className="col">
                                     <div className="container no-gutters">
                                         <div className="row justify-content-start">
-                                            Затраты на персонал производства
+                                            Производственный персонал
                                         </div>
                                         <div className="row justify-content-start">
                                             <div className="col-sm-auto col-12">
-                                                <InputFieldSwitchable id="field-input-expenses-employeecount" label="Кол-во" tip="Количество сотрудников"/>
+                                                <InputFieldSwitchable id="field-input-expenses-employeecount" label="Численность" tip="Количество сотрудников" flType={fields.FLTYPE_NUMBER}/>
                                             </div>
                                             <div className="col-sm-auto col-12">
                                                 <InputFieldSwitchable id="field-input-expenses-employeesalary" label="З/П" tip="Средняя заработная плата в месяц"/>

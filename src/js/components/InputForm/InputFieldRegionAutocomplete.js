@@ -13,7 +13,7 @@ import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
 import ClearIcon from '@material-ui/icons/Clear';
 import Chip from '@material-ui/core/Chip';
 import Select from '@material-ui/core/Select';
-import '../../css/react-select.css';
+import '../../../css/react-select.css';
 
 const suggestions = [
     { label: 'Afghanistan' },
