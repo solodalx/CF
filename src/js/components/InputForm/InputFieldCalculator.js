@@ -1,10 +1,19 @@
 import React from 'react';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import * as modelAction from '../../common/actions/modelAction';
+
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
+
+import * as fields from "../../common/constants/fieldConstants";
+import InputFieldAmount from './InputFieldAmount.js'
+
+import {IS_DEBUG} from '../../common/properties';
 
 function TabContainer(props) {
     return (
@@ -24,7 +33,7 @@ const styles = theme => ({
         // backgroundColor: theme.palette.background.paper,
     },
     invisible: {
-        // display: 'none',
+        display: 'none',
     },
 });
 
@@ -45,9 +54,10 @@ class InputFieldCalculator extends React.Component {
             <div className={classes.root}>
                 <AppBar position="static" classes={{root: classes.invisible}}>
                     <Tabs value={value} onChange={this.handleChange}>
-                        <Tab label="Item One" />
-                        <Tab label="Item Two" />
-                        <Tab label="Item Three" href="#basic-tabs" />
+                        <Tab label="1" />
+                        <Tab label="2" />
+                        <Tab label="3" />
+                        {/*<Tab label="3" href="#basic-tabs" />*/}
                     </Tabs>
                 </AppBar>
                 <TabContainer>{getTabContent(value, this.props, this.state)}</TabContainer>
@@ -65,10 +75,21 @@ export default withStyles(styles)(InputFieldCalculator);
 function getTabContent(tab, props, state) {
     switch (tab) {
         case 0:
-            return ('Item one');
+            return (
+                <div className="container">
+                    <div className="row justify-content-start">
+                        <div className="col-sm-auto col-12">
+                            <InputFieldAmount id={fields.FL_CALC001.FL_AVERAGE_AMOUNT} label="Сумма в чеке" tip="Средняя сумма в чеке"/>
+                        </div>
+                        <div className="col-sm-auto col-12">
+                            <InputFieldAmount id={fields.FL_CALC001.FL_CUSTOMER_NUMBER_PER_MONTH} label="Число покупателей" tip="Ожидаемый поток покупателей в месяц" flType={fields.FLTYPE_NUMBER} adornment="чел."/>
+                        </div>
+                    </div>
+                </div>
+                            );
         case 1:
-            return ('Item two');
+            return ('2');
         case 2:
-            return ('Item three');
+            return ('3');
     }
 }

@@ -635,7 +635,7 @@ function getStepContent(step, props, state) {
                                     <div className="w-100 d-sm-none"/>
                                     {/*<div className="col-sm-auto col-12 text-nowrap text-right">*/}
                                     <div className="col-sm-auto col-12">
-                                        <InputFieldAmount id="field-input-income-total" label="Всего" tip="Всего доходов" disabled/>
+                                        <InputFieldAmount id={fields.FL_INCOME_TOTAL} label="Всего" tip="Всего доходов" disabled/>
                                     </div>
                                 </div>
                             </div>
@@ -647,14 +647,14 @@ function getStepContent(step, props, state) {
                                 </div>
                                 <div className="row justify-content-start">
                                     <div className="col-sm-auto col-12">
-                                        <InputFieldAmount id="field-input-income-price" label="Цена" tip="Средняя цена реализации" />
+                                        <InputFieldAmount id={fields.FL_INCOME_AVERAGE_PRICE} label="Цена" tip="Средняя цена реализации" />
                                     </div>
                                     <div className="col-sm-auto col-12">
                                         {/*<InputFieldNumber id="field-input-income-amount" label="Продажи" tip="Среднее количество продаж в день" />*/}
-                                        <InputFieldAmount id="field-input-income-amount" label="Продажи" tip="Среднее количество продаж в день" flType={fields.FLTYPE_NUMBER} adornment="ед."/>
+                                        <InputFieldAmount id={fields.FL_INCOME_AVERAGE_SALES_PER_DAY} label="Продажи" tip="Среднее количество продаж в день" flType={fields.FLTYPE_NUMBER} adornment="ед."/>
                                     </div>
                                     <div className="col-sm-auto col-12">
-                                        <InputFieldAmount id="field-input-income-earning" label="Выручка" tip="Среднемесячная выручка" />
+                                        <InputFieldAmount id={fields.FL_INCOME_PER_MONTH} label="Выручка" tip="Среднемесячная выручка" />
                                     </div>
                                 </div>
                             </div>

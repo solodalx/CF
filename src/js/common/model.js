@@ -24,6 +24,17 @@ export function setInitialState() {
         'flInvestmentsAll': '',
         'flInvestmentsAlreadyInvested': '',
         'flInvestmentsRatio': '',
+
+        'flCalc001' : {
+            'flAverageAmount': '',
+            'flCustomerNumberPerMonth': '',
+        },
+
+        'flIncomeAveragePrice' : '',
+        'flIncomeAverageSalesPerDay' : '',
+        'flIncomePerMonth' : '',
+        'flIncomeTotal' : 0,
+
     };
 }
 
@@ -34,26 +45,67 @@ export function getValueById(model, fieldId) {
     }
 
     switch (fieldId) {
-        case fields.FL_ASSETS_LAND:                  return model.flAssetsLand;
-        case fields.FL_ASSETS_BUILDINGS:             return model.flAssetsBuildings;
-        case fields.FL_ASSETS_EQUIPMENT:             return model.flAssetsEquipment;
-        case fields.FL_ASSETS_TRANSPORT:             return model.flAssetsTransport;
-        case fields.FL_ASSETS_INTANGIBLE:            return model.flAssetsIntangible;
-        case fields.FL_ASSETS_OTHERS:                return model.flAssetsOthers;
-        case fields.FL_ASSETS_CASH:                  return model.flAssetsCash;
-        case fields.FL_ASSETS_TOTAL:                 return model.flAssetsTotal;
+        case fields.FL_ASSETS_LAND:                          return model.flAssetsLand;
+        case fields.FL_ASSETS_BUILDINGS:                     return model.flAssetsBuildings;
+        case fields.FL_ASSETS_EQUIPMENT:                     return model.flAssetsEquipment;
+        case fields.FL_ASSETS_TRANSPORT:                     return model.flAssetsTransport;
+        case fields.FL_ASSETS_INTANGIBLE:                    return model.flAssetsIntangible;
+        case fields.FL_ASSETS_OTHERS:                        return model.flAssetsOthers;
+        case fields.FL_ASSETS_CASH:                          return model.flAssetsCash;
+        case fields.FL_ASSETS_TOTAL:                         return model.flAssetsTotal;
 
-        case fields.FL_INVEST_LAND:                  return model.flInvestLand;
-        case fields.FL_INVEST_BUILDINGS:             return model.flInvestBuildings;
-        case fields.FL_INVEST_EQUIPMENT:             return model.flInvestEquipment;
-        case fields.FL_INVEST_TRANSPORT:             return model.flInvestTransport;
-        case fields.FL_INVEST_INTANGIBLE:            return model.flInvestIntangible;
-        case fields.FL_INVEST_OTHERS:                return model.flInvestOthers;
-        case fields.FL_INVEST_TOTAL:                 return model.flInvestTotal;
+        case fields.FL_INVEST_LAND:                          return model.flInvestLand;
+        case fields.FL_INVEST_BUILDINGS:                     return model.flInvestBuildings;
+        case fields.FL_INVEST_EQUIPMENT:                     return model.flInvestEquipment;
+        case fields.FL_INVEST_TRANSPORT:                     return model.flInvestTransport;
+        case fields.FL_INVEST_INTANGIBLE:                    return model.flInvestIntangible;
+        case fields.FL_INVEST_OTHERS:                        return model.flInvestOthers;
+        case fields.FL_INVEST_TOTAL:                         return model.flInvestTotal;
 
-        case fields.FL_INVESTMENTS_ALL:              return model.flInvestmentsAll;
-        case fields.FL_INVESTMENTS_ALREADY_INVESTED: return model.flInvestmentsAlreadyInvested;
-        case fields.FL_INVESTMENTS_RATIO:            return model.flInvestmentsRatio;
+        case fields.FL_INVESTMENTS_ALL:                      return model.flInvestmentsAll;
+        case fields.FL_INVESTMENTS_ALREADY_INVESTED:         return model.flInvestmentsAlreadyInvested;
+        case fields.FL_INVESTMENTS_RATIO:                    return model.flInvestmentsRatio;
+
+        case fields.FL_CALC001.FL_AVERAGE_AMOUNT:            return model.flCalc001.flAverageAmount;
+        case fields.FL_CALC001.FL_CUSTOMER_NUMBER_PER_MONTH: return model.flCalc001.flCustomerNumber;
+
+        case fields.FL_INCOME_AVERAGE_PRICE:                 return model.flIncomeAveragePrice;
+        case fields.FL_INCOME_AVERAGE_SALES_PER_DAY:         return model.flIncomeAverageSalesPerDay;
+        case fields.FL_INCOME_PER_MONTH:                     return model.flIncomePerMonth;
+        case fields.FL_INCOME_TOTAL:                         return model.flIncomeTotal;
+    }
+    return null;
+}
+
+function getPhase(fieldId) {
+    switch (fieldId) {
+        case fields.FL_ASSETS_LAND:
+        case fields.FL_ASSETS_BUILDINGS:
+        case fields.FL_ASSETS_EQUIPMENT:
+        case fields.FL_ASSETS_TRANSPORT:
+        case fields.FL_ASSETS_INTANGIBLE:
+        case fields.FL_ASSETS_OTHERS:
+        case fields.FL_ASSETS_CASH:
+        case fields.FL_ASSETS_TOTAL:
+        case fields.FL_INVEST_LAND:
+        case fields.FL_INVEST_BUILDINGS:
+        case fields.FL_INVEST_EQUIPMENT:
+        case fields.FL_INVEST_TRANSPORT:
+        case fields.FL_INVEST_INTANGIBLE:
+        case fields.FL_INVEST_OTHERS:
+        case fields.FL_INVEST_TOTAL:
+        case fields.FL_INVESTMENTS_ALL:
+        case fields.FL_INVESTMENTS_ALREADY_INVESTED:
+        case fields.FL_INVESTMENTS_RATIO:
+            return 2;
+
+        case fields.FL_CALC001.FL_AVERAGE_AMOUNT:
+        case fields.FL_CALC001.FL_CUSTOMER_NUMBER_PER_MONTH:
+        case fields.FL_INCOME_AVERAGE_PRICE:
+        case fields.FL_INCOME_AVERAGE_SALES_PER_DAY:
+        case fields.FL_INCOME_PER_MONTH:
+        case fields.FL_INCOME_TOTAL:
+            return 3;
     }
     return null;
 }
@@ -64,8 +116,13 @@ export function fieldUpdated(model, fieldId, value) {
         console.log(model);
     }
 
-    var fieldName = '';
+    switch (getPhase(fieldId)) {
+        case 2: return fieldUpdatedPhase2(model, fieldId, value);
+        case 3: return fieldUpdatedPhase3(model, fieldId, value);
+    }
+}
 
+function fieldUpdatedPhase2(model, fieldId, value) {
     var flAssetsLand = (model.flAssetsLand == '') ? 0 : parseInt(model.flAssetsLand);
     var flAssetsBuildings = (model.flAssetsBuildings == '') ? 0 : parseInt(model.flAssetsBuildings);
     var flAssetsEquipment = (model.flAssetsEquipment == '') ? 0 : parseInt(model.flAssetsEquipment);
@@ -111,12 +168,13 @@ export function fieldUpdated(model, fieldId, value) {
         console.log('flAssetsLand = ' + flAssetsLand + ', flAssetsBuildings = ' + flAssetsBuildings + ', flAssetsEquipment = ' + flAssetsEquipment +
             ', flAssetsTransport = ' + flAssetsTransport + ', flAssetsIntangible = ' + flAssetsIntangible +
             ', flAssetsOthers = ' + flAssetsOthers + ', flAssetsCash = ' + flAssetsCash);
-        console.log('fieldName = ' + fieldName + ', flAssetsTotal = ' + flAssetsTotal + ', flInvestTotal = ' + flInvestTotal +
+        console.log('flAssetsTotal = ' + flAssetsTotal + ', flInvestTotal = ' + flInvestTotal +
             ', flInvestmentsAll = ' + flInvestmentsAll + ', flInvestmentsAlreadyInvested = ' + flInvestmentsAlreadyInvested +
             ', flInvestmentsRatio = ' + flInvestmentsRatio);
     }
 
     return {
+        ...model,
         'flAssetsLand': emptyIfZero(flAssetsLand),
         'flAssetsBuildings': emptyIfZero(flAssetsBuildings),
         'flAssetsEquipment': emptyIfZero(flAssetsEquipment),
@@ -137,6 +195,35 @@ export function fieldUpdated(model, fieldId, value) {
         'flInvestmentsAll': emptyIfZero(flInvestmentsAll),
         'flInvestmentsAlreadyInvested': emptyIfZero(flInvestmentsAlreadyInvested),
         'flInvestmentsRatio': emptyIfZero(flInvestmentsRatio),
+    };
+}
+
+function fieldUpdatedPhase3(model, fieldId, value) {
+    var flCalc001AverageAmount = (model.flCalc001.flAverageAmount == '') ? 0 : parseInt(model.flCalc001.flAverageAmount);
+    var flCalc001CustomerNumberPerMonth = (model.flCalc001.flCustomerNumberPerMonth == '') ? 0 : parseInt(model.flCalc001.flCustomerNumberPerMonth);
+
+    var intValue = (value == '') ? 0 : parseInt(value);
+    switch (fieldId) {
+        case fields.FL_CALC001.FL_AVERAGE_AMOUNT:    flCalc001AverageAmount = intValue; break;
+        case fields.FL_CALC001.FL_CUSTOMER_NUMBER_PER_MONTH:   flCalc001CustomerNumberPerMonth = intValue; break;
+    }
+
+    var flIncomeAveragePrice = flCalc001AverageAmount;
+    var flIncomePerMonth = flCalc001AverageAmount * flCalc001CustomerNumberPerMonth;
+    var flIncomeAverageSalesPerDay = (flCalc001CustomerNumberPerMonth * 12 / 365).toFixed(2);
+    var flIncomeTotal = flIncomePerMonth;
+
+    return {
+        ...model,
+        'flCalc001' : {
+            'flAverageAmount': emptyIfZero(flCalc001AverageAmount),
+            'flCustomerNumberPerMonth': emptyIfZero(flCalc001CustomerNumberPerMonth),
+        },
+
+        'flIncomeAveragePrice' : emptyIfZero(flIncomeAveragePrice),
+        'flIncomeAverageSalesPerDay' : emptyIfZero(flIncomeAverageSalesPerDay),
+        'flIncomePerMonth' : emptyIfZero(flIncomePerMonth),
+        'flIncomeTotal' : flIncomeTotal,
     };
 }
 
