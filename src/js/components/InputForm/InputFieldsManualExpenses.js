@@ -1,4 +1,8 @@
 import React from 'react';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import * as modelAction from '../../common/actions/modelAction';
+
 import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -15,6 +19,8 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import InputFieldSwitchable from './InputFieldSwitchable'
 import * as fields from "../../common/constants/fieldConstants";
+import * as model from "../../common/model";
+import {IS_DEBUG} from '../../common/properties';
 
 const styles = theme => ({
     marginMinus15: {
@@ -47,9 +53,18 @@ const styles = theme => ({
 class InputFieldsManualExpenses extends React.Component {
     state = {
         checkedManualExpenses: false,
+        // checkedManualExpenses: this.props.modelAction.getExpensesManual(this.props.model),
     };
 
     handleChange = name => event => {
+        if (IS_DEBUG) {
+            // console.log('NEPLOG: InputFieldsManualExpenses: handleChange: id = ' + this.props.id + ', model = ' + this.props.model);
+            console.log('NEPLOG: InputFieldsManualExpenses: handleChange: name = ' + name + ', event = ' + event + ', model = ' + this.props.model);
+            // console.log(name);
+            console.log(event);
+            console.log(this.props.model);
+        }
+        this.props.modelAction.setExpensesManual(this.props.model, event.target.checked);
         this.setState({[name]: event.target.checked});
     };
 
@@ -69,9 +84,12 @@ class InputFieldsManualExpenses extends React.Component {
                                         <FormControlLabel
                                             control={
                                                 <Switch
+                                                    // id={fields.FL_EXPENSES_IS_MANUAL}
                                                     checked={this.state.checkedManualExpenses}
+                                                    // checked={model.getValueById(this.props.model, this.props.id)}
                                                     onChange={this.handleChange('checkedManualExpenses')}
                                                     value="checkedManualExpenses"
+                                                    // value={model.getValueById(this.props.model, this.props.id)}
                                                 />
                                             }
                                             label="Ручная корректировка"
@@ -92,10 +110,10 @@ class InputFieldsManualExpenses extends React.Component {
                                         </div>
                                         <div className="row justify-content-start">
                                             <div className="col-sm-auto col-12">
-                                                <InputFieldSwitchable id="field-input-expenses-managementcount" label="Численность" tip="Количество сотрудников" flType={fields.FLTYPE_NUMBER}/>
+                                                <InputFieldSwitchable id={fields.FL_EXPENSES_MANUAL.FL_MANAGEMENT_COUNT} label="Численность" tip="Количество сотрудников" flType={fields.FLTYPE_NUMBER}/>
                                             </div>
                                             <div className="col-sm-auto col-12">
-                                                <InputFieldSwitchable id="field-input-expenses-managementsalary" label="З/П" tip="Средняя заработная плата в месяц"/>
+                                                <InputFieldSwitchable id={fields.FL_EXPENSES_MANUAL.FL_MANAGEMENT_SALARY} label="З/П" tip="Средняя заработная плата в месяц"/>
                                             </div>
                                         </div>
                                     </div>
@@ -107,10 +125,10 @@ class InputFieldsManualExpenses extends React.Component {
                                         </div>
                                         <div className="row justify-content-start">
                                             <div className="col-sm-auto col-12">
-                                                <InputFieldSwitchable id="field-input-expenses-employeecount" label="Численность" tip="Количество сотрудников" flType={fields.FLTYPE_NUMBER}/>
+                                                <InputFieldSwitchable id={fields.FL_EXPENSES_MANUAL.FL_EMPLOYEE_COUNT} label="Численность" tip="Количество сотрудников" flType={fields.FLTYPE_NUMBER}/>
                                             </div>
                                             <div className="col-sm-auto col-12">
-                                                <InputFieldSwitchable id="field-input-expenses-employeesalary" label="З/П" tip="Средняя заработная плата в месяц"/>
+                                                <InputFieldSwitchable id={fields.FL_EXPENSES_MANUAL.FL_EMPLOYEE_SALARY} label="З/П" tip="Средняя заработная плата в месяц"/>
                                             </div>
                                         </div>
                                     </div>
@@ -124,15 +142,19 @@ class InputFieldsManualExpenses extends React.Component {
                                         </div>
                                         <div className="row justify-content-start">
                                             <div className="col-sm-auto col-12">
-                                                <InputFieldSwitchable id="field-input-expenses-rent" label="Аренда" tip="Средняя аредна в месяц"/>
+                                                <InputFieldSwitchable id={fields.FL_EXPENSES_MANUAL.FL_RENT} label="Аренда" tip="Средняя аредна в месяц"/>
                                             </div>
                                             <div className="w-100"></div>
                                             <div className="col-sm-auto col-12">
-                                                <InputFieldSwitchable id="field-input-expenses-transport" label="Транспорт" tip="Транспортные расходы в месяц" />
+                                                <InputFieldSwitchable id={fields.FL_EXPENSES_MANUAL.FL_TRANSPORT} label="Транспорт" tip="Транспортные расходы в месяц" />
                                             </div>
                                             <div className="w-100"></div>
                                             <div className="col-sm-auto col-12">
-                                                <InputFieldSwitchable id="field-input-expenses-others" label="Прочее" tip="Прочие расходы" />
+                                                <InputFieldSwitchable id={fields.FL_EXPENSES_MANUAL.FL_TAXES} label="Налоги" tip="Средняя сумма налогов и сборов в месяц" />
+                                            </div>
+                                            <div className="w-100"></div>
+                                            <div className="col-sm-auto col-12">
+                                                <InputFieldSwitchable id={fields.FL_EXPENSES_MANUAL.FL_OTHERS} label="Прочее" tip="Прочие расходы" />
                                             </div>
                                         </div>
                                     </div>
@@ -146,10 +168,21 @@ class InputFieldsManualExpenses extends React.Component {
     }
 }
 
+function mapStateToProps(store) {
+    return {
+        model: store.modelState.model,
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        modelAction: bindActionCreators(modelAction, dispatch),
+    }
+}
+
 InputFieldsManualExpenses.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(InputFieldsManualExpenses);
-
-
+// export default withStyles(styles)(InputFieldsManualExpenses);
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(InputFieldsManualExpenses));

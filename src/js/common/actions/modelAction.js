@@ -14,6 +14,24 @@ export function setInitialState() {
     }
 }
 
+export function getExpensesManual(model) {
+    return (dispatch) => {
+        dispatch({
+            type: modelConstants.GET_MODEL_INPUT2_SUCCESS,
+            data: modelImpl.getExpensesManual(model),
+        })
+    }
+}
+
+export function setExpensesManual(model, checked) {
+    return (dispatch) => {
+        dispatch({
+            type: modelConstants.GET_MODEL_INPUT2_SUCCESS,
+            data: modelImpl.setExpensesManual(model, checked),
+        })
+    }
+}
+
 export function fieldUpdated(model, fieldId, value) {
     // var field = model.flAssetsLand;
     return (dispatch) => {
