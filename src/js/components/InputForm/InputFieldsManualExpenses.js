@@ -113,7 +113,7 @@ class InputFieldsManualExpenses extends React.Component {
                                                 <InputFieldSwitchable id={fields.FL_EXPENSES_MANUAL.FL_MANAGEMENT_COUNT} label="Численность" tip="Количество сотрудников" flType={fields.FLTYPE_NUMBER}/>
                                             </div>
                                             <div className="col-sm-auto col-12">
-                                                <InputFieldSwitchable id={fields.FL_EXPENSES_MANUAL.FL_MANAGEMENT_SALARY} label="З/П" tip="Средняя заработная плата в месяц"/>
+                                                <InputFieldSwitchable id={fields.FL_EXPENSES_MANUAL.FL_MANAGEMENT_SALARY} label="Средняя зарплата" tip="Средняя зарплата 1 чел. в месяц"/>
                                             </div>
                                         </div>
                                     </div>
@@ -128,7 +128,7 @@ class InputFieldsManualExpenses extends React.Component {
                                                 <InputFieldSwitchable id={fields.FL_EXPENSES_MANUAL.FL_EMPLOYEE_COUNT} label="Численность" tip="Количество сотрудников" flType={fields.FLTYPE_NUMBER}/>
                                             </div>
                                             <div className="col-sm-auto col-12">
-                                                <InputFieldSwitchable id={fields.FL_EXPENSES_MANUAL.FL_EMPLOYEE_SALARY} label="З/П" tip="Средняя заработная плата в месяц"/>
+                                                <InputFieldSwitchable id={fields.FL_EXPENSES_MANUAL.FL_EMPLOYEE_SALARY} label="Средняя зарплата" tip="Средняя зарплата 1 чел. в месяц"/>
                                             </div>
                                         </div>
                                     </div>

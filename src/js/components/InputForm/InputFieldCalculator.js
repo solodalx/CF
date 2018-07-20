@@ -79,7 +79,7 @@ function getTabContent(tab, props, state) {
                 <div className="container">
                     <div className="row justify-content-start">
                         <div className="col-sm-auto col-12">
-                            <InputFieldAmount id={fields.FL_CALC001.FL_AVERAGE_AMOUNT} label="Сумма в чеке" tip="Средняя сумма в чеке"/>
+                            <InputFieldAmount id={fields.FL_CALC001.FL_AVERAGE_AMOUNT} label="Средняя сумма в чеке" tip=""/>
                         </div>
                         <div className="col-sm-auto col-12">
                             <InputFieldAmount id={fields.FL_CALC001.FL_CUSTOMER_NUMBER_PER_MONTH} label="Число покупателей" tip="Ожидаемый поток покупателей в месяц" flType={fields.FLTYPE_NUMBER} adornment="чел."/>

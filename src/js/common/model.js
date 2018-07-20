@@ -27,6 +27,7 @@ export function setInitialState() {
         'flInvestmentsOwnAll': '',
         'flInvestmentsToBorrow': '',
         'flInvestmentsRatio': '',
+        'flInvestmentsLoanRate' : '',
 
         'flCalc001' : {
             'flAverageAmount': '',
@@ -56,7 +57,7 @@ export function setInitialState() {
 
         'flParamsGrossMargin' : '',
         'flParamsNetMargin' : '',
-        'flParamsLoanRate' : '',
+        // 'flInvestmentsLoanRate' : '',
         'flParamsDividents' : '',
     };
 }
@@ -91,6 +92,7 @@ export function getValueById(model, fieldId) {
         case fields.FL_INVESTMENTS_OWN_ALL:                  return model.flInvestmentsOwnAll;
         case fields.FL_INVESTMENTS_TO_BORROW:                return model.flInvestmentsToBorrow;
         case fields.FL_INVESTMENTS_RATIO:                    return model.flInvestmentsRatio;
+        case fields.FL_INVESTMENTS_LOAN_RATE:                return model.flInvestmentsLoanRate;
 
         case fields.FL_CALC001.FL_AVERAGE_AMOUNT:            return model.flCalc001.flAverageAmount;
         case fields.FL_CALC001.FL_CUSTOMER_NUMBER_PER_MONTH: return model.flCalc001.flCustomerNumber;
@@ -116,7 +118,7 @@ export function getValueById(model, fieldId) {
 
         case fields.FL_PARAMS_GROSS_MARGIN:                  return model.flParamsGrossMargin;
         case fields.FL_PARAMS_NET_MARGIN:                    return model.flParamsNetMargin;
-        case fields.FL_PARAMS_LOAN_RATE:                     return model.flParamsLoanRate;
+        // case fields.FL_INVESTMENTS_LOAN_RATE:                     return model.flInvestmentsLoanRate;
         case fields.FL_PARAMS_DIVIDENTS:                     return model.flParamsDividents;
 
     }
@@ -146,6 +148,7 @@ function getPhase(fieldId) {
         case fields.FL_INVESTMENTS_OWN_ALL:
         case fields.FL_INVESTMENTS_TO_BORROW:
         case fields.FL_INVESTMENTS_RATIO:
+        case fields.FL_INVESTMENTS_LOAN_RATE:
             return 2;
 
         case fields.FL_CALC001.FL_AVERAGE_AMOUNT:
@@ -173,7 +176,7 @@ function getPhase(fieldId) {
 
         case fields.FL_PARAMS_GROSS_MARGIN:
         case fields.FL_PARAMS_NET_MARGIN:
-        case fields.FL_PARAMS_LOAN_RATE:
+        // case fields.FL_INVESTMENTS_LOAN_RATE:
         case fields.FL_PARAMS_DIVIDENTS:
             return 33;
     }
@@ -231,6 +234,7 @@ function fieldUpdatedPhase2(model, fieldId, value) {
     var flInvestOthers = (model.flInvestOthers == '') ? 0 : parseInt(model.flInvestOthers);
 
     var flInvestmentsOwnCash = (model.flInvestmentsOwnCash == '') ? 0 : parseInt(model.flInvestmentsOwnCash);
+    var flInvestmentsLoanRate = (model.flInvestmentsLoanRate == '') ? 0 : parseInt(model.flInvestmentsLoanRate);
 
     var intValue = (value == '') ? 0 : parseInt(value);
     switch (fieldId) {
@@ -250,6 +254,7 @@ function fieldUpdatedPhase2(model, fieldId, value) {
         case fields.FL_INVEST_OTHERS:                flInvestOthers = intValue; break;
 
         case fields.FL_INVESTMENTS_OWN_CASH:         flInvestmentsOwnCash = intValue; break;
+        case fields.FL_INVESTMENTS_LOAN_RATE:        flInvestmentsLoanRate = intValue; break;
     }
 
     // var flAssetsTotal = flAssetsLand + flAssetsBuildings + flAssetsEquipment + flAssetsTransport + flAssetsIntangible +  flAssetsOthers + flAssetsCash;
@@ -259,6 +264,7 @@ function fieldUpdatedPhase2(model, fieldId, value) {
     var flInvestmentsAll = flAssetsTotal + flInvestTotal;
     var flInvestmentsAlreadyInvested = flAssetsTotal;
     var flInvestmentsOwnAll = flInvestmentsAlreadyInvested + flInvestmentsOwnCash;
+    if (flInvestmentsOwnAll > flInvestmentsAll) flInvestmentsOwnAll = flInvestmentsAll;
     var flInvestmentsToBorrow = flInvestmentsAll - flInvestmentsOwnAll;
 
     var flInvestmentsRatio = (flInvestmentsAll == 0) ? '' :
@@ -300,6 +306,7 @@ function fieldUpdatedPhase2(model, fieldId, value) {
         'flInvestmentsOwnAll': emptyIfZero(flInvestmentsOwnAll),
         'flInvestmentsToBorrow': emptyIfZero(flInvestmentsToBorrow),
         'flInvestmentsRatio': emptyIfZero(flInvestmentsRatio),
+        'flInvestmentsLoanRate' : emptyIfZero(flInvestmentsLoanRate),
     };
 }
 
@@ -393,14 +400,14 @@ function fieldUpdatedPhase32(model, fieldId, value) {
 function fieldUpdatedPhase33(model, fieldId, value) {
     var flParamsGrossMargin = (model.flParamsGrossMargin == '') ? 0 : parseInt(model.flParamsGrossMargin);
     var flParamsNetMargin = (model.flParamsNetMargin == '') ? 0 : parseInt(model.flParamsNetMargin);
-    var flParamsLoanRate = (model.flParamsLoanRate == '') ? 0 : parseInt(model.flParamsLoanRate);
+    // var flParamsLoanRate = (model.flInvestmentsLoanRate == '') ? 0 : parseInt(model.flInvestmentsLoanRate);
     var flParamsDividents = (model.flParamsDividents == '') ? 0 : parseInt(model.flParamsDividents);
 
     var intValue = (value == '') ? 0 : parseInt(value);
     switch (fieldId) {
         case fields.FL_PARAMS_GROSS_MARGIN:                flParamsGrossMargin = intValue; break;
         case fields.FL_PARAMS_NET_MARGIN:                  flParamsNetMargin = intValue; break;
-        case fields.FL_PARAMS_LOAN_RATE:                   flParamsLoanRate = intValue; break;
+        // case fields.FL_INVESTMENTS_LOAN_RATE:                   flParamsLoanRate = intValue; break;
         case fields.FL_PARAMS_DIVIDENTS:                   flParamsDividents = intValue; break;
     }
 
@@ -408,7 +415,7 @@ function fieldUpdatedPhase33(model, fieldId, value) {
         ...model,
         'flParamsGrossMargin' : emptyIfZero(flParamsGrossMargin),
         'flParamsNetMargin' : emptyIfZero(flParamsNetMargin),
-        'flParamsLoanRate' : emptyIfZero(flParamsLoanRate),
+        // 'flInvestmentsLoanRate' : emptyIfZero(flParamsLoanRate),
         'flParamsDividents' : emptyIfZero(flParamsDividents),
     };
 }

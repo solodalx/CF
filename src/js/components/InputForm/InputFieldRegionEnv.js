@@ -59,7 +59,7 @@ class InputFieldRegionEnv extends React.Component {
             //<form className={classes.root} autoComplete="off">
             <div>
                 <FormControl className={classes.formControl}>
-                    <InputLabel htmlFor="field-input-general-env">Характер окружения</InputLabel>
+                    <InputLabel htmlFor="field-input-general-env">Расположение</InputLabel>
                     <Select
                         value={this.state.fieldValue}
                         onChange={this.handleChange}
