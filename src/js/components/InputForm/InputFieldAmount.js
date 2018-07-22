@@ -106,9 +106,15 @@ class InputFieldAmount extends React.Component {
     // };
 
     handleChange = name => event => {
-        this.props.modelAction.fieldUpdated(this.props.model, this.props.id, event.target.value);
+        // this.props.modelAction.fieldUpdated(this.props.model, this.props.id, event.target.value);
+        // this.props.modelAction.fieldUpdated(this.props.blockName, this.props.fieldName, event.target.value);
+        this.props.modelAction.fieldUpdated(this.props.field, event.target.value);
         // this.setState({ [name]: event.target.value });
     };
+
+    // updateState = (blockName, fieldName, value) => {
+    //     Object.assign({}, this.props.model, {[blockName]: Object.assign({}, this.props.model[blockName], {[fieldName]: value})});
+    // };
 
     render() {
         const { classes } = this.props;
@@ -126,15 +132,18 @@ class InputFieldAmount extends React.Component {
                         label={this.props.label}
                         // className={classes.textField}
                         className={classes.inputWidth}
-                        // value={this.state.assetsLand}
-                        // value={this.state.val}
-                        value={model.getValueById(this.props.model, this.props.id)}
+                        // value={model.getValueById(this.props.model, this.props.id)}
+                        // value={this.props.value}
+                        // value={model.getValue(this.props.modelState, this.props.blockName, this.props.fieldName)}
+                        // value={(this.props.field == undefined || this.props.field == '') ? '' : model.getValue(this.props.modelState, this.props.field)}
+                        value={(this.props.value == undefined) ? model.getValue(this.props.modelState, this.props.field) : this.props.value}
                         // value={this.props.model.flAssetsTotal}
                         defaultValue={this.props.defaultValue}
                         helperText={this.props.helperText}
                         // onChange={this.handleChange('assetsLand')}
                         // onChange={this.handleChange('val')}
                         onChange={this.handleChange()}
+                        // onChange={(value) => updateState(this.props.blockName, this.props.fieldName, value)}
                         // margin="normal"
                         InputProps={{
                             // endAdornment: <InputAdornment position="end">р.</InputAdornment>,
@@ -167,7 +176,7 @@ class InputFieldAmount extends React.Component {
 
 function mapStateToProps(store) {
     return {
-        model: store.modelState.model,
+        modelState: store.modelState,
     }
 }
 

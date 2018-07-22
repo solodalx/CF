@@ -2,65 +2,330 @@ import * as fields from './constants/fieldConstants'
 import * as modelConstants from "./constants/modelConstants";
 import {IS_DEBUG} from './properties';
 
-export function setInitialState() {
-    return {
-        'flAssetsLand': '',
-        'flAssetsBuildings': '',
-        'flAssetsEquipment': '',
-        'flAssetsTransport': '',
-        'flAssetsIntangible': '',
-        'flAssetsOthers': '',
-        // 'flAssetsCash': '',
-        'flAssetsTotal': 0,
 
-        'flInvestLand': '',
-        'flInvestBuildings': '',
-        'flInvestEquipment': '',
-        'flInvestTransport': '',
-        'flInvestIntangible': '',
-        'flInvestOthers': '',
-        'flInvestTotal': 0,
-
-        'flInvestmentsAll': '',
-        'flInvestmentsAlreadyInvested': '',
-        'flInvestmentsOwnCash': '',
-        'flInvestmentsOwnAll': '',
-        'flInvestmentsToBorrow': '',
-        'flInvestmentsRatio': '',
-        'flInvestmentsLoanRate' : '',
-
-        'flCalc001' : {
-            'flAverageAmount': '',
-            'flCustomerNumberPerMonth': '',
+export const initialModelState = {
+    step2: {
+        existingAssets: {
+            land: '',
+            buildings: '',
+            equipment: '',
+            transport: '',
+            intangible: '',
+            others: '',
         },
-
-        'flIncomeAveragePrice' : '',
-        'flIncomeAverageSalesPerDay' : '',
-        'flIncomePerMonth' : '',
-        'flIncomeTotal' : 0,
-
-        // 'flExpensesTaxes' : '',
-        // 'flExpensesGrossMargin' : '',
-        // 'flExpensesNetMargin' : '',
-        'flExpensesIsManual' : 0,
-        'flExpensesManual' : {
-            'flManagementCount' : '',
-            'flManagementSalary' : '',
-            'flEmployeeCount' : '',
-            'flEmployeeSalary' : '',
-            'flRent' : '',
-            'flTransport' : '',
-            'flTaxes' : '',
-            'flOthers' : '',
+        plannedAssets: {
+            land: '',
+            buildings: '',
+            equipment: '',
+            transport: '',
+            intangible: '',
+            others: '',
         },
-        'flExpensesTotal' : '',
+        common: {
+            // investments: '',
+            // alreadyInvested: '',
+            ownCash: '',
+            // ratio: '',
+            loanRate: '',
+        }
+    },
 
-        'flParamsGrossMargin' : '',
-        'flParamsNetMargin' : '',
-        // 'flInvestmentsLoanRate' : '',
-        'flParamsDividents' : '',
-    };
+    'flAssetsLand': '',
+    'flAssetsBuildings': '',
+    'flAssetsEquipment': '',
+    'flAssetsTransport': '',
+    'flAssetsIntangible': '',
+    'flAssetsOthers': '',
+    // 'flAssetsCash': '',
+    'flAssetsTotal': 0,
+
+    'flInvestLand': '',
+    'flInvestBuildings': '',
+    'flInvestEquipment': '',
+    'flInvestTransport': '',
+    'flInvestIntangible': '',
+    'flInvestOthers': '',
+    'flInvestTotal': 0,
+
+    'flInvestmentsAll': '',
+    'flInvestmentsAlreadyInvested': '',
+    'flInvestmentsOwnCash': '',
+    'flInvestmentsOwnAll': '',
+    'flInvestmentsToBorrow': '',
+    'flInvestmentsRatio': '',
+    'flInvestmentsLoanRate' : '',
+
+    'flCalc001' : {
+        'flAverageAmount': '',
+        'flCustomerNumberPerMonth': '',
+    },
+
+    'flIncomeAveragePrice' : '',
+    'flIncomeAverageSalesPerDay' : '',
+    'flIncomePerMonth' : '',
+    'flIncomeTotal' : 0,
+
+    // 'flExpensesTaxes' : '',
+    // 'flExpensesGrossMargin' : '',
+    // 'flExpensesNetMargin' : '',
+    'flExpensesIsManual' : 0,
+    'flExpensesManual' : {
+        'flManagementCount' : '',
+        'flManagementSalary' : '',
+        'flEmployeeCount' : '',
+        'flEmployeeSalary' : '',
+        'flRent' : '',
+        'flTransport' : '',
+        'flTaxes' : '',
+        'flOthers' : '',
+    },
+    'flExpensesTotal' : '',
+
+    'flParamsGrossMargin' : '',
+    'flParamsNetMargin' : '',
+    // 'flInvestmentsLoanRate' : '',
+    'flParamsDividents' : '',
 }
+
+export function getValue(state, field) {
+    // if (IS_DEBUG) {
+    //     console.log('NEPLOG: model: getValue: modelState = ' + modelState + ', field = ' + field);
+    //     console.log(modelState);
+    // }
+    if (state == undefined || state == '' || field == undefined || field == '')
+        return '';
+    return field.split(':').reduce((parent, child) =>
+        (parent == undefined || parent == '') ? '' : parent[child], state);
+}
+
+export function updateState(state, field, value) {
+    // var newState = {...state, [blockName]: {...state[blockName], [fieldName]: value}};
+    // var newState = {...state, step2: {...state.step2, [blockName]: {...state.step2[blockName], [fieldName]: value}}};
+    // 'step2:existingAssets:land'
+    if (state == undefined || state == '' || field == undefined || field == '')
+        return state;
+    var index = field.indexOf(':');
+    var newState;
+    if (IS_DEBUG) {
+        console.log('NEPLOG: model: updateState: state = ' + state + ', field = ' + field + ', value = ' + value + ', index = ' + index);
+        console.log(state);
+    }
+
+    if (index == -1) {
+        newState = {...state, [field]: value};
+    }
+    else {
+        var fieldBlock = field.slice(0, index);
+        var fieldRest = field.slice(index + 1);
+        var childState = state[fieldBlock];
+        // if (IS_DEBUG) {
+        //     console.log('fieldBlock = ' + fieldBlock + ', fieldRest = ' + fieldRest + ', childState = ' + childState);
+        //     console.log(childState);
+        // }
+        newState = {...state, [fieldBlock]: updateState(childState, fieldRest, value)};
+    }
+    // if (IS_DEBUG) {
+    //     console.log('newState = ' + newState);
+    //     console.log(newState);
+    // }
+    return newState;
+}
+
+export function getTotal(block) {
+    if (IS_DEBUG) {
+        console.log('NEPLOG: model: getTotal: block = ' + block);
+        console.log(block);
+    }
+
+    return block.reduce((accumulator, current) => {
+        if (IS_DEBUG) {
+            console.log('current = ' + current + ', block[current] = ' + block[current]);
+        }
+        return accumulator + intOrZeroIfEmpty(block[current]);
+    });
+}
+
+export function getStep2TotalExistingAssets(state) {
+    if (IS_DEBUG) {
+        console.log('NEPLOG: model: getStep2TotalExistingAssets: state = ' + state);
+        console.log(state);
+    }
+    return intOrZeroIfEmpty(state.step2.existingAssets.land) +
+        intOrZeroIfEmpty(state.step2.existingAssets.buildings) +
+        intOrZeroIfEmpty(state.step2.existingAssets.equipment) +
+        intOrZeroIfEmpty(state.step2.existingAssets.transport) +
+        intOrZeroIfEmpty(state.step2.existingAssets.intangible) +
+        intOrZeroIfEmpty(state.step2.existingAssets.others);
+}
+
+export function getStep2TotalPlannedAssets(state) {
+    if (IS_DEBUG) {
+        console.log('NEPLOG: model: getStep2TotalExistingAssets: state = ' + state);
+        console.log(state);
+    }
+    return intOrZeroIfEmpty(state.step2.plannedAssets.land) +
+        intOrZeroIfEmpty(state.step2.plannedAssets.buildings) +
+        intOrZeroIfEmpty(state.step2.plannedAssets.equipment) +
+        intOrZeroIfEmpty(state.step2.plannedAssets.transport) +
+        intOrZeroIfEmpty(state.step2.plannedAssets.intangible) +
+        intOrZeroIfEmpty(state.step2.plannedAssets.others);
+}
+
+export function getStep2InvestmentsAll(state) {
+    return getStep2TotalExistingAssets(state) + getStep2TotalPlannedAssets(state);
+}
+
+export function getStep2AlreadyInvested(state) {
+    return getStep2TotalExistingAssets(state);
+}
+
+export function getStep2OwnAll(state) {
+    var investmentsAll = getStep2InvestmentsAll(state);
+    var alreadyInvested = getStep2AlreadyInvested(state);
+    var ownAll = alreadyInvested + intOrZeroIfEmpty(state.step2.common.ownCash);
+    if (ownAll > investmentsAll) ownAll = investmentsAll;
+    return ownAll;
+}
+
+export function getStep2ToBorrow(state) {
+    var investmentsAll = getStep2InvestmentsAll(state);
+    var ownAll = getStep2OwnAll(state);
+    var toBorrow = investmentsAll - ownAll;
+    return toBorrow;
+}
+
+export function getStep2Ratio(state) {
+    var investmentsAll = getStep2InvestmentsAll(state);
+    var ownAll = getStep2OwnAll(state);
+    var toBorrow = getStep2ToBorrow(state);
+
+    var ratio = (investmentsAll == 0) ? '' :
+        (ownAll / investmentsAll * 100).toFixed(2) + '% / ' +
+        (toBorrow / investmentsAll * 100).toFixed(2) + '%';
+    return ratio;
+}
+
+
+// export function updateState(modelState, field) {
+//     if (IS_DEBUG) {
+//         console.log('NEPLOG: model: updateState: modelState = ' + modelState + ', field = ' + field);
+//         console.log(modelState);
+//     }
+//     if (modelState == undefined || modelState == '' || field == undefined || field == '')
+//         return modelState;
+//
+//     return field.split(':').reduce((parent, child) =>
+//         (parent == undefined || parent == '') ? '' :
+//
+//             {...parent, [child]: }
+//
+//         modelState);
+//     return {...state, [action.data.blockName]: {...state[action.data.blockName], [action.data.fieldName]: action.data.value}} ;
+// }
+
+// export function setInitialState() {
+//     return {
+//
+//         existingAssets: {
+//             land: 10,
+//             buildings: 20,
+//         },
+//         step2: {
+//             existedAssets: {
+//                 land: '',
+//                 buildings: '',
+//                 equipment: '',
+//                 transport: '',
+//                 intangible: '',
+//                 others: '',
+//             },
+//             plannedAssets: {
+//                 land: '',
+//                 buildings: '',
+//                 equipment: '',
+//                 transport: '',
+//                 intangible: '',
+//                 others: '',
+//             },
+//             common: {
+//                 investments: '',
+//                 alreadyInvested: '',
+//                 ownCash: '',
+//                 ratio: '',
+//                 loanRate: '',
+//             }
+//         },
+//
+//         'flAssetsLand': '',
+//         'flAssetsBuildings': '',
+//         'flAssetsEquipment': '',
+//         'flAssetsTransport': '',
+//         'flAssetsIntangible': '',
+//         'flAssetsOthers': '',
+//         // 'flAssetsCash': '',
+//         'flAssetsTotal': 0,
+//
+//         'flInvestLand': '',
+//         'flInvestBuildings': '',
+//         'flInvestEquipment': '',
+//         'flInvestTransport': '',
+//         'flInvestIntangible': '',
+//         'flInvestOthers': '',
+//         'flInvestTotal': 0,
+//
+//         'flInvestmentsAll': '',
+//         'flInvestmentsAlreadyInvested': '',
+//         'flInvestmentsOwnCash': '',
+//         'flInvestmentsOwnAll': '',
+//         'flInvestmentsToBorrow': '',
+//         'flInvestmentsRatio': '',
+//         'flInvestmentsLoanRate' : '',
+//
+//         'flCalc001' : {
+//             'flAverageAmount': '',
+//             'flCustomerNumberPerMonth': '',
+//         },
+//
+//         'flIncomeAveragePrice' : '',
+//         'flIncomeAverageSalesPerDay' : '',
+//         'flIncomePerMonth' : '',
+//         'flIncomeTotal' : 0,
+//
+//         // 'flExpensesTaxes' : '',
+//         // 'flExpensesGrossMargin' : '',
+//         // 'flExpensesNetMargin' : '',
+//         'flExpensesIsManual' : 0,
+//         'flExpensesManual' : {
+//             'flManagementCount' : '',
+//             'flManagementSalary' : '',
+//             'flEmployeeCount' : '',
+//             'flEmployeeSalary' : '',
+//             'flRent' : '',
+//             'flTransport' : '',
+//             'flTaxes' : '',
+//             'flOthers' : '',
+//         },
+//         'flExpensesTotal' : '',
+//
+//         'flParamsGrossMargin' : '',
+//         'flParamsNetMargin' : '',
+//         // 'flInvestmentsLoanRate' : '',
+//         'flParamsDividents' : '',
+//     };
+// }
+
+// updateState(blockName, fieldName) = (value) => {
+//     Object.assign({}, this.props.model, {[blockName]: Object.assign({}, this.props.model[blockName], {[fieldName]: value})})
+// }
+
+// export function getTotal(block) {
+//     block.reduce((accumulator, current) => accumulator + intOrZeroIfEmpty(current));
+// }
+
+// export function getStep2ExistedAssetsTotal(model) {
+//     model.step2
+// }
+
 
 export function getValueById(model, fieldId) {
     if (IS_DEBUG) {
@@ -422,4 +687,8 @@ function fieldUpdatedPhase33(model, fieldId, value) {
 
 function emptyIfZero(value) {
     return value == 0 ? '' : value;
+}
+
+function intOrZeroIfEmpty(value) {
+    return value == '' ? 0 : parseInt(value);
 }

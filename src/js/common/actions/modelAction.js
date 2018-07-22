@@ -2,17 +2,17 @@ import * as modelConstants from "../constants/modelConstants";
 import * as modelImpl from "../model";
 import {IS_DEBUG} from '../properties';
 
-export function setInitialState() {
-    return (dispatch) => {
-        if (IS_DEBUG) {
-            console.log('NEPLOG: modelAction: setInitialState()');
-        }
-        dispatch({
-            type: modelConstants.SET_MODEL_INITIAL,
-            data: modelImpl.setInitialState(),
-        });
-    }
-}
+// export function setInitialState() {
+//     return (dispatch) => {
+//         if (IS_DEBUG) {
+//             console.log('NEPLOG: modelAction: setInitialState()');
+//         }
+//         dispatch({
+//             type: modelConstants.SET_MODEL_INITIAL,
+//             data: modelImpl.setInitialState(),
+//         });
+//     }
+// }
 
 export function getExpensesManual(model) {
     return (dispatch) => {
@@ -32,12 +32,45 @@ export function setExpensesManual(model, checked) {
     }
 }
 
-export function fieldUpdated(model, fieldId, value) {
-    // var field = model.flAssetsLand;
+// export function fieldUpdated(model, fieldId, value) {
+//     // var field = model.flAssetsLand;
+//     return (dispatch) => {
+//         dispatch({
+//             type: modelConstants.GET_MODEL_INPUT2_SUCCESS,
+//             data: modelImpl.fieldUpdated(model, fieldId, value),
+//         })
+//     }
+// }
+
+// export function fieldUpdated(blockName, fieldName, value) {
+//     if (IS_DEBUG) {
+//         console.log('NEPLOG: modelAction: fieldUpdated: blockName = ' + blockName + ', fieldName = ' + fieldName + ', value = ' + value);
+//     }
+//     return (dispatch) => {
+//         dispatch({
+//             type: modelConstants.UPDATE_FIELD,
+//             // data: modelImpl.fieldUpdated(blockName, fieldName, value),
+//             data: {
+//                 blockName: blockName,
+//                 fieldName: fieldName,
+//                 value: value,
+//             }
+//         })
+//     }
+// }
+
+export function fieldUpdated(field, value) {
+    if (IS_DEBUG) {
+        console.log('NEPLOG: modelAction: fieldUpdated: field = ' + field + ', value = ' + value);
+    }
     return (dispatch) => {
         dispatch({
-            type: modelConstants.GET_MODEL_INPUT2_SUCCESS,
-            data: modelImpl.fieldUpdated(model, fieldId, value),
+            type: modelConstants.UPDATE_FIELD,
+            // data: modelImpl.fieldUpdated(blockName, fieldName, value),
+            data: {
+                field: field,
+                value: value,
+            }
         })
     }
 }
