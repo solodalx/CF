@@ -7,6 +7,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import Tooltip from '@material-ui/core/Tooltip';
 
 const styles = theme => ({
     // root: {
@@ -50,24 +51,30 @@ class InputFieldStride extends React.Component {
         return (
             //<form className={classes.root} autoComplete="off">
             <div>
-                <FormControl className={[classes.formControl, classes.marginZero].join(' ')}>
-                    <InputLabel htmlFor="field-input-general-env">Шаг планирования</InputLabel>
-                    <Select
-                        value={this.state.fieldValue}
-                        onChange={this.handleChange}
-                        inputProps={{
-                            name: 'fieldValue',
-                            id: 'field-input-general-stride',
-                        }}
-                    >
-                        <MenuItem value="">
-                            <em>Выберите значение...</em>
-                        </MenuItem>
-                        <MenuItem value={1}>Месяц</MenuItem>
-                        <MenuItem value={2}>Квартал</MenuItem>
-                        <MenuItem value={3}>Год</MenuItem>
-                    </Select>
-                </FormControl>
+                <Tooltip title='Период планирования в отчетах - 60 месяцев' placement="top">
+                    <div>
+                        <Tooltip title='Какая детализация формируемых отчетов необходима?' placement="center">
+                            <FormControl className={[classes.formControl, classes.marginZero].join(' ')}>
+                                <InputLabel htmlFor="field-input-general-env">Шаг планирования</InputLabel>
+                                <Select
+                                    value={this.state.fieldValue}
+                                    onChange={this.handleChange}
+                                    inputProps={{
+                                        name: 'fieldValue',
+                                        id: 'field-input-general-stride',
+                                    }}
+                                >
+                                    <MenuItem value="">
+                                        <em>Выберите значение...</em>
+                                    </MenuItem>
+                                    <MenuItem value={1}>Месяц</MenuItem>
+                                    <MenuItem value={2}>Квартал</MenuItem>
+                                    <MenuItem value={3}>Год</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </Tooltip>
+                    </div>
+                </Tooltip>
             </div>
             // </form>
         );

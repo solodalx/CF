@@ -58,13 +58,12 @@ class InputFieldsManualExpenses extends React.Component {
 
     handleChange = name => event => {
         if (IS_DEBUG) {
-            // console.log('NEPLOG: InputFieldsManualExpenses: handleChange: id = ' + this.props.id + ', model = ' + this.props.model);
-            console.log('NEPLOG: InputFieldsManualExpenses: handleChange: name = ' + name + ', event = ' + event + ', model = ' + this.props.model);
-            // console.log(name);
+            console.log('NEPLOG: InputFieldsManualExpenses: handleChange: name = ' + name + ', event = ' + event + ', modelState = ' + this.props.modelState);
             console.log(event);
-            console.log(this.props.model);
+            console.log(this.props.modelState);
         }
-        this.props.modelAction.setExpensesManual(this.props.model, event.target.checked);
+        // this.props.modelAction.setExpensesManual(this.props.model, event.target.checked);
+        this.props.modelAction.fieldUpdated('expenses:isManual', event.target.checked);
         this.setState({[name]: event.target.checked});
     };
 
@@ -73,96 +72,21 @@ class InputFieldsManualExpenses extends React.Component {
 
         return (
             <div className={classes.marginMinus15}>
-                {/*<ExpansionPanel className={classes.fullWidth}>*/}
-                <ExpansionPanel className={classes.noShadow} expanded={this.state.checkedManualExpenses}>
-                    {/*<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>*/}
-                    <ExpansionPanelSummary className={classes.paddingZero}>
-                        <div className="container no-gutters">
-                            <div className="row justify-content-between">
-                                <div className="col no-gutters">
-                                    <Tooltip title="Применять ручные корректировки себестоимости" placement="center">
-                                        <FormControlLabel
-                                            control={
-                                                <Switch
-                                                    // id={fields.FL_EXPENSES_IS_MANUAL}
-                                                    checked={this.state.checkedManualExpenses}
-                                                    // checked={model.getValueById(this.props.model, this.props.id)}
-                                                    onChange={this.handleChange('checkedManualExpenses')}
-                                                    value="checkedManualExpenses"
-                                                    // value={model.getValueById(this.props.model, this.props.id)}
-                                                />
-                                            }
-                                            label="Ручная корректировка"
-                                        />
-                                    </Tooltip>
-                                </div>
+                <Tooltip title="Использовать BigData в расчетах, или ввести расходную часть вручную" placement="center">
+                    <FormControlLabel
+                        control={
+                            <div>
+                                <span>Использовать BigData</span>
+                                <Switch
+                                    checked={this.state.checkedManualExpenses}
+                                    onChange={this.handleChange('checkedManualExpenses')}
+                                    value="checkedManualExpenses"
+                                />
                             </div>
-                        </div>
-                    </ExpansionPanelSummary>
-                    {/*<ExpansionPanelDetails className={classes.container}>*/}
-                    <ExpansionPanelDetails className={[classes.paddingZero, classes.paddingBottomZero].join(' ')}>
-                        <div className="container no-gutters">
-                            <div className="row justify-content-start">
-                                <div className="col">
-                                    <div className="container no-gutters">
-                                        <div className="row justify-content-start">
-                                            Управленческий персонал
-                                        </div>
-                                        <div className="row justify-content-start">
-                                            <div className="col-sm-auto col-12">
-                                                <InputFieldSwitchable id={fields.FL_EXPENSES_MANUAL.FL_MANAGEMENT_COUNT} label="Численность" tip="Количество сотрудников" flType={fields.FLTYPE_NUMBER}/>
-                                            </div>
-                                            <div className="col-sm-auto col-12">
-                                                <InputFieldSwitchable id={fields.FL_EXPENSES_MANUAL.FL_MANAGEMENT_SALARY} label="Средняя зарплата" tip="Средняя зарплата 1 чел. в месяц"/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="col">
-                                    <div className="container no-gutters">
-                                        <div className="row justify-content-start">
-                                            Производственный персонал
-                                        </div>
-                                        <div className="row justify-content-start">
-                                            <div className="col-sm-auto col-12">
-                                                <InputFieldSwitchable id={fields.FL_EXPENSES_MANUAL.FL_EMPLOYEE_COUNT} label="Численность" tip="Количество сотрудников" flType={fields.FLTYPE_NUMBER}/>
-                                            </div>
-                                            <div className="col-sm-auto col-12">
-                                                <InputFieldSwitchable id={fields.FL_EXPENSES_MANUAL.FL_EMPLOYEE_SALARY} label="Средняя зарплата" tip="Средняя зарплата 1 чел. в месяц"/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            {/*</div>*/}
-                            {/*<div className="row justify-content-start">*/}
-                                <div className="col">
-                                    <div className="container no-gutters">
-                                        <div className="row justify-content-start">
-                                            Другие расходы
-                                        </div>
-                                        <div className="row justify-content-start">
-                                            <div className="col-sm-auto col-12">
-                                                <InputFieldSwitchable id={fields.FL_EXPENSES_MANUAL.FL_RENT} label="Аренда" tip="Средняя аредна в месяц"/>
-                                            </div>
-                                            <div className="w-100"></div>
-                                            <div className="col-sm-auto col-12">
-                                                <InputFieldSwitchable id={fields.FL_EXPENSES_MANUAL.FL_TRANSPORT} label="Транспорт" tip="Транспортные расходы в месяц" />
-                                            </div>
-                                            <div className="w-100"></div>
-                                            <div className="col-sm-auto col-12">
-                                                <InputFieldSwitchable id={fields.FL_EXPENSES_MANUAL.FL_TAXES} label="Налоги" tip="Средняя сумма налогов и сборов в месяц" />
-                                            </div>
-                                            <div className="w-100"></div>
-                                            <div className="col-sm-auto col-12">
-                                                <InputFieldSwitchable id={fields.FL_EXPENSES_MANUAL.FL_OTHERS} label="Прочее" tip="Прочие расходы" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </ExpansionPanelDetails>
-                </ExpansionPanel>
+                        }
+                        label="Ввести вручную"
+                    />
+                </Tooltip>
             </div>
         );
     }
@@ -170,7 +94,7 @@ class InputFieldsManualExpenses extends React.Component {
 
 function mapStateToProps(store) {
     return {
-        model: store.modelState.model,
+        modelState: store.modelState,
     }
 }
 

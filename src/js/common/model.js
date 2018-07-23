@@ -4,56 +4,59 @@ import {IS_DEBUG} from './properties';
 
 
 export const initialModelState = {
-    step2: {
-        existingAssets: {
-            land: '',
-            buildings: '',
-            equipment: '',
-            transport: '',
-            intangible: '',
-            others: '',
-        },
-        plannedAssets: {
-            land: '',
-            buildings: '',
-            equipment: '',
-            transport: '',
-            intangible: '',
-            others: '',
-        },
-        common: {
-            // investments: '',
-            // alreadyInvested: '',
-            ownCash: '',
-            // ratio: '',
-            loanRate: '',
+    // Step 2
+    existingAssets: {
+        land: '',
+        buildings: '',
+        equipment: '',
+        transport: '',
+        intangible: '',
+        others: '',
+    },
+    plannedAssets: {
+        land: '',
+        buildings: '',
+        equipment: '',
+        transport: '',
+        intangible: '',
+        others: '',
+    },
+    invest: {
+        // investments: '',
+        // alreadyInvested: '',
+        ownCash: '',
+        // ratio: '',
+        loanRate: '',
+    },
+
+    // Step 3
+    calculators: {
+        1: {
+            averageAmount: '',
+            customerNumberPerMonth: '',
         }
     },
 
-    'flAssetsLand': '',
-    'flAssetsBuildings': '',
-    'flAssetsEquipment': '',
-    'flAssetsTransport': '',
-    'flAssetsIntangible': '',
-    'flAssetsOthers': '',
-    // 'flAssetsCash': '',
-    'flAssetsTotal': 0,
+    income: {
+    },
 
-    'flInvestLand': '',
-    'flInvestBuildings': '',
-    'flInvestEquipment': '',
-    'flInvestTransport': '',
-    'flInvestIntangible': '',
-    'flInvestOthers': '',
-    'flInvestTotal': 0,
+    expenses: {
+        isManual: false,
+        managementCount: '',
+        managementSalary: '',
+        employeeCount: '',
+        employeeSalary: '',
+        rent: '',
+        transport: '',
+        taxes: '',
+        others: '',
+    },
 
-    'flInvestmentsAll': '',
-    'flInvestmentsAlreadyInvested': '',
-    'flInvestmentsOwnCash': '',
-    'flInvestmentsOwnAll': '',
-    'flInvestmentsToBorrow': '',
-    'flInvestmentsRatio': '',
-    'flInvestmentsLoanRate' : '',
+    finance: {
+        dividents: '',
+    },
+
+
 
     'flCalc001' : {
         'flAverageAmount': '',
@@ -132,57 +135,33 @@ export function updateState(state, field, value) {
 }
 
 export function getTotal(block) {
-    if (IS_DEBUG) {
-        console.log('NEPLOG: model: getTotal: block = ' + block);
-        console.log(block);
-    }
-
-    return block.reduce((accumulator, current) => {
-        if (IS_DEBUG) {
-            console.log('current = ' + current + ', block[current] = ' + block[current]);
-        }
-        return accumulator + intOrZeroIfEmpty(block[current]);
-    });
-}
-
-export function getStep2TotalExistingAssets(state) {
-    if (IS_DEBUG) {
-        console.log('NEPLOG: model: getStep2TotalExistingAssets: state = ' + state);
-        console.log(state);
-    }
-    return intOrZeroIfEmpty(state.step2.existingAssets.land) +
-        intOrZeroIfEmpty(state.step2.existingAssets.buildings) +
-        intOrZeroIfEmpty(state.step2.existingAssets.equipment) +
-        intOrZeroIfEmpty(state.step2.existingAssets.transport) +
-        intOrZeroIfEmpty(state.step2.existingAssets.intangible) +
-        intOrZeroIfEmpty(state.step2.existingAssets.others);
-}
-
-export function getStep2TotalPlannedAssets(state) {
-    if (IS_DEBUG) {
-        console.log('NEPLOG: model: getStep2TotalExistingAssets: state = ' + state);
-        console.log(state);
-    }
-    return intOrZeroIfEmpty(state.step2.plannedAssets.land) +
-        intOrZeroIfEmpty(state.step2.plannedAssets.buildings) +
-        intOrZeroIfEmpty(state.step2.plannedAssets.equipment) +
-        intOrZeroIfEmpty(state.step2.plannedAssets.transport) +
-        intOrZeroIfEmpty(state.step2.plannedAssets.intangible) +
-        intOrZeroIfEmpty(state.step2.plannedAssets.others);
+    // if (IS_DEBUG) {
+    //     console.log('NEPLOG: model: getTotal: block = ' + block);
+    //     console.log(block);
+    // }
+    let sum = 0;
+    Object.keys(block).forEach(k => sum += intOrZeroIfEmpty(block[k]));
+    // block.keys.forEach(key => {
+    //     if (IS_DEBUG) {
+    //         console.log('current = ' + key + ', block[current] = ' + block[key]);
+    //     }
+    //     return sum += intOrZeroIfEmpty(block[key]);
+    // });
+    return sum;
 }
 
 export function getStep2InvestmentsAll(state) {
-    return getStep2TotalExistingAssets(state) + getStep2TotalPlannedAssets(state);
+    return getTotal(state.existingAssets) + getTotal(state.plannedAssets);
 }
 
 export function getStep2AlreadyInvested(state) {
-    return getStep2TotalExistingAssets(state);
+    return getTotal(state.existingAssets);
 }
 
 export function getStep2OwnAll(state) {
     var investmentsAll = getStep2InvestmentsAll(state);
     var alreadyInvested = getStep2AlreadyInvested(state);
-    var ownAll = alreadyInvested + intOrZeroIfEmpty(state.step2.common.ownCash);
+    var ownAll = alreadyInvested + intOrZeroIfEmpty(state.invest.ownCash);
     if (ownAll > investmentsAll) ownAll = investmentsAll;
     return ownAll;
 }
@@ -205,6 +184,45 @@ export function getStep2Ratio(state) {
     return ratio;
 }
 
+export function getStep3AveragePrice(state, calcNumber) {
+    switch(calcNumber) {
+        case 0:
+            return intOrZeroIfEmpty(state.calculators["1"].averageAmount);
+    }
+    return 0;
+}
+
+export function getStep3IncomePerMonth(state, calcNumber) {
+    switch(calcNumber) {
+        case 0:
+            return getStep3AveragePrice(state, calcNumber) * intOrZeroIfEmpty(state.calculators["1"].customerNumberPerMonth);
+    }
+    return 0;
+}
+
+export function getStep3AverageSalesPerDay(state, calcNumber) {
+    switch(calcNumber) {
+        case 0:
+            return (intOrZeroIfEmpty(state.calculators["1"].customerNumberPerMonth) * 12 / 365).toFixed(2);
+    }
+    return 0;
+}
+
+export function getStep3IncomeTotal(state, calcNumber) {
+   return getStep3IncomePerMonth(state, calcNumber);
+}
+
+export function getStep3ExpensesTotal(state) {
+    if (state.expenses.isManual) {
+        return intOrZeroIfEmpty(state.expenses.managementCount) * intOrZeroIfEmpty(state.expenses.managementSalary) +
+            intOrZeroIfEmpty(state.expenses.employeeCount) * intOrZeroIfEmpty(state.expenses.employeeSalary) +
+            intOrZeroIfEmpty(state.expenses.rent) +
+            intOrZeroIfEmpty(state.expenses.transport) +
+            intOrZeroIfEmpty(state.expenses.taxes) +
+            intOrZeroIfEmpty(state.expenses.others);
+    }
+    return 0;
+}
 
 // export function updateState(modelState, field) {
 //     if (IS_DEBUG) {

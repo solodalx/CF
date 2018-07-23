@@ -66,11 +66,26 @@ class InputFieldCalculator extends React.Component {
     }
 }
 
+
+function mapStateToProps(store) {
+    return {
+        modelState: store.modelState,
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        modelAction: bindActionCreators(modelAction, dispatch),
+    }
+}
+
 InputFieldCalculator.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(InputFieldCalculator);
+// export default withStyles(styles)(InputFieldCalculator);
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(InputFieldCalculator));
+
 
 function getTabContent(tab, props, state) {
     switch (tab) {
@@ -79,10 +94,12 @@ function getTabContent(tab, props, state) {
                 <div className="container">
                     <div className="row justify-content-start">
                         <div className="col-sm-auto col-12">
-                            <InputFieldAmount id={fields.FL_CALC001.FL_AVERAGE_AMOUNT} label="Средняя сумма в чеке" tip=""/>
+                            {/*<InputFieldAmount id={fields.FL_CALC001.FL_AVERAGE_AMOUNT} label="Средняя сумма в чеке" tip=""/>*/}
+                            <InputFieldAmount field='calculators:1:averageAmount' value={props.modelState.calculators["1"].averageAmount}  label="Средняя сумма в чеке" tip=""/>
                         </div>
                         <div className="col-sm-auto col-12">
-                            <InputFieldAmount id={fields.FL_CALC001.FL_CUSTOMER_NUMBER_PER_MONTH} label="Число покупателей" tip="Ожидаемый поток покупателей в месяц" flType={fields.FLTYPE_NUMBER} adornment="чел."/>
+                            {/*<InputFieldAmount id={fields.FL_CALC001.FL_CUSTOMER_NUMBER_PER_MONTH} label="Число покупателей" tip="Ожидаемый поток покупателей в месяц" flType={fields.FLTYPE_NUMBER} adornment="чел."/>*/}
+                            <InputFieldAmount field='calculators:1:customerNumberPerMonth' value={props.modelState.calculators["1"].customerNumberPerMonth} label="Число покупателей" tip="Ожидаемый поток покупателей в месяц" flType={fields.FLTYPE_NUMBER} adornment="чел."/>
                         </div>
                     </div>
                 </div>
