@@ -46,6 +46,7 @@ import InputFieldRegionEnv from './InputFieldRegionEnv.js'
 import InputFieldStride from './InputFieldStride.js'
 import InputFieldsManualExpenses from './InputFieldsManualExpenses.js'
 import InputFieldCalculator from './InputFieldCalculator'
+import InputFieldRegionAutocomplete from './InputFieldRegionAutocomplete'
 
 import {IS_DEBUG} from '../../common/properties';
 
@@ -350,6 +351,7 @@ class InputForm extends React.Component {
                             {/*</div>*/}
                         {/*</Toolbar>*/}
                     {/*</AppBar>*/}
+                    <InputFieldRegionAutocomplete/>
 
                     <Stepper
                         className={[classes.clientWidth, classes.inputBackground].join(' ')}
@@ -710,16 +712,16 @@ function getStepContent(step, props, state) {
                                 <div className="row justify-content-start">
                                     <div className="col-sm-auto col-12">
                                         {/*<InputFieldAmount id={fields.FL_INCOME_AVERAGE_PRICE} label="Цена" tip="Средняя цена реализации" />*/}
-                                        <InputFieldAmount value={model.getStep3AveragePrice(props.modelState, 0)} label="Цена" tip="Средняя цена реализации" />
+                                        <InputFieldAmount value={model.getStep3AveragePrice(props.modelState, 0)} label="Цена" tip="Средняя цена реализации" disabled/>
                                     </div>
                                     <div className="col-sm-auto col-12">
                                         {/*<InputFieldNumber id="field-input-income-amount" label="Продажи" tip="Среднее количество продаж в день" />*/}
                                         {/*<InputFieldAmount id={fields.FL_INCOME_AVERAGE_SALES_PER_DAY} label="Продажи" tip="Среднее количество продаж в день" flType={fields.FLTYPE_NUMBER} adornment="ед."/>*/}
-                                        <InputFieldAmount value={model.getStep3AverageSalesPerDay(props.modelState, 0)} label="Продажи" tip="Среднее количество продаж в день" flType={fields.FLTYPE_NUMBER} adornment="ед."/>
+                                        <InputFieldAmount value={model.getStep3AverageSalesPerDay(props.modelState, 0)} label="Продажи" tip="Среднее количество продаж в день" flType={fields.FLTYPE_NUMBER} adornment="ед." disabled/>
                                     </div>
                                     <div className="col-sm-auto col-12">
                                         {/*<InputFieldAmount id={fields.FL_INCOME_PER_MONTH} label="Выручка" tip="Среднемесячная выручка" />*/}
-                                        <InputFieldAmount value={model.getStep3IncomePerMonth(props.modelState, 0)} label="Выручка" tip="Среднемесячная выручка" />
+                                        <InputFieldAmount value={model.getStep3IncomePerMonth(props.modelState, 0)} label="Выручка" tip="Среднемесячная выручка" disabled/>
                                     </div>
                                 </div>
                             </div>
@@ -873,11 +875,11 @@ function getStepContent(step, props, state) {
                                 <div className="row justify-content-start align-items-center">
                                     <div className="col-sm-auto col-12">
                                     {/*<div className={(props.model.flExpensesIsManual == 0) ? 'invisible col-sm-auto col-12' :  'col-sm-auto col-12'}>*/}
-                                        <InputFieldAmount id={fields.FL_PARAMS_GROSS_MARGIN} label="Валовая рентабельность" tip="Валовая рентабельность" flType={fields.FLTYPE_NUMBER} adornment="%" disabled/>
+                                        <InputFieldAmount value={model.getStep3GrossMargin(props.modelState)} label="Валовая рентабельность" tip="Валовая рентабельность" flType={fields.FLTYPE_NUMBER} adornment="%" disabled/>
                                     </div>
                                     < div className = "col-sm-auto col-12" >
                                     {/*<div className={(props.model.flExpensesIsManual == 0) ? 'invisible col-sm-auto col-12' :  'col-sm-auto col-12'}>*/}
-                                        < InputFieldAmount id={fields.FL_PARAMS_NET_MARGIN} label="Чистая рентабельность" tip="Чистая рентабельность" flType={fields.FLTYPE_NUMBER} adornment="%" disabled/>
+                                        < InputFieldAmount value={model.getStep3NetMargin(props.modelState, 0)} label="Чистая рентабельность" tip="Чистая рентабельность" flType={fields.FLTYPE_NUMBER} adornment="%" disabled/>
                                     </div>
                                     <div className="w-100"></div>
                                     {/*<div className="col-sm-auto col-12">*/}

@@ -133,10 +133,10 @@ class InputFieldAmount extends React.Component {
                         // className={classes.textField}
                         className={classes.inputWidth}
                         // value={model.getValueById(this.props.model, this.props.id)}
-                        // value={this.props.value}
+                        value={this.props.value}
                         // value={model.getValue(this.props.modelState, this.props.blockName, this.props.fieldName)}
                         // value={(this.props.field == undefined || this.props.field == '') ? '' : model.getValue(this.props.modelState, this.props.field)}
-                        value={(this.props.value == undefined) ? model.getValue(this.props.modelState, this.props.field) : this.props.value}
+                        // value={(this.props.value == undefined) ? model.getValue(this.props.modelState, this.props.field) : this.props.value}
                         // value={this.props.model.flAssetsTotal}
                         defaultValue={this.props.defaultValue}
                         helperText={this.props.helperText}

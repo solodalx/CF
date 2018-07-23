@@ -67,7 +67,7 @@ class InputFieldRegion extends React.Component {
                 {/*<p>{'http://40.115.40.71/api/data/regions'}</p>*/}
                 {/*<p>{this.props.regions.map((r) => {return r.name + ';'})}</p>*/}
                 <FormControl className={classes.formControl}>
-                    <InputLabel htmlFor="field-input-general-region">Регион</InputLabel>
+                    <InputLabel htmlFor="field-input-general-region">Город</InputLabel>
                     <Select
                         value={this.state.region}
                         onChange={this.handleChange}

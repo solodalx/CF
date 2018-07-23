@@ -9,10 +9,10 @@ export default function modelReducer(state = model.initialModelState, action) {
         console.log(action.data);
     }
     switch (action.type) {
-        case modelConstants.SET_MODEL_INITIAL:
-            return {...state, model: action.data};
-        case modelConstants.GET_MODEL_INPUT2_SUCCESS:
-            return {...state, model: action.data};
+        // case modelConstants.SET_MODEL_INITIAL:
+        //     return {...state, model: action.data};
+        // case modelConstants.GET_MODEL_INPUT2_SUCCESS:
+        //     return {...state, model: action.data};
         case modelConstants.UPDATE_FIELD:
             // return Object.assign({}, state, {[action.data.blockName]: Object.assign({}, state[action.data.blockName], {[action.data.fieldName]: action.data.value})});
             // return {...state, [action.data.blockName]: {...state[action.data.blockName], [action.data.fieldName]: action.data.value}} ;
