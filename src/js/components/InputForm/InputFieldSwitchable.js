@@ -1,4 +1,8 @@
 import React from 'react';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import * as modelAction from '../../common/actions/modelAction';
+
 import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -30,6 +34,10 @@ class InputFieldSwitchable extends React.Component {
     };
 
     handleChange = name => event => {
+        this.props.modelAction.fieldUpdated(this.props.fieldChecked, event.target.checked);
+        if (event.target.checked) {
+            this.props.modelAction.fieldUpdated(this.props.field2, this.props.value);
+        }
         this.setState({[name]: event.target.checked});
     };
 
@@ -42,7 +50,7 @@ class InputFieldSwitchable extends React.Component {
                     <div className="row justify-content-start flex-nowrap">
                         <div className="col-1">
                             {/*<ExpansionPanel className={classes.fullWidth}>*/}
-                            <Tooltip title="Задать вручную" placement="center">
+                            <Tooltip title={this.state.checkedField ? 'Задайте вручную' : 'Загружено с BigData'} placement="center">
                                 <FormControlLabel
                                     control={
                                         <Switch
@@ -56,7 +64,15 @@ class InputFieldSwitchable extends React.Component {
                             </Tooltip>
                         </div>
                         <div className="col offset-1">
-                            <InputFieldAmount id={this.props.id} label={this.props.label} tip={this.props.tip} flType={this.props.flType} disabled={!this.state.checkedField}/>
+                            {/*<InputFieldAmount id={this.props.id} label={this.props.label} tip={this.props.tip} flType={this.props.flType} disabled={!this.state.checkedField}/>*/}
+                            <InputFieldAmount
+                                field={this.state.checkedField ? this.props.field2 : this.props.field}
+                                value={this.state.checkedField ? this.props.value2 : this.props.value}
+                                id={this.props.id}
+                                label={this.props.label}
+                                tip={this.props.tip}
+                                flType={this.props.flType}
+                                disabled={!this.state.checkedField}/>
                         </div>
                     </div>
                 </div>
@@ -66,9 +82,22 @@ class InputFieldSwitchable extends React.Component {
     }
 }
 
+function mapStateToProps(store) {
+    return {
+        modelState: store.modelState,
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        modelAction: bindActionCreators(modelAction, dispatch),
+    }
+}
+
 InputFieldSwitchable.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(InputFieldSwitchable);
+// export default withStyles(styles)(InputFieldSwitchable);
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(InputFieldSwitchable));
 

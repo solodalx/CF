@@ -47,6 +47,7 @@ import InputFieldStride from './InputFieldStride.js'
 import InputFieldsManualExpenses from './InputFieldsManualExpenses.js'
 import InputFieldCalculator from './InputFieldCalculator'
 import InputFieldRegionAutocomplete from './InputFieldRegionAutocomplete'
+import InputFieldSwitchable from './InputFieldSwitchable'
 
 import {IS_DEBUG} from '../../common/properties';
 
@@ -273,6 +274,10 @@ class InputForm extends React.Component {
         });
     };
 
+    handleRun = () => {
+        document.location.href='http://40.115.40.71:8118/output.php';
+    };
+
     handleReset = () => {
         this.setState({
             activeStep: 0,
@@ -351,7 +356,7 @@ class InputForm extends React.Component {
                             {/*</div>*/}
                         {/*</Toolbar>*/}
                     {/*</AppBar>*/}
-                    <InputFieldRegionAutocomplete/>
+                    {/*<InputFieldRegionAutocomplete/>*/}
 
                     <Stepper
                         className={[classes.clientWidth, classes.inputBackground].join(' ')}
@@ -396,7 +401,14 @@ class InputForm extends React.Component {
                                                 <Button
                                                     variant="raised"
                                                     color="primary"
-                                                    onClick={this.handleNext}
+                                                    // onClick={this.handleNext}
+                                                    // onClick='javascript:document.location.href="http://40.115.40.71:8118/output.php";'
+                                                    onClick={(activeStep === steps.length - 1) ?
+                                                        // "javascript:document.location.href='http://yandex.ru'" :
+                                                        // "javascript:document.location.href='http://40.115.40.71:8118/output.php';" :
+                                                        this.handleRun :
+                                                        this.handleNext
+                                                    }
                                                     // className={classes.button}
                                                     className={[classes.button, classes.noBorder].join(' ')}
                                                 >
@@ -804,7 +816,7 @@ function getStepContent(step, props, state) {
                                             </div>
                                             <div className="row justify-content-start">
                                                 <div className="col-sm-auto col-12">
-                                                    <InputFieldAmount field='expenses:rent' value={props.modelState.expenses.rent} label="Аренда" tip="Средняя аредна в месяц"/>
+                                                    <InputFieldAmount field='expenses:rent' value={props.modelState.expenses.rent} label="Аренда и коммунальные" tip="Средняя аренда и коммунальные платежи и в месяц"/>
                                                 </div>
                                                 <div className="w-100"></div>
                                                 <div className="col-sm-auto col-12">
@@ -875,7 +887,16 @@ function getStepContent(step, props, state) {
                                 <div className="row justify-content-start align-items-center">
                                     <div className="col-sm-auto col-12">
                                     {/*<div className={(props.model.flExpensesIsManual == 0) ? 'invisible col-sm-auto col-12' :  'col-sm-auto col-12'}>*/}
-                                        <InputFieldAmount value={model.getStep3GrossMargin(props.modelState)} label="Валовая рентабельность" tip="Валовая рентабельность" flType={fields.FLTYPE_NUMBER} adornment="%" disabled/>
+                                        {/*<InputFieldAmount value={model.getStep3GrossMargin(props.modelState)} label="Валовая рентабельность" tip="Валовая рентабельность" flType={fields.FLTYPE_NUMBER} adornment="%" disabled/>*/}
+                                        <InputFieldSwitchable
+                                            value={model.getStep3GrossMargin(props.modelState)}
+                                            field2='finance:grossMargin' value2={props.modelState.finance.grossMargin}
+                                            fieldChecked='finance:isManualGrossMargin'
+                                            label="Валовая рентабельность"
+                                            tip="Валовая рентабельность"
+                                            flType={fields.FLTYPE_NUMBER}
+                                            adornment="%" disabled
+                                        />
                                     </div>
                                     < div className = "col-sm-auto col-12" >
                                     {/*<div className={(props.model.flExpensesIsManual == 0) ? 'invisible col-sm-auto col-12' :  'col-sm-auto col-12'}>*/}

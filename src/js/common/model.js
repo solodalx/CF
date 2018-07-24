@@ -50,6 +50,8 @@ export const initialModelState = {
     },
 
     finance: {
+        isManualGrossMargin: false,
+        grossMargin: '',
         dividents: '',
     },
 }
