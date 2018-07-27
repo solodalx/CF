@@ -44,9 +44,16 @@ const styles = theme => ({
             width: 200,
         },
     },
+    invisible: {
+        display: 'none',
+    },
     inputLabel: {
-        // color: 'purple',
-    }
+        color: 'purple',
+    },
+    font: {
+        fontSize: theme.typography.pxToRem(14),
+        fontWeight: theme.typography.fontWeightRegular,
+    },
 });
 
 
@@ -124,6 +131,11 @@ class InputFieldAmount extends React.Component {
             //<div className={classes.input}>
             //<div className={classes.input}>
             <div>
+                <div className={(this.props.fieldTitle == undefined) ? classes.invisible : classes.inputWidth}>
+                    {/*<br/>*/}
+                    <br/>
+                    {this.props.fieldTitle}
+                </div>
                 {/*<Tooltip className={classes.input} title={this.props.tip} placement="center">*/}
                 <Tooltip title={this.props.tip} placement="center">
                     {/*<FormControl className={classes.formControl}>*/}
@@ -161,9 +173,13 @@ class InputFieldAmount extends React.Component {
                                     NumberFormatCustom :
                                     ''
                         }}
-                        InputLabelProps={{
-                            className: classes.inputLabel
-                        }}
+                        InputLabelProps={
+                            this.props.disabled ? {
+                                className: classes.font
+                            } : {
+                                className: [classes.inputLabel, classes.font].join(' ')
+                            }
+                        }
                         disabled={this.props.disabled}
                     />
                     {/*</FormControl>*/}

@@ -11,6 +11,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import Tooltip from '@material-ui/core/Tooltip';
 import * as businessAreaAction from "../../common/actions/businessAreaAction";
 
 const styles = theme => ({
@@ -58,30 +59,32 @@ class InputFieldRegionEnv extends React.Component {
         return (
             //<form className={classes.root} autoComplete="off">
             <div>
-                <FormControl className={classes.formControl}>
-                    <InputLabel htmlFor="field-input-general-env">Расположение</InputLabel>
-                    <Select
-                        value={this.state.fieldValue}
-                        onChange={this.handleChange}
-                        inputProps={{
-                            name: 'fieldValue',
-                            id: 'field-input-general-env',
-                        }}
-                    >
-                        <MenuItem value="">
-                            <em>Выберите значение...</em>
-                        </MenuItem>
-                        {
-                            this.props.environment.map(env => {
-                                return <MenuItem value={env.uuid}>{env.name}</MenuItem>
-                            })
-                        }
-                        {/*<MenuItem value={1}>Центр города</MenuItem>*/}
-                        {/*<MenuItem value={2}>Деловой район (не центр)</MenuItem>*/}
-                        {/*<MenuItem value={3}>Спальный район</MenuItem>*/}
-                        {/*<MenuItem value={4}>Сельская местность</MenuItem>*/}
-                    </Select>
-                </FormControl>
+                <Tooltip title='Месторасположение' placement="center">
+                    <FormControl className={classes.formControl}>
+                        <InputLabel htmlFor="field-input-general-env">Проходимость</InputLabel>
+                        <Select
+                            value={this.state.fieldValue}
+                            onChange={this.handleChange}
+                            inputProps={{
+                                name: 'fieldValue',
+                                id: 'field-input-general-env',
+                            }}
+                        >
+                            <MenuItem value="">
+                                <em>Выберите расположение...</em>
+                            </MenuItem>
+                            {
+                                this.props.environment.map(env => {
+                                    return <MenuItem value={env.uuid}>{env.name}</MenuItem>
+                                })
+                            }
+                            {/*<MenuItem value={1}>Центр города</MenuItem>*/}
+                            {/*<MenuItem value={2}>Деловой район (не центр)</MenuItem>*/}
+                            {/*<MenuItem value={3}>Спальный район</MenuItem>*/}
+                            {/*<MenuItem value={4}>Сельская местность</MenuItem>*/}
+                        </Select>
+                    </FormControl>
+                </Tooltip>
             </div>
             // </form>
         );

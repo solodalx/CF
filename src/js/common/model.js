@@ -30,7 +30,7 @@ export const initialModelState = {
     calculators: {
         1: {
             averageAmount: '',
-            customerNumberPerMonth: '',
+            customerNumberPerDay: '',
         }
     },
 
@@ -158,18 +158,19 @@ export function getStep3AveragePrice(state, calcNumber) {
     return 0;
 }
 
-export function getStep3IncomePerMonth(state, calcNumber) {
+export function getStep3AverageSalesPerMonth(state, calcNumber) {
     switch(calcNumber) {
         case 0:
-            return getStep3AveragePrice(state, calcNumber) * intOrZeroIfEmpty(state.calculators["1"].customerNumberPerMonth);
+            return (intOrZeroIfEmpty(state.calculators["1"].customerNumberPerDay) * 365 / 12).toFixed(2);
     }
     return 0;
 }
 
-export function getStep3AverageSalesPerDay(state, calcNumber) {
+export function getStep3IncomePerMonth(state, calcNumber) {
     switch(calcNumber) {
         case 0:
-            return (intOrZeroIfEmpty(state.calculators["1"].customerNumberPerMonth) * 12 / 365).toFixed(2);
+            // return getStep3AveragePrice(state, calcNumber) * intOrZeroIfEmpty(state.calculators["1"].customerNumberPerDay);
+            return (getStep3AveragePrice(state, calcNumber) * getStep3AverageSalesPerMonth(state, calcNumber)).toFixed(2);
     }
     return 0;
 }
@@ -178,7 +179,34 @@ export function getStep3IncomeTotal(state, calcNumber) {
    return getStep3IncomePerMonth(state, calcNumber);
 }
 
-export function getStep3ExpensesTotal(state) {
+export function getStep3GrossMarginFromBigDataPrc(state) {
+    return (30.00).toFixed(2);
+}
+
+function getStep3GrossMargin(state) {
+    return (state.finance.isManualGrossMargin ? intOrZeroIfEmpty(state.finance.grossMargin) : getStep3GrossMarginFromBigDataPrc(state)) / 100;
+}
+
+export function getStep3NetMarginPrc(state, calcNumber) {
+    if (state.expenses.isManual) {
+        return (
+            // (getStep3IncomeTotal(state, calcNumber) * (1 - getStep3GrossMargin(state)) - getStep3ExpensesTotal(state)) /
+            // getStep3IncomeTotal(state, calcNumber) * 100).toFixed(2);
+            (getStep3IncomeTotal(state, calcNumber) -
+                (getStep3IncomeTotal(state, calcNumber) * (1 - getStep3GrossMargin(state)) +
+                    getStep3ExpensesTotal(state)
+                )
+            ) /
+            getStep3IncomeTotal(state, calcNumber) *
+            100
+        ).toFixed(2);
+    }
+    else {
+        return (10.00).toFixed(2);
+    }
+}
+
+export function getStep3ExpensesTotal(state, calcNumber) {
     if (state.expenses.isManual) {
         return intOrZeroIfEmpty(state.expenses.managementCount) * intOrZeroIfEmpty(state.expenses.managementSalary) +
             intOrZeroIfEmpty(state.expenses.employeeCount) * intOrZeroIfEmpty(state.expenses.employeeSalary) +
@@ -187,25 +215,18 @@ export function getStep3ExpensesTotal(state) {
             intOrZeroIfEmpty(state.expenses.taxes) +
             intOrZeroIfEmpty(state.expenses.others);
     }
-    return 0;
-}
-
-export function getStep3GrossMargin(state) {
-    return (30.00).toFixed(2);
-}
-
-export function getStep3NetMargin(state, calcNumber) {
-    if (state.expenses.isManual) {
-        return (
-            (getStep3IncomeTotal(state, calcNumber) * (1 - getStep3GrossMargin(state) / 100) - getStep3ExpensesTotal(state)) /
-            getStep3IncomeTotal(state, calcNumber) * 100).toFixed(2);
-    }
     else {
-        return (10.00).toFixed(2);
+        return (
+            getStep3IncomeTotal(state, calcNumber) -
+            (getStep3IncomeTotal(state, calcNumber) * (1 - getStep3GrossMargin(state))) -
+            getStep3IncomeTotal(state, calcNumber) * getStep3NetMargin(state, calcNumber)
+        ).toFixed(2);
     }
 }
 
-
+function getStep3NetMargin(state, calcNumber) {
+    return getStep3NetMarginPrc(state, calcNumber) / 100;
+}
 
 function emptyIfZero(value) {
     return value == 0 ? '' : value;

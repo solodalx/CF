@@ -33,6 +33,11 @@ const styles = theme => ({
             minWidth: 350,
         },
     },
+    wrap: {
+        // display: 'flex',
+        // flexWrap: 'wrap',
+        whiteSpace: 'pre-wrap',
+    },
     selectEmpty: {
         marginTop: theme.spacing.unit * 2,
     },
@@ -73,7 +78,7 @@ class InputFieldArea extends React.Component {
                         </MenuItem>
                         {
                             this.props.businessArea.map(area => {
-                                return <MenuItem value={area.uuid}>{area.mainName + ' - ' + area.detailedName}</MenuItem>
+                                return <MenuItem className={classes.wrap} value={area.uuid}>{area.mainName + ' - ' + area.detailedName}</MenuItem>
                             })
                         }
                         {/*<MenuItem value={1}>Сельское хозяйство (мясное животноводство)</MenuItem>*/}

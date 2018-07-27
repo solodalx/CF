@@ -186,6 +186,9 @@ const styles = theme => ({
     paddingPlus15: {
         paddingLeft: 15,
     },
+    paddingPlus45: {
+        paddingLeft: 45,
+    },
     noShadow: {
         boxShadow: 'none',
     },
@@ -501,6 +504,20 @@ function getStepContent(step, props, state) {
         case 1:
             return (
                 <div>
+                    <div className={classes.panel}>
+                        <div className="container no-gutters">
+                            <div className="row">
+                                <div className="col-sm-auto col-12">
+                                    {/*Собственные денежные средства к вложению в проект*/}
+                                    <InputFieldAmount field='invest:ownCash' value={props.modelState.invest.ownCash}
+                                                      // label="Денежные средства"
+                                                      // tip="Собственные денежные средства к вложению в проект"
+                                        fieldTitle='Свои денежные средства, планируемые к вложению'
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     {/*<ExpansionPanel className={classes.fullWidth}>*/}
                     {/*<ExpansionPanel className={[classes.fullWidth, classes.noShadow].join(' ')}>*/}
                     {/*<ExpansionPanel className={[classes.panel, classes.fullWidth].join(' ')}>*/}
@@ -589,7 +606,8 @@ function getStepContent(step, props, state) {
                                     <div className="col-sm-auto col-12">
                                         {/*<InputFieldAmount id={fields.FL_INVEST_TOTAL} label="Всего" tip="Всего заемных средств" defaultValue={0} disabled/>*/}
                                         {/*<InputFieldAmount value={model.getStep2TotalPlannedAssets(props.modelState)} label="Всего" tip="Всего заемных средств" defaultValue={0} disabled/>*/}
-                                        <InputFieldAmount value={model.getTotal(props.modelState.plannedAssets)} label="Всего" tip="Всего заемных средств" defaultValue={0} disabled/>
+                                        <InputFieldAmount value={model.getTotal(props.modelState.plannedAssets)} label="Всего" tip="Всего планируемых к покупке активов" defaultValue={0} disabled/>
+                                        <InputFieldAmount value={model.getStep2ToBorrow(props.modelState)} label="за счет заемных средств" tip="в том числе за счет заемных средств" defaultValue={0} disabled/>
                                     </div>
                                 </div>
                             </div>
@@ -648,10 +666,9 @@ function getStepContent(step, props, state) {
                                 {/*<div class="col">*/}
                                     {/*<InputFieldAmount id="field-input-inv-borrowed" label="Заемные средства" tip="" />*/}
                                 {/*</div>*/}
-                                <div className="col-sm-auto col-12">
-                                    {/*<InputFieldAmount id={fields.FL_INVESTMENTS_OWN_CASH} label="Денежные средства" tip="Собственные денежные средства к вложению в проект"/>*/}
-                                    <InputFieldAmount field='invest:ownCash' value={props.modelState.invest.ownCash} label="Денежные средства" tip="Собственные денежные средства к вложению в проект"/>
-                                </div>
+                                {/*<div className="col-sm-auto col-12">*/}
+                                    {/*<InputFieldAmount field='invest:ownCash' value={props.modelState.invest.ownCash} label="Денежные средства" tip="Собственные денежные средства к вложению в проект"/>*/}
+                                {/*</div>*/}
                                 <div className="col-sm-auto col-12">
                                     {/*<InputFieldNumber id={fields.FL_INVESTMENTS_RATIO} fltype={fields.FLTYPE_STRING} label="Собст./Заем." tip="Соотношение собственных и заемных средств" disabled/>*/}
                                     <InputFieldAmount
@@ -729,7 +746,7 @@ function getStepContent(step, props, state) {
                                     <div className="col-sm-auto col-12">
                                         {/*<InputFieldNumber id="field-input-income-amount" label="Продажи" tip="Среднее количество продаж в день" />*/}
                                         {/*<InputFieldAmount id={fields.FL_INCOME_AVERAGE_SALES_PER_DAY} label="Продажи" tip="Среднее количество продаж в день" flType={fields.FLTYPE_NUMBER} adornment="ед."/>*/}
-                                        <InputFieldAmount value={model.getStep3AverageSalesPerDay(props.modelState, 0)} label="Продажи" tip="Среднее количество продаж в день" flType={fields.FLTYPE_NUMBER} adornment="ед." disabled/>
+                                        <InputFieldAmount value={model.getStep3AverageSalesPerMonth(props.modelState, 0)} label="Количество продаж" tip="Среднее количество продаж в месяц" flType={fields.FLTYPE_NUMBER} adornment="ед." disabled/>
                                     </div>
                                     <div className="col-sm-auto col-12">
                                         {/*<InputFieldAmount id={fields.FL_INCOME_PER_MONTH} label="Выручка" tip="Среднемесячная выручка" />*/}
@@ -760,15 +777,17 @@ function getStepContent(step, props, state) {
                                         <Typography className={classes.heading}>Расходная часть</Typography>
                                     </div>
                                     <div className="w-100 d-sm-none"/>
-                                    {/*<div className="col text-nowrap text-right">*/}
+                                    {/*<div className={(props.modelState.expenses.isManual) ?*/}
+                                        {/*"col-sm-auto col-12" :*/}
+                                        {/*classes.invisible + " col-sm-auto col-12"*/}
+                                    {/*}>*/}
+                                    <div className="col-sm-auto col-12">
+                                        <InputFieldAmount value={model.getStep3ExpensesTotal(props.modelState, 0)} label="Всего" tip="Всего расходов" disabled/>
+                                    </div>
+                                </div>
+                                <div className="row justify-content-sm-start">
                                     <div className="col-sm-auto col-12">
                                         <InputFieldsManualExpenses/>
-                                        {/*<InputFieldAmount id={fields.FL_EXPENSES_TOTAL} label="Всего" tip="Всего расходов" disabled/>*/}
-                                        <div className={(props.modelState.expenses.isManual) ?
-                                            "row justify-content-end" :
-                                            classes.invisible + " row justify-content-end"}>
-                                            <InputFieldAmount value={model.getStep3ExpensesTotal(props.modelState)} label="Всего" tip="Всего расходов" disabled/>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -889,7 +908,7 @@ function getStepContent(step, props, state) {
                                     {/*<div className={(props.model.flExpensesIsManual == 0) ? 'invisible col-sm-auto col-12' :  'col-sm-auto col-12'}>*/}
                                         {/*<InputFieldAmount value={model.getStep3GrossMargin(props.modelState)} label="Валовая рентабельность" tip="Валовая рентабельность" flType={fields.FLTYPE_NUMBER} adornment="%" disabled/>*/}
                                         <InputFieldSwitchable
-                                            value={model.getStep3GrossMargin(props.modelState)}
+                                            value={model.getStep3GrossMarginFromBigDataPrc(props.modelState)}
                                             field2='finance:grossMargin' value2={props.modelState.finance.grossMargin}
                                             fieldChecked='finance:isManualGrossMargin'
                                             label="Валовая рентабельность"
@@ -900,7 +919,7 @@ function getStepContent(step, props, state) {
                                     </div>
                                     < div className = "col-sm-auto col-12" >
                                     {/*<div className={(props.model.flExpensesIsManual == 0) ? 'invisible col-sm-auto col-12' :  'col-sm-auto col-12'}>*/}
-                                        < InputFieldAmount value={model.getStep3NetMargin(props.modelState, 0)} label="Чистая рентабельность" tip="Чистая рентабельность" flType={fields.FLTYPE_NUMBER} adornment="%" disabled/>
+                                        < InputFieldAmount value={model.getStep3NetMarginPrc(props.modelState, 0)} label="Чистая рентабельность" tip="Чистая рентабельность" flType={fields.FLTYPE_NUMBER} adornment="%" disabled/>
                                     </div>
                                     <div className="w-100"></div>
                                     {/*<div className="col-sm-auto col-12">*/}
@@ -909,9 +928,14 @@ function getStepContent(step, props, state) {
                                     {/*</div>*/}
                                     <div className="col-sm-auto col-12">
                                         {/*<InputFieldAmount id={fields.FL_PARAMS_DIVIDENTS} label="Дивиденды" tip="Выплата дивидендов в месяц. Сколько планируете изымать из бизнеса в месяц."/>*/}
-                                        <InputFieldAmount field='finance:dividents' value={props.modelState.finance.dividents} label="Дивиденды" tip="Выплата дивидендов в месяц. Сколько планируете изымать из бизнеса в месяц."/>
+                                        {/*Сколько планируете изымать из бизнеса в месяц*/}
+                                        <InputFieldAmount field='finance:dividents' value={props.modelState.finance.dividents}
+                                                          label="Доход учредителя" tip="Ежемесячный доход учредителя"
+                                                          fieldTitle='Сколько планируете изымать из бизнеса в месяц?'
+                                        />
                                     </div>
                                     <div class="col">
+                                        {/*Какая детализация формируемых отчетов необходима?*/}
                                         <InputFieldStride/>
                                     </div>
                                 </div>
@@ -921,6 +945,12 @@ function getStepContent(step, props, state) {
                     {/*</ExpansionPanel>*/}
                     <div>
                         <br/>
+                        <div className='row'>
+                            {/*<div className='col text-center'>*/}
+                            <div className={classes.paddingPlus45 + ' col'}>
+                                Период планирования в отчетах - 60 месяцев
+                            </div>
+                        </div>
                         <br/>
                     </div>
                 </div>

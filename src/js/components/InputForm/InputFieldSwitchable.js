@@ -46,37 +46,35 @@ class InputFieldSwitchable extends React.Component {
 
         return (
             <div className={classes.marginMinus30}>
-                <div className="container">
-                    <div className="row justify-content-start flex-nowrap">
-                        <div className="col-1">
-                            {/*<ExpansionPanel className={classes.fullWidth}>*/}
-                            <Tooltip title={this.state.checkedField ? 'Задайте вручную' : 'Загружено с BigData'} placement="center">
-                                <FormControlLabel
-                                    control={
+                <FormControlLabel
+                    control={
+                        <div className="container">
+                            {/*<div className="row flex-sm-nowrap align-items-center justify-content-start">*/}
+                            <div className="row flex-sm-nowrap justify-content-start">
+                                <div className="col-1">
+                                    <Tooltip title={this.state.checkedField ? 'Задайте вручную' : 'Загружено с BigData'} placement="center">
                                         <Switch
                                             checked={this.state.checkedField}
                                             onChange={this.handleChange('checkedField')}
                                             value="checkedField"
                                         />
-                                    }
-                                    label=""
-                                />
-                            </Tooltip>
+                                    </Tooltip>
+                                </div>
+                                <div className="col offset-1">
+                                    <InputFieldAmount
+                                        field={this.state.checkedField ? this.props.field2 : this.props.field}
+                                        value={this.state.checkedField ? this.props.value2 : this.props.value}
+                                        id={this.props.id}
+                                        label={this.props.label}
+                                        tip={this.props.tip}
+                                        flType={this.props.flType}
+                                        disabled={!this.state.checkedField}/>
+                                </div>
+                            </div>
                         </div>
-                        <div className="col offset-1">
-                            {/*<InputFieldAmount id={this.props.id} label={this.props.label} tip={this.props.tip} flType={this.props.flType} disabled={!this.state.checkedField}/>*/}
-                            <InputFieldAmount
-                                field={this.state.checkedField ? this.props.field2 : this.props.field}
-                                value={this.state.checkedField ? this.props.value2 : this.props.value}
-                                id={this.props.id}
-                                label={this.props.label}
-                                tip={this.props.tip}
-                                flType={this.props.flType}
-                                disabled={!this.state.checkedField}/>
-                        </div>
-                    </div>
-                </div>
-
+                    }
+                    label=''
+                />
             </div>
         );
     }

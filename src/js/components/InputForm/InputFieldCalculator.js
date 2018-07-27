@@ -99,7 +99,7 @@ function getTabContent(tab, props, state) {
                         </div>
                         <div className="col-sm-auto col-12">
                             {/*<InputFieldAmount id={fields.FL_CALC001.FL_CUSTOMER_NUMBER_PER_MONTH} label="Число покупателей" tip="Ожидаемый поток покупателей в месяц" flType={fields.FLTYPE_NUMBER} adornment="чел."/>*/}
-                            <InputFieldAmount field='calculators:1:customerNumberPerMonth' value={props.modelState.calculators["1"].customerNumberPerMonth} label="Число покупателей" tip="Ожидаемый поток покупателей в месяц" flType={fields.FLTYPE_NUMBER} adornment="чел."/>
+                            <InputFieldAmount field='calculators:1:customerNumberPerDay' value={props.modelState.calculators["1"].customerNumberPerDay} label="Число покупателей" tip="Ожидаемый поток покупателей в день" flType={fields.FLTYPE_NUMBER} adornment="чел."/>
                         </div>
                     </div>
                 </div>

@@ -41,6 +41,9 @@ const styles = theme => ({
     paddingZero: {
         paddingLeft: 0,
     },
+    paddingRightZero: {
+        paddingRight: 0,
+    },
     paddingBottomZero: {
         paddingBottom: 0,
     },
@@ -75,16 +78,27 @@ class InputFieldsManualExpenses extends React.Component {
                 <Tooltip title="Использовать BigData в расчетах, или ввести расходную часть вручную" placement="center">
                     <FormControlLabel
                         control={
-                            <div>
-                                <span>Использовать BigData</span>
-                                <Switch
-                                    checked={this.state.checkedManualExpenses}
-                                    onChange={this.handleChange('checkedManualExpenses')}
-                                    value="checkedManualExpenses"
-                                />
+                            <div className='container'>
+                                <div className='row flex-sm-nowrap align-items-center'>
+                                    <div className='col-6 col-sm-4 text-right'>
+                                       {/*<span>*/}
+                                       Использовать BigData
+                                       {/*</span>*/}
+                                    </div>
+                                    <div className={[classes.paddingZero, classes.paddingRightZero].join(' ') + ' col-auto'}>
+                                        <Switch
+                                            checked={this.state.checkedManualExpenses}
+                                            onChange={this.handleChange('checkedManualExpenses')}
+                                            value="checkedManualExpenses"
+                                        />
+                                    </div>
+                                    <div className='col-2 text-left'>
+                                        <span>Ввести вручную</span>
+                                    </div>
+                                </div>
                             </div>
                         }
-                        label="Ввести вручную"
+                        // label="Ввести вручную"
                     />
                 </Tooltip>
             </div>
