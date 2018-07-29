@@ -35,7 +35,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 
 import * as fields from '../../common/constants/fieldConstants'
-import InputAppBar from './InputAppBar'
+import CmnAppBar from '../common/CmnAppBar'
 import InputFieldAmount from './InputFieldAmount.js'
 import InputFieldNumber from './InputFieldNumber.js'
 import InputFieldDate from './InputFieldDate.js'
@@ -278,7 +278,8 @@ class InputForm extends React.Component {
     };
 
     handleRun = () => {
-        document.location.href='http://40.115.40.71:8118/output.php';
+        // document.location.href='http://40.115.40.71:8118/output.php';
+        document.location.href='http://vh231124.eurodir.ru/output.php';
     };
 
     handleReset = () => {
@@ -331,7 +332,7 @@ class InputForm extends React.Component {
                 {/*<div className={classes.fullWidth}>*/}
                 {/*<div className={classes.overflowHidden}>*/}
                 <div>
-                    <InputAppBar/>
+                    <CmnAppBar icon='cancel' title='Вернуться назад' iconLink='/'/>
                     {/*<HorizontalNonLinearAlternativeLabelStepper/>*/}
                     {/*<AppBar position="static" color="primary">*/}
                         {/*<Toolbar>*/}
