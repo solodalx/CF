@@ -180,7 +180,7 @@ export function getStep3IncomeTotal(state, calcNumber) {
 }
 
 export function getStep3GrossMarginFromBigDataPrc(state) {
-    return (30.00).toFixed(2);
+    return (64.63).toFixed(2);
 }
 
 function getStep3GrossMargin(state) {
@@ -202,7 +202,7 @@ export function getStep3NetMarginPrc(state, calcNumber) {
         ).toFixed(2);
     }
     else {
-        return (10.00).toFixed(2);
+        return (18.31).toFixed(2);
     }
 }
 

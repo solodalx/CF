@@ -1,6 +1,9 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+
+import * as regionsAction from '../../common/actions/regionsAction';
+import * as businessAreaAction from '../../common/actions/businessAreaAction';
 import * as modelAction from '../../common/actions/modelAction';
 import * as model from "../../common/model";
 
@@ -46,7 +49,9 @@ import InputFieldRegionEnv from './InputFieldRegionEnv.js'
 import InputFieldStride from './InputFieldStride.js'
 import InputFieldsManualExpenses from './InputFieldsManualExpenses.js'
 import InputFieldCalculator from './InputFieldCalculator'
+import InputFieldAutocomplete from './InputFieldAutocomplete'
 import InputFieldRegionAutocomplete from './InputFieldRegionAutocomplete'
+import IntegrationReactSelect from './InputFieldRegionAutocomplete_example'
 import InputFieldSwitchable from './InputFieldSwitchable'
 
 import {IS_DEBUG} from '../../common/properties';
@@ -54,7 +59,7 @@ import {IS_DEBUG} from '../../common/properties';
 // import HorizontalNonLinearAlternativeLabelStepper from './TestStepper.js'
 // import SimpleTabs from '../Others/TabsExample.js'
 // import VerticalLinearStepper from '../Others/StepperExample'
-import IntegrationReactSelect from './InputFieldRegionAutocomplete.js'
+// import IntegrationReactSelect from './InputFieldRegionAutocomplete.js'
 //import IntegrationDownshift from './AutocompleteExample0.js'
 
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
@@ -126,6 +131,7 @@ const styles = theme => ({
         [theme.breakpoints.up('lg')]: {
             width: '75%',
         },
+        zIndex: -1,
     },
     compWidth: {
         // width: 200,
@@ -251,6 +257,20 @@ function getSteps() {
     return ['Входные параметры', 'Объемы инвестиций в проект', 'Финансовые параметры'];
 }
 
+function getRegionsSuggestions(regions) {
+    return regions.map(region => ({
+        value: region.uuid,
+        label: region.name,
+    }))
+}
+
+function getBusinessAreaSuggestions(areas) {
+    return areas.map(area => ({
+        value: area.uuid,
+        label: area.mainName + ' - ' + area.detailedName,
+    }))
+}
+
 class InputForm extends React.Component {
     state = {
         activeStep: 0,
@@ -307,6 +327,8 @@ class InputForm extends React.Component {
 
     componentDidMount = (event) => {
         // this.props.modelAction.setInitialState();
+        this.props.regionsAction.getRegions(event);
+        this.props.businessAreaAction.getBusinessArea(event);
         if (IS_DEBUG) {
             console.log('NEPLOG: InputForm: componentDidMount: modelState = ' + this.props.modelState);
             console.log(this.props.modelState);
@@ -363,8 +385,8 @@ class InputForm extends React.Component {
                     {/*<InputFieldRegionAutocomplete/>*/}
 
                     <Stepper
-                        className={[classes.clientWidth, classes.inputBackground].join(' ')}
-                        // className={classes.clientWidth}
+                        // className={[classes.clientWidth, classes.inputBackground].join(' ')}
+                        className={classes.clientWidth}
                         activeStep={activeStep}
                         orientation="vertical" nonLinear
                     >
@@ -442,12 +464,16 @@ class InputForm extends React.Component {
 
 function mapStateToProps(store) {
     return {
+        regions: store.regionsState.regions,
+        businessArea: store.businessAreaState.businessArea,
         modelState: store.modelState,
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
+        regionsAction: bindActionCreators(regionsAction, dispatch),
+        businessAreaAction: bindActionCreators(businessAreaAction, dispatch),
         modelAction: bindActionCreators(modelAction, dispatch),
     }
 }
@@ -482,7 +508,12 @@ function getStepContent(step, props, state) {
                     <div class="row">
                         <div class="col">
                             {/*<IntegrationReactSelect/>*/}
-                            <InputFieldRegion/>
+                            {/*<InputFieldRegion/>*/}
+                            <InputFieldAutocomplete
+                                suggestions={getRegionsSuggestions(props.regions)}
+                                placeholder='Город'
+                                menuPosition='absolute'
+                            />
                         </div>
                         <div className="col">
                             <InputFieldRegionEnv/>
@@ -490,7 +521,12 @@ function getStepContent(step, props, state) {
                     </div>
                     <div class="row">
                         <div class="col">
-                            <InputFieldArea/>
+                            {/*<InputFieldArea/>*/}
+                            <InputFieldAutocomplete
+                                suggestions={getBusinessAreaSuggestions(props.businessArea)}
+                                placeholder='Направление деятельности'
+                                menuPosition='fixed'
+                            />
                         </div>
                         <div className="col">
                             <InputFieldTax/>

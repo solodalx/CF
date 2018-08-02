@@ -47,7 +47,7 @@ class InputFieldRegion extends React.Component {
     };
 
     componentDidMount = (event) => {
-        this.props.regionsAction.getRegions(event);
+        // this.props.regionsAction.getRegions(event);
     };
     // componentDidMount(event) {
     //     this.props.regionsAction.getRegions();

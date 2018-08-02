@@ -1,6 +1,9 @@
 /* eslint-disable react/prop-types */
-
 import React from 'react';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import * as regionsAction from '../../common/actions/regionsAction';
+
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -12,8 +15,10 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
 import ClearIcon from '@material-ui/icons/Clear';
 import Chip from '@material-ui/core/Chip';
-import Select from '@material-ui/core/Select';
+import Select from 'react-select';
+// import 'react-select/dist/react-select.css';
 import '../../../css/react-select.css';
+import {IS_DEBUG} from "../../common/properties";
 
 const suggestions = [
     { label: 'Afghanistan' },
@@ -228,7 +233,7 @@ const styles = theme => ({
     },
 });
 
-class IntegrationReactSelect extends React.Component {
+class InputFieldRegionAutocomplete extends React.Component {
     state = {
         single: null,
         multi: null,
@@ -241,40 +246,105 @@ class IntegrationReactSelect extends React.Component {
         });
     };
 
+    componentDidMount = (event) => {
+        // this.props.regionsAction.getRegions(event);
+        if (IS_DEBUG) {
+            console.log('NEPLOG: InputFieldRegionAutocomplete: componentDidMount: suggestions = ' + suggestions + ', regions = ' + this.props.regions + ', getSuggestions = ' + getSuggestions(this.props.regions));
+            console.log(suggestions);
+            console.log(this.props.regions);
+            console.log(getSuggestions(this.props.regions));
+        }
+    };
+
     render() {
         const { classes } = this.props;
 
         return (
             <div className={classes.root}>
-                <TextField
+                {/*<Input*/}
+                    {/*fullWidth*/}
+                    {/*inputComponent={SelectWrapped}*/}
+                    {/*value={this.state.single}*/}
+                    {/*onChange={this.handleChange('single')}*/}
+                    {/*placeholder="Search a country (start with a)"*/}
+                    {/*id="react-select-single"*/}
+                    {/*inputProps={{*/}
+                        {/*classes,*/}
+                        {/*name: 'react-select-single',*/}
+                        {/*instanceId: 'react-select-single',*/}
+                        {/*simpleValue: true,*/}
+                        {/*options: suggestions,*/}
+                    {/*}}*/}
+                {/*/>*/}
+                <Input
                     fullWidth
-                    value={this.state.multiLabel}
-                    onChange={this.handleChange('multiLabel')}
+                    inputComponent={SelectWrapped}
+                    value={this.state.multi}
+                    onChange={this.handleChange('multi')}
                     placeholder="Select multiple countries"
-                    name="react-select-chip-label"
-                    label="With label"
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
-                    InputProps={{
-                        inputComponent: SelectWrapped,
-                        inputProps: {
-                            classes,
-                            multi: true,
-                            instanceId: 'react-select-chip-label',
-                            id: 'react-select-chip-label',
-                            simpleValue: true,
-                            options: suggestions,
-                        },
+                    name="react-select-chip"
+                    inputProps={{
+                        classes,
+                        multi: true,
+                        instanceId: 'react-select-chip',
+                        id: 'react-select-chip',
+                        simpleValue: true,
+                        // options: suggestions,
+                        // options: this.props.regions,
+                        // options: this.suggestions2,
+                        options: getSuggestions(this.props.regions),
                     }}
                 />
+                {/*<TextField*/}
+                    {/*fullWidth*/}
+                    {/*value={this.state.multiLabel}*/}
+                    {/*onChange={this.handleChange('multiLabel')}*/}
+                    {/*placeholder="Select multiple countries"*/}
+                    {/*name="react-select-chip-label"*/}
+                    {/*label="With label"*/}
+                    {/*InputLabelProps={{*/}
+                        {/*shrink: true,*/}
+                    {/*}}*/}
+                    {/*InputProps={{*/}
+                        {/*inputComponent: SelectWrapped,*/}
+                        {/*inputProps: {*/}
+                            {/*classes,*/}
+                            {/*multi: true,*/}
+                            {/*instanceId: 'react-select-chip-label',*/}
+                            {/*id: 'react-select-chip-label',*/}
+                            {/*simpleValue: true,*/}
+                            {/*options: suggestions,*/}
+                        {/*},*/}
+                    {/*}}*/}
+                {/*/>*/}
             </div>
         );
     }
 }
 
-IntegrationReactSelect.propTypes = {
+function mapStateToProps(store) {
+    return {
+        regions: store.regionsState.regions,
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        regionsAction: bindActionCreators(regionsAction, dispatch),
+    }
+}
+
+InputFieldRegionAutocomplete.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(IntegrationReactSelect);
+// export default withStyles(styles)(IntegrationReactSelect);
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(InputFieldRegionAutocomplete));
+
+function getSuggestions(regions) {
+    return regions.map(region => ({
+        value: region.uuid,
+        label: region.name,
+    }))
+}
+
