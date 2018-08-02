@@ -1,6 +1,13 @@
 import {IS_DEBUG} from './properties';
 
 export const initialModelState = {
+    // Step 1
+    commons: {
+        regions: '',
+        businessArea: '',
+        environment: '',
+    },
+
     // Step 2
     existingAssets: {
         land: '',
@@ -206,14 +213,21 @@ export function getStep3NetMarginPrc(state, calcNumber) {
     }
 }
 
+function getStep3NetMargin(state, calcNumber) {
+    return getStep3NetMarginPrc(state, calcNumber) / 100;
+}
+
 export function getStep3ExpensesTotal(state, calcNumber) {
     if (state.expenses.isManual) {
-        return intOrZeroIfEmpty(state.expenses.managementCount) * intOrZeroIfEmpty(state.expenses.managementSalary) +
+        return (
+            intOrZeroIfEmpty(state.expenses.managementCount) * intOrZeroIfEmpty(state.expenses.managementSalary) +
             intOrZeroIfEmpty(state.expenses.employeeCount) * intOrZeroIfEmpty(state.expenses.employeeSalary) +
             intOrZeroIfEmpty(state.expenses.rent) +
             intOrZeroIfEmpty(state.expenses.transport) +
             intOrZeroIfEmpty(state.expenses.taxes) +
-            intOrZeroIfEmpty(state.expenses.others);
+            intOrZeroIfEmpty(state.expenses.others) //+
+            // getStep3IncomeTotal(state, calcNumber) * (1 - getStep3NetMargin(state, calcNumber))
+        );
     }
     else {
         return (
@@ -224,8 +238,20 @@ export function getStep3ExpensesTotal(state, calcNumber) {
     }
 }
 
-function getStep3NetMargin(state, calcNumber) {
-    return getStep3NetMarginPrc(state, calcNumber) / 100;
+export function getStep3PrimeCost(state, calcNumber) {
+    // if (state.expenses.isManual) {
+    //     return intOrZeroIfEmpty(state.expenses.managementCount) * intOrZeroIfEmpty(state.expenses.managementSalary) +
+    //         intOrZeroIfEmpty(state.expenses.employeeCount) * intOrZeroIfEmpty(state.expenses.employeeSalary) +
+    //         intOrZeroIfEmpty(state.expenses.rent) +
+    //         intOrZeroIfEmpty(state.expenses.transport) +
+    //         intOrZeroIfEmpty(state.expenses.taxes) +
+    //         intOrZeroIfEmpty(state.expenses.others);
+    // }
+    // else {
+        return (
+            getStep3IncomeTotal(state, calcNumber) * (1 - getStep3GrossMargin(state))
+        ).toFixed(2);
+    // }
 }
 
 function emptyIfZero(value) {

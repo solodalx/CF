@@ -1,6 +1,9 @@
 /* eslint-disable react/prop-types */
-
 import React from 'react';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import * as modelAction from '../../common/actions/modelAction';
+
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Select from 'react-select';
@@ -11,6 +14,9 @@ import TextField from '@material-ui/core/TextField';
 import Chip from '@material-ui/core/Chip';
 import MenuItem from '@material-ui/core/MenuItem';
 import { emphasize } from '@material-ui/core/styles/colorManipulator';
+
+import Tooltip from '@material-ui/core/Tooltip';
+import {IS_DEBUG} from '../../common/properties';
 
 const styles = theme => ({
     root: {
@@ -59,6 +65,9 @@ const styles = theme => ({
             width: 350,
             maxWidth: 350,
         },
+    },
+    purple: {
+        color: 'purple',
     },
 });
 
@@ -167,13 +176,22 @@ const components = {
 class InputFieldAutocomplete extends React.Component {
     state = {
         single: null,
-        multi: null,
+        // multi: null,
+        multi: this.props.value,
     };
 
     handleChange = name => value => {
+        this.props.modelAction.fieldUpdated(this.props.field, value);
         this.setState({
             [name]: value,
         });
+        if (IS_DEBUG) {
+            console.log('NEPLOG: InputFieldAutocomplete: handleChange: name = ' + name + ', value = ' + value);
+            console.log(value);
+            console.log(this.props.value);
+            console.log(this.props.modelState);
+            console.log(this);
+        }
     };
 
     render() {
@@ -182,6 +200,10 @@ class InputFieldAutocomplete extends React.Component {
         return (
             <div className={classes.root}>
             {/*<div className={[classes.root, classes.inputWidth].join(' ')}>*/}
+                <Typography className={classes.purple}>
+                    <br/>
+                    {this.props.title}
+                </Typography>
                 <NoSsr>
                     {/*<Select*/}
                         {/*classes={classes}*/}
@@ -191,23 +213,39 @@ class InputFieldAutocomplete extends React.Component {
                         {/*onChange={this.handleChange('single')}*/}
                         {/*placeholder="Search a country (start with a)"*/}
                     {/*/>*/}
-                    <Select
-                        classes={classes}
-                        options={this.props.suggestions}
-                        components={components}
-                        value={this.state.multi}
-                        onChange={this.handleChange('multi')}
-                        // placeholder="Select multiple countries"
-                        placeholder={this.props.placeholder}
-                        isMulti
-                        // menuPosition='fixed'
-                        // menuPosition='absolute'
-                        menuPosition={this.props.menuPosition}
-                        menuPlacement='auto'
-                    />
+                    {/*<Tooltip title={this.props.tip} placement="center">*/}
+                        <Select
+                            classes={classes}
+                            options={this.props.suggestions}
+                            components={components}
+                            value={this.state.multi}
+                            onChange={this.handleChange('multi')}
+                            // placeholder="Select multiple countries"
+                            placeholder={this.props.placeholder}
+                            isMulti={this.props.isMulti == undefined ? false : this.props.isMulti}
+                            // menuPosition='fixed'
+                            menuPosition='absolute'
+                            // menuPosition={this.props.menuPosition}
+                            // menuPlacement='auto'
+                            maxMenuHeight={this.props.maxMenuHeight == undefined ? 200 : this.props.maxMenuHeight}
+                        />
+                    {/*</Tooltip>*/}
                 </NoSsr>
             </div>
         );
+    }
+}
+
+
+function mapStateToProps(store) {
+    return {
+        modelState: store.modelState,
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        modelAction: bindActionCreators(modelAction, dispatch),
     }
 }
 
@@ -215,4 +253,5 @@ InputFieldAutocomplete.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(InputFieldAutocomplete);
+// export default withStyles(styles)(InputFieldAutocomplete);
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(InputFieldAutocomplete));

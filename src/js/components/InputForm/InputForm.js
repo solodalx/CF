@@ -4,6 +4,7 @@ import {bindActionCreators} from 'redux';
 
 import * as regionsAction from '../../common/actions/regionsAction';
 import * as businessAreaAction from '../../common/actions/businessAreaAction';
+import * as environmentAction from '../../common/actions/environmentAction';
 import * as modelAction from '../../common/actions/modelAction';
 import * as model from "../../common/model";
 
@@ -271,6 +272,13 @@ function getBusinessAreaSuggestions(areas) {
     }))
 }
 
+function getEnvironmentSuggestions(environments) {
+    return environments.map(env => ({
+        value: env.uuid,
+        label: env.name,
+    }))
+}
+
 class InputForm extends React.Component {
     state = {
         activeStep: 0,
@@ -329,6 +337,7 @@ class InputForm extends React.Component {
         // this.props.modelAction.setInitialState();
         this.props.regionsAction.getRegions(event);
         this.props.businessAreaAction.getBusinessArea(event);
+        this.props.environmentAction.getEnvironment(event);
         if (IS_DEBUG) {
             console.log('NEPLOG: InputForm: componentDidMount: modelState = ' + this.props.modelState);
             console.log(this.props.modelState);
@@ -466,6 +475,7 @@ function mapStateToProps(store) {
     return {
         regions: store.regionsState.regions,
         businessArea: store.businessAreaState.businessArea,
+        environment: store.environmentState.environment,
         modelState: store.modelState,
     }
 }
@@ -474,6 +484,7 @@ function mapDispatchToProps(dispatch) {
     return {
         regionsAction: bindActionCreators(regionsAction, dispatch),
         businessAreaAction: bindActionCreators(businessAreaAction, dispatch),
+        environmentAction: bindActionCreators(environmentAction, dispatch),
         modelAction: bindActionCreators(modelAction, dispatch),
     }
 }
@@ -510,22 +521,43 @@ function getStepContent(step, props, state) {
                             {/*<IntegrationReactSelect/>*/}
                             {/*<InputFieldRegion/>*/}
                             <InputFieldAutocomplete
+                                field='commons:regions'
+                                value={props.modelState.commons.regions}
                                 suggestions={getRegionsSuggestions(props.regions)}
-                                placeholder='Город'
-                                menuPosition='absolute'
+                                title='Город'
+                                placeholder='Выберите город...'
+                                // menuPosition='absolute'
+                                isMulti
                             />
                         </div>
-                        <div className="col">
-                            <InputFieldRegionEnv/>
-                        </div>
-                    </div>
-                    <div class="row">
+                        {/*<div className="col">*/}
+                            {/*<InputFieldRegionEnv/>*/}
+                        {/*</div>*/}
+                    {/*</div>*/}
+                    {/*<div class="row">*/}
                         <div class="col">
                             {/*<InputFieldArea/>*/}
                             <InputFieldAutocomplete
+                                field='commons:businessArea'
+                                value={props.modelState.commons.businessArea}
                                 suggestions={getBusinessAreaSuggestions(props.businessArea)}
-                                placeholder='Направление деятельности'
-                                menuPosition='fixed'
+                                title='Направление деятельности'
+                                placeholder='Выберите деятельность...'
+                                // menuPosition='fixed'
+                                // menuPosition='absolute'
+                                isMulti
+                            />
+                        </div>
+                        <div className="col">
+                            {/*<InputFieldRegionEnv/>*/}
+                            <InputFieldAutocomplete
+                                field='commons:environment'
+                                value={props.modelState.commons.environment}
+                                suggestions={getEnvironmentSuggestions(props.environment)}
+                                title='Проходимость'
+                                placeholder='Выберите расположение...'
+                                // tip='Месторасположение'
+                                maxMenuHeight={150}
                             />
                         </div>
                         <div className="col">
@@ -820,6 +852,7 @@ function getStepContent(step, props, state) {
                                     {/*}>*/}
                                     <div className="col-sm-auto col-12">
                                         <InputFieldAmount value={model.getStep3ExpensesTotal(props.modelState, 0)} label="Всего" tip="Всего расходов" disabled/>
+                                        <InputFieldAmount value={model.getStep3PrimeCost(props.modelState, 0)} label="в т.ч. себестоимость" tip="" defaultValue={0} disabled/>
                                     </div>
                                 </div>
                                 <div className="row justify-content-sm-start">
