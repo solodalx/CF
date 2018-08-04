@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
 import * as regionsAction from '../../common/actions/regionsAction';
+import * as townsAction from '../../common/actions/townsAction';
 import * as businessAreaAction from '../../common/actions/businessAreaAction';
 import * as environmentAction from '../../common/actions/environmentAction';
 import * as modelAction from '../../common/actions/modelAction';
@@ -265,6 +266,37 @@ function getRegionsSuggestions(regions) {
     }))
 }
 
+function getTownsSuggestions(towns, regions, selectedRegions) {
+    if (selectedRegions == '') {
+        return towns.map(town => {
+            let region = regions.find(r => r.uuid === town.regionId)
+            return {
+                value: town.uuid,
+                label: region.name + ', ' + town.name,
+            }
+        })
+    // } else if (selectedRegions.length === 1) {
+    //     let id = selectedRegions[0].value
+    //     return towns
+    //         .filter(town => town.regionId === id)
+    //         .map(town => ({
+    //             value: town.uuid,
+    //             label: town.name,
+    //     }))
+    } else {
+        let selectedRegionsIds = selectedRegions.map(r => r.value)
+        return towns
+            .filter(town => selectedRegionsIds.includes(town.regionId))
+            .map(town => {
+                let region = selectedRegions.find(r => r.value === town.regionId)
+                return {
+                    value: town.uuid,
+                    label: region.label + ', ' + town.name,
+                }
+        })
+    }
+}
+
 function getBusinessAreaSuggestions(areas) {
     return areas.map(area => ({
         value: area.uuid,
@@ -336,6 +368,7 @@ class InputForm extends React.Component {
     componentDidMount = (event) => {
         // this.props.modelAction.setInitialState();
         this.props.regionsAction.getRegions(event);
+        this.props.townsAction.getTowns(event);
         this.props.businessAreaAction.getBusinessArea(event);
         this.props.environmentAction.getEnvironment(event);
         if (IS_DEBUG) {
@@ -474,6 +507,7 @@ class InputForm extends React.Component {
 function mapStateToProps(store) {
     return {
         regions: store.regionsState.regions,
+        towns: store.townsState.towns,
         businessArea: store.businessAreaState.businessArea,
         environment: store.environmentState.environment,
         modelState: store.modelState,
@@ -483,6 +517,7 @@ function mapStateToProps(store) {
 function mapDispatchToProps(dispatch) {
     return {
         regionsAction: bindActionCreators(regionsAction, dispatch),
+        townsAction: bindActionCreators(townsAction, dispatch),
         businessAreaAction: bindActionCreators(businessAreaAction, dispatch),
         environmentAction: bindActionCreators(environmentAction, dispatch),
         modelAction: bindActionCreators(modelAction, dispatch),
@@ -524,16 +559,27 @@ function getStepContent(step, props, state) {
                                 field='commons:regions'
                                 value={props.modelState.commons.regions}
                                 suggestions={getRegionsSuggestions(props.regions)}
-                                title='Город'
-                                placeholder='Выберите город...'
-                                // menuPosition='absolute'
+                                title='Регион'
+                                placeholder='Выберите регион...'
                                 isMulti
                             />
                         </div>
                         {/*<div className="col">*/}
                             {/*<InputFieldRegionEnv/>*/}
                         {/*</div>*/}
-                    {/*</div>*/}
+                        <div className="col">
+                            <InputFieldAutocomplete
+                                field='commons:towns'
+                                value={props.modelState.commons.towns}
+                                // suggestions={getTownsSuggestions2(props.towns, props.regions)}
+                                // suggestions={getTownsSuggestions2(props.towns, props.modelState.commons.regions)}
+                                suggestions={getTownsSuggestions(props.towns, props.regions, props.modelState.commons.regions)}
+                                title='Город'
+                                placeholder='Выберите город...'
+                                isMulti
+                            />
+                        </div>
+                        {/*</div>*/}
                     {/*<div class="row">*/}
                         <div class="col">
                             {/*<InputFieldArea/>*/}
@@ -808,10 +854,9 @@ function getStepContent(step, props, state) {
                                     <InputFieldCalculator/>
                                 </div>
                                 <div className="row justify-content-start">
-                                    <div className="col-sm-auto col-12">
-                                        {/*<InputFieldAmount id={fields.FL_INCOME_AVERAGE_PRICE} label="Цена" tip="Средняя цена реализации" />*/}
-                                        <InputFieldAmount value={model.getStep3AveragePrice(props.modelState, 0)} label="Цена" tip="Средняя цена реализации" disabled/>
-                                    </div>
+                                    {/*<div className="col-sm-auto col-12">*/}
+                                        {/*<InputFieldAmount value={model.getStep3AveragePrice(props.modelState, 0)} label="Цена" tip="Средняя цена реализации" disabled/>*/}
+                                    {/*</div>*/}
                                     <div className="col-sm-auto col-12">
                                         {/*<InputFieldNumber id="field-input-income-amount" label="Продажи" tip="Среднее количество продаж в день" />*/}
                                         {/*<InputFieldAmount id={fields.FL_INCOME_AVERAGE_SALES_PER_DAY} label="Продажи" tip="Среднее количество продаж в день" flType={fields.FLTYPE_NUMBER} adornment="ед."/>*/}
@@ -989,7 +1034,7 @@ function getStepContent(step, props, state) {
                                     </div>
                                     < div className = "col-sm-auto col-12" >
                                     {/*<div className={(props.model.flExpensesIsManual == 0) ? 'invisible col-sm-auto col-12' :  'col-sm-auto col-12'}>*/}
-                                        < InputFieldAmount value={model.getStep3NetMarginPrc(props.modelState, 0)} label="Чистая рентабельность" tip="Чистая рентабельность" flType={fields.FLTYPE_NUMBER} adornment="%" disabled/>
+                                        <InputFieldAmount value={model.getStep3NetMarginPrc(props.modelState, 0)} label="Чистая рентабельность" tip="Чистая рентабельность" flType={fields.FLTYPE_NUMBER} adornment="%" disabled/>
                                     </div>
                                     <div className="w-100"></div>
                                     {/*<div className="col-sm-auto col-12">*/}

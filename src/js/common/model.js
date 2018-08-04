@@ -4,6 +4,7 @@ export const initialModelState = {
     // Step 1
     commons: {
         regions: '',
+        towns: '',
         businessArea: '',
         environment: '',
     },
@@ -157,13 +158,13 @@ export function getStep2Ratio(state) {
     return ratio;
 }
 
-export function getStep3AveragePrice(state, calcNumber) {
-    switch(calcNumber) {
-        case 0:
-            return intOrZeroIfEmpty(state.calculators["1"].averageAmount);
-    }
-    return 0;
-}
+// export function getStep3AveragePrice(state, calcNumber) {
+//     switch(calcNumber) {
+//         case 0:
+//             return intOrZeroIfEmpty(state.calculators["1"].averageAmount);
+//     }
+//     return 0;
+// }
 
 export function getStep3AverageSalesPerMonth(state, calcNumber) {
     switch(calcNumber) {
@@ -177,7 +178,8 @@ export function getStep3IncomePerMonth(state, calcNumber) {
     switch(calcNumber) {
         case 0:
             // return getStep3AveragePrice(state, calcNumber) * intOrZeroIfEmpty(state.calculators["1"].customerNumberPerDay);
-            return (getStep3AveragePrice(state, calcNumber) * getStep3AverageSalesPerMonth(state, calcNumber)).toFixed(2);
+            // return (getStep3AveragePrice(state, calcNumber) * getStep3AverageSalesPerMonth(state, calcNumber)).toFixed(2);
+            return (intOrZeroIfEmpty(state.calculators["1"].averageAmount) * getStep3AverageSalesPerMonth(state, calcNumber)).toFixed(2);
     }
     return 0;
 }
@@ -196,12 +198,20 @@ function getStep3GrossMargin(state) {
 
 export function getStep3NetMarginPrc(state, calcNumber) {
     if (state.expenses.isManual) {
+        if (IS_DEBUG) {
+            console.log('NEPLOG: model: getStep3NetMarginPrc: state = ' + state + ', calcNumber = ' + calcNumber);
+            console.log(state);
+            console.log('getStep3IncomeTotal = ' + getStep3IncomeTotal(state, calcNumber) +
+                ', getStep3ExpensesTotal = ' + getStep3ExpensesTotal(state, calcNumber) +
+                ', getStep3GrossMargin = ' + getStep3GrossMargin(state));
+        }
         return (
             // (getStep3IncomeTotal(state, calcNumber) * (1 - getStep3GrossMargin(state)) - getStep3ExpensesTotal(state)) /
             // getStep3IncomeTotal(state, calcNumber) * 100).toFixed(2);
+
             (getStep3IncomeTotal(state, calcNumber) -
                 (getStep3IncomeTotal(state, calcNumber) * (1 - getStep3GrossMargin(state)) +
-                    getStep3ExpensesTotal(state)
+                    getStep3ExpensesTotal(state, calcNumber)
                 )
             ) /
             getStep3IncomeTotal(state, calcNumber) *
@@ -219,21 +229,22 @@ function getStep3NetMargin(state, calcNumber) {
 
 export function getStep3ExpensesTotal(state, calcNumber) {
     if (state.expenses.isManual) {
-        return (
+        return round(
+            getStep3IncomeTotal(state, calcNumber) * (1 - getStep3GrossMargin(state)) +
             intOrZeroIfEmpty(state.expenses.managementCount) * intOrZeroIfEmpty(state.expenses.managementSalary) +
             intOrZeroIfEmpty(state.expenses.employeeCount) * intOrZeroIfEmpty(state.expenses.employeeSalary) +
             intOrZeroIfEmpty(state.expenses.rent) +
             intOrZeroIfEmpty(state.expenses.transport) +
             intOrZeroIfEmpty(state.expenses.taxes) +
-            intOrZeroIfEmpty(state.expenses.others) //+
-            // getStep3IncomeTotal(state, calcNumber) * (1 - getStep3NetMargin(state, calcNumber))
+            intOrZeroIfEmpty(state.expenses.others)
         );
     }
     else {
         return (
-            getStep3IncomeTotal(state, calcNumber) -
-            (getStep3IncomeTotal(state, calcNumber) * (1 - getStep3GrossMargin(state))) -
-            getStep3IncomeTotal(state, calcNumber) * getStep3NetMargin(state, calcNumber)
+            // getStep3IncomeTotal(state, calcNumber) -
+            // (getStep3IncomeTotal(state, calcNumber) * (1 - getStep3GrossMargin(state))) -
+            // getStep3IncomeTotal(state, calcNumber) * getStep3NetMargin(state, calcNumber)
+            getStep3IncomeTotal(state, calcNumber) * (1 - getStep3NetMargin(state, calcNumber))
         ).toFixed(2);
     }
 }
@@ -260,4 +271,8 @@ function emptyIfZero(value) {
 
 function intOrZeroIfEmpty(value) {
     return value == '' ? 0 : parseInt(value);
+}
+
+function round(value, number = 2) {
+    return parseFloat(value.toFixed(number));
 }

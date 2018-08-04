@@ -169,7 +169,9 @@ class InputFieldAmount extends React.Component {
                                 </InputAdornment>,
                             //className: classes.input
                             inputComponent:
-                                (this.props.flType == undefined || this.props.flType == fields.FLTYPE_AMOUNT) ?
+                                (this.props.flType == undefined ||
+                                    this.props.flType == fields.FLTYPE_AMOUNT ||
+                                    this.props.flType == fields.FLTYPE_NUMBER) ?
                                     NumberFormatCustom :
                                     ''
                         }}

@@ -3,12 +3,14 @@ import {filterActions} from 'redux-ignore';
 import thunk from 'redux-thunk';
 
 import regionsReducer from '../reducer/regionsReducer';
+import townsReducer from '../reducer/townsReducer';
 import businessAreaReducer from '../reducer/businessAreaReducer';
 import environmentReducer from '../reducer/environmentReducer';
 import taxmodeReducer from '../reducer/taxmodeReducer';
 import modelReducer from '../reducer/modelReducer';
 
 import {regionsActions} from '../constants/regionsConstants';
+import {townsActions} from '../constants/townsConstants';
 import {businessAreaActions} from '../constants/businessAreaConstants';
 import {environmentActions} from '../constants/environmentConstants';
 import {taxmodeActions} from '../constants/taxmodeConstants';
@@ -17,6 +19,7 @@ import {modelActions} from '../constants/modelConstants';
 
 const rootReducer = combineReducers({
     regionsState: filterActions(regionsReducer, regionsActions),
+    townsState: filterActions(townsReducer, townsActions),
     businessAreaState: filterActions(businessAreaReducer, businessAreaActions),
     environmentState: filterActions(environmentReducer, environmentActions),
     taxmodeState: filterActions(taxmodeReducer, taxmodeActions),
