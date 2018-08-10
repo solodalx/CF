@@ -7,6 +7,7 @@ import * as modelAction from '../../common/actions/modelAction';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Select from 'react-select';
+// import createFilterOptions from 'react-select-fast-filter-options'
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import NoSsr from '@material-ui/core/NoSsr';
@@ -180,6 +181,7 @@ class InputFieldAutocomplete extends React.Component {
         multi: this.props.value,
     };
 
+
     handleChange = name => value => {
         this.props.modelAction.fieldUpdated(this.props.field, value);
         this.setState({
@@ -196,6 +198,11 @@ class InputFieldAutocomplete extends React.Component {
 
     render() {
         const { classes } = this.props;
+
+        // const filterOptions = createFilterOptions({
+        //     options
+        // });
+        // const filterOptions = createFilterOptions(this.props.suggestions);
 
         return (
             <div className={classes.root}>
@@ -217,6 +224,7 @@ class InputFieldAutocomplete extends React.Component {
                         <Select
                             classes={classes}
                             options={this.props.suggestions}
+                            // filterOptions={filterOptions}
                             components={components}
                             value={this.state.multi}
                             onChange={this.handleChange('multi')}
@@ -228,6 +236,7 @@ class InputFieldAutocomplete extends React.Component {
                             // menuPosition={this.props.menuPosition}
                             // menuPlacement='auto'
                             maxMenuHeight={this.props.maxMenuHeight == undefined ? 200 : this.props.maxMenuHeight}
+                            // menuIsOpen={inputValue.length > 2 ? true : false}
                         />
                     {/*</Tooltip>*/}
                 </NoSsr>

@@ -81,7 +81,7 @@ class InputFieldRegion extends React.Component {
                         </MenuItem>
                         {
                             this.props.regions.map(region => {
-                                return <MenuItem value={region.uuid}>{region.name}</MenuItem>
+                                return <MenuItem value={region.id}>{region.name}</MenuItem>
                             })
                         }
                         {/*<MenuItem value={77}>Москва</MenuItem>*/}

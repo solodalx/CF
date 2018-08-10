@@ -1,4 +1,5 @@
 import axios from 'axios'
+import {IS_DEBUG} from '../../common/properties';
 
 export function get(url, params, cancelToken) {
     let urlWithParams = (!params) ? url : url + addParams(params);
@@ -9,10 +10,24 @@ export function get(url, params, cancelToken) {
 }
 
 export function post(url, body) {
-    return axios.post(url, body).catch((error) => {
-        if (!onError(error))
+    axios.defaults.headers.post['Content-Type'] = 'application/json';
+
+    if (IS_DEBUG) {
+        console.log('NEPLOG: https: post: url = ' + url + ', body = ' + body);
+        console.log(body);
+    }
+    let response = axios.post(url, body).catch((error) => {
+        if (!onError(error)) {
+            console.log('NEPLOG: https: post: error = ' + error);
+            console.log(error);
             return error;
-    })
+        }
+    });
+    if (IS_DEBUG) {
+        console.log('NEPLOG: https: post: response = ' + response);
+        console.log(response);
+    }
+    return response;
 }
 
 export function put(url, body) {

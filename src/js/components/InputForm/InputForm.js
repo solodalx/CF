@@ -6,6 +6,7 @@ import * as regionsAction from '../../common/actions/regionsAction';
 import * as townsAction from '../../common/actions/townsAction';
 import * as businessAreaAction from '../../common/actions/businessAreaAction';
 import * as environmentAction from '../../common/actions/environmentAction';
+import * as bigdataAction from '../../common/actions/bigdataAction';
 import * as modelAction from '../../common/actions/modelAction';
 import * as model from "../../common/model";
 
@@ -261,52 +262,67 @@ function getSteps() {
 
 function getRegionsSuggestions(regions) {
     return regions.map(region => ({
-        value: region.uuid,
+        value: region.id,
         label: region.name,
     }))
 }
 
-function getTownsSuggestions(towns, regions, selectedRegions) {
-    if (selectedRegions == '') {
-        return towns.map(town => {
-            let region = regions.find(r => r.uuid === town.regionId)
-            return {
-                value: town.uuid,
-                label: region.name + ', ' + town.name,
-            }
-        })
+function getTownsSuggestions0(towns, regions) {
+    return towns.map(town => ({
+        value: town.id,
+        label: town.name,
+    }))
+}
+
+function getTownsSuggestions(towns, regions) {
+    //, selectedRegions) {
+    // if (selectedRegions == '') {
+    if (IS_DEBUG) {
+        console.log('NEPLOG: InputForm: getTownsSuggestions: towns = ' + towns + ' regions = ' + regions);
+        console.log(towns);
+        console.log(regions);
+    }
+
+    return towns.map(town => {
+        let region = regions.find(r => r.id === town.regionId)
+        return {
+            value: town.id,
+            label: (region.name == town.name) ? town.name : region.name + ', ' + town.name,
+        }
+    })
+
     // } else if (selectedRegions.length === 1) {
     //     let id = selectedRegions[0].value
     //     return towns
     //         .filter(town => town.regionId === id)
     //         .map(town => ({
-    //             value: town.uuid,
+    //             value: town.id,
     //             label: town.name,
     //     }))
-    } else {
-        let selectedRegionsIds = selectedRegions.map(r => r.value)
-        return towns
-            .filter(town => selectedRegionsIds.includes(town.regionId))
-            .map(town => {
-                let region = selectedRegions.find(r => r.value === town.regionId)
-                return {
-                    value: town.uuid,
-                    label: region.label + ', ' + town.name,
-                }
-        })
-    }
+    // } else {
+    //     let selectedRegionsIds = selectedRegions.map(r => r.value)
+    //     return towns
+    //         .filter(town => selectedRegionsIds.includes(town.regionId))
+    //         .map(town => {
+    //             let region = selectedRegions.find(r => r.value === town.regionId)
+    //             return {
+    //                 value: town.id,
+    //                 label: region.label + ', ' + town.name,
+    //             }
+    //     })
+    // }
 }
 
 function getBusinessAreaSuggestions(areas) {
     return areas.map(area => ({
-        value: area.uuid,
+        value: area.id,
         label: area.mainName + ' - ' + area.detailedName,
     }))
 }
 
 function getEnvironmentSuggestions(environments) {
     return environments.map(env => ({
-        value: env.uuid,
+        value: env.id,
         label: env.name,
     }))
 }
@@ -317,15 +333,30 @@ class InputForm extends React.Component {
         // assetsLand: '',
         // assetsBuildings: '',
         // value: 0,
+        // townsSuggestions: [],
     };
 
     handleStep = step => () => {
+        if (step === 2) {
+            this.props.bigdataAction.getBigdata(
+                this.props.modelState.commons.towns.value,
+                this.props.modelState.commons.businessArea.value,
+                this.props.modelState.commons.environment.value
+            )
+        }
         this.setState({
             activeStep: step
         });
     };
 
     handleNext = () => {
+        if (this.state.activeStep === 1) {
+            this.props.bigdataAction.getBigdata(
+                this.props.modelState.commons.towns.value,
+                this.props.modelState.commons.businessArea.value,
+                this.props.modelState.commons.environment.value
+            )
+        }
         this.setState({
             activeStep: this.state.activeStep + 1,
         });
@@ -358,22 +389,34 @@ class InputForm extends React.Component {
 
     constructor(props) {
         super(props);
-        // props.modelAction.setInitialState();
+        // props.regionsAction.getRegions();
+        props.townsAction.getTowns();
+        props.businessAreaAction.getBusinessArea();
+        props.environmentAction.getEnvironment();
+        // this.state.townsSuggestions = getTownsSuggestions(props.towns, props.regions);
+
         if (IS_DEBUG) {
             console.log('NEPLOG: InputForm: constructor: modelState = ' + props.modelState);
-            console.log(props.modelState);
+            // console.log(props.modelState);
+            console.log(props);
+            console.log(this.state);
         }
     }
 
     componentDidMount = (event) => {
-        // this.props.modelAction.setInitialState();
-        this.props.regionsAction.getRegions(event);
-        this.props.townsAction.getTowns(event);
-        this.props.businessAreaAction.getBusinessArea(event);
-        this.props.environmentAction.getEnvironment(event);
+        // this.props.regionsAction.getRegions(event);
+        // this.props.townsAction.getTowns(event);
+        // this.props.businessAreaAction.getBusinessArea(event);
+        // this.props.environmentAction.getEnvironment(event);
+
+        // const towns = getTownsSuggestions(this.props.towns, this.props.regions);
+        // this.setState({ townsSuggestions: towns});
+
         if (IS_DEBUG) {
             console.log('NEPLOG: InputForm: componentDidMount: modelState = ' + this.props.modelState);
-            console.log(this.props.modelState);
+            // console.log(this.props.modelState);
+            console.log(this.props);
+            console.log(this.state);
         }
     };
 
@@ -388,7 +431,9 @@ class InputForm extends React.Component {
         const { value } = this.state;
         if (IS_DEBUG) {
             console.log('NEPLOG: InputForm: render: modelState = ' + this.props.modelState);
-            console.log(this.props.modelState);
+            // console.log(this.props.modelState);
+            console.log(this.props);
+            console.log(this.state);
         }
 
         return (
@@ -452,7 +497,7 @@ class InputForm extends React.Component {
                                         {/*<div class="container">*/}
                                             {/*<div class="row">*/}
                                                 {/*<div class="col">*/}
-                                                    <Typography>{getStepContent(index, this.props)}</Typography>
+                                                    <Typography>{getStepContent(index, this.props, this.state)}</Typography>
                                                 {/*</div>*/}
                                             {/*</div>*/}
                                         {/*</div>*/}
@@ -507,9 +552,11 @@ class InputForm extends React.Component {
 function mapStateToProps(store) {
     return {
         regions: store.regionsState.regions,
-        towns: store.townsState.towns,
+        // towns: store.townsState.towns,
+        townsState: store.townsState,
         businessArea: store.businessAreaState.businessArea,
         environment: store.environmentState.environment,
+        bigdata: store.bigdataState.bigdata,
         modelState: store.modelState,
     }
 }
@@ -520,6 +567,7 @@ function mapDispatchToProps(dispatch) {
         townsAction: bindActionCreators(townsAction, dispatch),
         businessAreaAction: bindActionCreators(businessAreaAction, dispatch),
         environmentAction: bindActionCreators(environmentAction, dispatch),
+        bigdataAction: bindActionCreators(bigdataAction, dispatch),
         modelAction: bindActionCreators(modelAction, dispatch),
     }
 }
@@ -552,18 +600,18 @@ function getStepContent(step, props, state) {
                         {/*</div>*/}
                     </div>
                     <div class="row">
-                        <div class="col">
+                        {/*<div class="col">*/}
                             {/*<IntegrationReactSelect/>*/}
                             {/*<InputFieldRegion/>*/}
-                            <InputFieldAutocomplete
-                                field='commons:regions'
-                                value={props.modelState.commons.regions}
-                                suggestions={getRegionsSuggestions(props.regions)}
-                                title='Регион'
-                                placeholder='Выберите регион...'
-                                isMulti
-                            />
-                        </div>
+                            {/*<InputFieldAutocomplete*/}
+                                {/*field='commons:regions'*/}
+                                {/*value={props.modelState.commons.regions}*/}
+                                {/*suggestions={getRegionsSuggestions(props.regions)}*/}
+                                {/*title='Регион'*/}
+                                {/*placeholder='Выберите регион...'*/}
+                                {/*isMulti*/}
+                            {/*/>*/}
+                        {/*</div>*/}
                         {/*<div className="col">*/}
                             {/*<InputFieldRegionEnv/>*/}
                         {/*</div>*/}
@@ -573,10 +621,13 @@ function getStepContent(step, props, state) {
                                 value={props.modelState.commons.towns}
                                 // suggestions={getTownsSuggestions2(props.towns, props.regions)}
                                 // suggestions={getTownsSuggestions2(props.towns, props.modelState.commons.regions)}
-                                suggestions={getTownsSuggestions(props.towns, props.regions, props.modelState.commons.regions)}
+                                // suggestions={getTownsSuggestions0(props.towns, props.regions)}
+                                suggestions={props.townsState.suggestions}
+                                // suggestions={state.townsSuggestions}
+                                //, props.modelState.commons.regions)}
                                 title='Город'
                                 placeholder='Выберите город...'
-                                isMulti
+                                // isMulti
                             />
                         </div>
                         {/*</div>*/}
@@ -591,7 +642,7 @@ function getStepContent(step, props, state) {
                                 placeholder='Выберите деятельность...'
                                 // menuPosition='fixed'
                                 // menuPosition='absolute'
-                                isMulti
+                                // isMulti
                             />
                         </div>
                         <div className="col">
@@ -606,14 +657,15 @@ function getStepContent(step, props, state) {
                                 maxMenuHeight={150}
                             />
                         </div>
-                        <div className="col">
-                            <InputFieldTax/>
-                        </div>
+                        {/*<div className="col">*/}
+                            {/*<InputFieldTax/>*/}
+                        {/*</div>*/}
                         {/*<div>*/}
                         {/*<br/>*/}
                         {/*<br/>*/}
                     {/*</div>*/}
                     </div>
+                    <br/>
                 </div>
             )
         case 1:
@@ -626,8 +678,8 @@ function getStepContent(step, props, state) {
                                     {/*Собственные денежные средства к вложению в проект*/}
                                     <InputFieldAmount field='invest:ownCash' value={props.modelState.invest.ownCash}
                                                       // label="Денежные средства"
-                                                      // tip="Собственные денежные средства к вложению в проект"
-                                        fieldTitle='Свои денежные средства, планируемые к вложению'
+                                                      fieldTitle='Свои денежные средства, планируемые к вложению'
+                                                      tip="Собственные средства, в том числе для приобретения планируемых к покупке активов"
                                     />
                                 </div>
                             </div>
@@ -896,8 +948,8 @@ function getStepContent(step, props, state) {
                                         {/*classes.invisible + " col-sm-auto col-12"*/}
                                     {/*}>*/}
                                     <div className="col-sm-auto col-12">
-                                        <InputFieldAmount value={model.getStep3ExpensesTotal(props.modelState, 0)} label="Всего" tip="Всего расходов" disabled/>
-                                        <InputFieldAmount value={model.getStep3PrimeCost(props.modelState, 0)} label="в т.ч. себестоимость" tip="" defaultValue={0} disabled/>
+                                        <InputFieldAmount value={model.getStep3ExpensesTotal(props, 0).toFixed(2)} label="Всего" tip="Всего расходов" disabled/>
+                                        <InputFieldAmount value={model.getStep3PrimeCost(props, 0).toFixed(2)} label="в т.ч. себестоимость" tip="" defaultValue={0} disabled/>
                                     </div>
                                 </div>
                                 <div className="row justify-content-sm-start">
@@ -918,10 +970,10 @@ function getStepContent(step, props, state) {
                                             <div className="row justify-content-start">
                                                 <div className="col-sm-auto col-12">
                                                     {/*<InputFieldSwitchable id={fields.FL_EXPENSES_MANUAL.FL_MANAGEMENT_COUNT} label="Численность" tip="Количество сотрудников" flType={fields.FLTYPE_NUMBER}/>*/}
-                                                    <InputFieldAmount field='expenses:managementCount' value={props.modelState.expenses.managementCount} label="Численность" tip="Количество сотрудников" flType={fields.FLTYPE_NUMBER}/>
+                                                    <InputFieldAmount field='expenses:managementCount' value={props.modelState.expenses.managementCount} label="Численность" tip="Количество сотрудников" adornment="чел." flType={fields.FLTYPE_NUMBER}/>
                                                 </div>
                                                 <div className="col-sm-auto col-12">
-                                                    <InputFieldAmount field='expenses:managementSalary' value={props.modelState.expenses.managementSalary} label="Средняя зарплата" tip="Средняя зарплата 1 чел. в месяц"/>
+                                                    <InputFieldAmount field='expenses:managementSalary' value={N(props.modelState.expenses.managementSalary).toFixed(2)} label="Средняя зарплата" tip="Средняя зарплата 1 чел. в месяц"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -933,10 +985,10 @@ function getStepContent(step, props, state) {
                                             </div>
                                             <div className="row justify-content-start">
                                                 <div className="col-sm-auto col-12">
-                                                    <InputFieldAmount  field='expenses:employeeCount' value={props.modelState.expenses.employeeCount} label="Численность" tip="Количество сотрудников" flType={fields.FLTYPE_NUMBER}/>
+                                                    <InputFieldAmount  field='expenses:employeeCount' value={props.modelState.expenses.employeeCount} label="Численность" tip="Количество сотрудников" adornment="чел." flType={fields.FLTYPE_NUMBER}/>
                                                 </div>
                                                 <div className="col-sm-auto col-12">
-                                                    <InputFieldAmount  field='expenses:employeeSalary' value={props.modelState.expenses.employeeSalary} label="Средняя зарплата" tip="Средняя зарплата 1 чел. в месяц"/>
+                                                    <InputFieldAmount  field='expenses:employeeSalary' value={N(props.modelState.expenses.employeeSalary).toFixed(2)} label="Средняя зарплата" tip="Средняя зарплата 1 чел. в месяц"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -950,19 +1002,19 @@ function getStepContent(step, props, state) {
                                             </div>
                                             <div className="row justify-content-start">
                                                 <div className="col-sm-auto col-12">
-                                                    <InputFieldAmount field='expenses:rent' value={props.modelState.expenses.rent} label="Аренда и коммунальные" tip="Средняя аренда и коммунальные платежи и в месяц"/>
+                                                    <InputFieldAmount field='expenses:rent' value={N(props.modelState.expenses.rent).toFixed(2)} label="Аренда и коммунальные" tip="Средняя аренда и коммунальные платежи и в месяц" />
                                                 </div>
                                                 <div className="w-100"></div>
                                                 <div className="col-sm-auto col-12">
-                                                    <InputFieldAmount field='expenses:transport' value={props.modelState.expenses.transport} label="Транспорт" tip="Транспортные расходы в месяц" />
+                                                    <InputFieldAmount field='expenses:transport' value={N(props.modelState.expenses.transport).toFixed(2)} label="Транспорт" tip="Транспортные расходы в месяц" />
                                                 </div>
                                                 <div className="w-100"></div>
                                                 <div className="col-sm-auto col-12">
-                                                    <InputFieldAmount field='expenses:taxes' value={props.modelState.expenses.taxes} label="Налоги" tip="Средняя сумма налогов и сборов в месяц" />
+                                                    <InputFieldAmount field='expenses:taxes' value={N(props.modelState.expenses.taxes).toFixed(2)} label="Налоги" tip="Средняя сумма налогов и сборов в месяц" />
                                                 </div>
                                                 <div className="w-100"></div>
                                                 <div className="col-sm-auto col-12">
-                                                    <InputFieldAmount field='expenses:others' value={props.modelState.expenses.others} label="Прочее" tip="Прочие расходы" />
+                                                    <InputFieldAmount field='expenses:others' value={N(props.modelState.expenses.others).toFixed(2)} label="Прочее" tip="Прочие расходы" />
                                                 </div>
                                             </div>
                                         </div>
@@ -1023,9 +1075,9 @@ function getStepContent(step, props, state) {
                                     {/*<div className={(props.model.flExpensesIsManual == 0) ? 'invisible col-sm-auto col-12' :  'col-sm-auto col-12'}>*/}
                                         {/*<InputFieldAmount value={model.getStep3GrossMargin(props.modelState)} label="Валовая рентабельность" tip="Валовая рентабельность" flType={fields.FLTYPE_NUMBER} adornment="%" disabled/>*/}
                                         <InputFieldSwitchable
-                                            value={model.getStep3GrossMarginFromBigDataPrc(props.modelState)}
-                                            field2='finance:grossMargin' value2={props.modelState.finance.grossMargin}
-                                            fieldChecked='finance:isManualGrossMargin'
+                                            value={model.getStep3GrossProfitabilityFromBigDataPrc(props).toFixed(2)}
+                                            field2='finance:grossProfitability' value2={props.modelState.finance.grossProfitability}
+                                            fieldChecked='finance:isManualGrossProfitability'
                                             label="Валовая рентабельность"
                                             tip="Валовая рентабельность"
                                             flType={fields.FLTYPE_NUMBER}
@@ -1034,7 +1086,7 @@ function getStepContent(step, props, state) {
                                     </div>
                                     < div className = "col-sm-auto col-12" >
                                     {/*<div className={(props.model.flExpensesIsManual == 0) ? 'invisible col-sm-auto col-12' :  'col-sm-auto col-12'}>*/}
-                                        <InputFieldAmount value={model.getStep3NetMarginPrc(props.modelState, 0)} label="Чистая рентабельность" tip="Чистая рентабельность" flType={fields.FLTYPE_NUMBER} adornment="%" disabled/>
+                                        <InputFieldAmount value={model.getStep3NetProfitabilityPrc(props, 0).toFixed(2)} label="Чистая рентабельность" tip="Чистая рентабельность" flType={fields.FLTYPE_NUMBER} adornment="%" disabled/>
                                     </div>
                                     <div className="w-100"></div>
                                     {/*<div className="col-sm-auto col-12">*/}
@@ -1075,3 +1127,6 @@ function getStepContent(step, props, state) {
     }
 }
 
+function N(value) {
+    return isNaN(value) ? 0 : Number(value);
+}

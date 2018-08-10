@@ -75,7 +75,7 @@ class InputFieldRegionEnv extends React.Component {
                             </MenuItem>
                             {
                                 this.props.environment.map(env => {
-                                    return <MenuItem value={env.uuid}>{env.name}</MenuItem>
+                                    return <MenuItem value={env.id}>{env.name}</MenuItem>
                                 })
                             }
                             {/*<MenuItem value={1}>Центр города</MenuItem>*/}

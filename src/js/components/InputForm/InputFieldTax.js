@@ -73,7 +73,7 @@ class InputFieldTax extends React.Component {
                         </MenuItem>
                         {
                             this.props.taxmode.map(tax => {
-                                return <MenuItem value={tax.uuid}>{tax.name}</MenuItem>
+                                return <MenuItem value={tax.id}>{tax.name}</MenuItem>
                             })
                         }
                         {/*<MenuItem value={'УСН'}>УСН</MenuItem>*/}

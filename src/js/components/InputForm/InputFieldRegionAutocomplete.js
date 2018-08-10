@@ -343,7 +343,7 @@ export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(I
 
 function getSuggestions(regions) {
     return regions.map(region => ({
-        value: region.uuid,
+        value: region.id,
         label: region.name,
     }))
 }

@@ -47,19 +47,19 @@ export const initialModelState = {
 
     expenses: {
         isManual: false,
-        managementCount: '',
-        managementSalary: '',
-        employeeCount: '',
-        employeeSalary: '',
-        rent: '',
-        transport: '',
-        taxes: '',
-        others: '',
+        managementCount: 0,
+        managementSalary: 0,
+        employeeCount: 0,
+        employeeSalary: 0,
+        rent: 0,
+        transport: 0,
+        taxes: 0,
+        others: 0,
     },
 
     finance: {
-        isManualGrossMargin: false,
-        grossMargin: '',
+        isManualGrossProfitability: false,
+        grossProfitability: '',
         dividents: '',
     },
 }
@@ -106,6 +106,28 @@ export function updateState(state, field, value) {
     //     console.log(newState);
     // }
     return newState;
+}
+
+export function copyBigdataToFields(state, props) {
+    if (state == undefined || state == '' || props.modelState == undefined || props.modelState == '' || props.bigdata == undefined || props.bigdata == '')
+        return state;
+    // const value = getStep3IncomeTotal(state, calcNumber) * (getStep3GrossProfitability(props) - getStep3NetProfitability(props, calcNumber));
+    const value = N(getStep3IncomeTotal(state, 0)) *
+        (N(getStep3GrossProfitability(props)) - N(getStep3NetProfitability(props, 0)));
+    return {
+        ...state,
+        expenses: {
+            ...state.expenses,
+            // managementCount: '',
+            managementSalary: props.bigdata.calculatedCostsDto.csWageManagement * value,
+            // employeeCount: '',
+            employeeSalary: props.bigdata.calculatedCostsDto.csWageProduction * value,
+            rent: props.bigdata.calculatedCostsDto.csInfrastructure * value,
+            transport: props.bigdata.calculatedCostsDto.csTransport * value,
+            taxes: props.bigdata.calculatedCostsDto.csTaxes * value,
+            others: props.bigdata.calculatedCostsDto.csOther * value,
+        }
+    }
 }
 
 export function getTotal(block) {
@@ -188,68 +210,96 @@ export function getStep3IncomeTotal(state, calcNumber) {
    return getStep3IncomePerMonth(state, calcNumber);
 }
 
-export function getStep3GrossMarginFromBigDataPrc(state) {
-    return (64.63).toFixed(2);
+
+
+///////////////////////////
+// Step 3 - Profitabilities
+///////////////////////////
+
+export function getStep3GrossProfitabilityFromBigDataPrc(props) {
+    // return (64.63).toFixed(2);
+    // return (props.bigdata.grossProfitability * 100).toFixed(2);
+    return N(props.bigdata.grossProfitability) * 100 * 12;
 }
 
-function getStep3GrossMargin(state) {
-    return (state.finance.isManualGrossMargin ? intOrZeroIfEmpty(state.finance.grossMargin) : getStep3GrossMarginFromBigDataPrc(state)) / 100;
+function getStep3GrossProfitability(props) {
+    return (
+        props.modelState.finance.isManualGrossProfitability ?
+            // intOrZeroIfEmpty(props.modelState.finance.grossProfitability) :
+            N(props.modelState.finance.grossProfitability) :
+            // getStep3GrossProfitabilityFromBigDataPrc(props)) / 100;
+            N(getStep3GrossProfitabilityFromBigDataPrc(props))
+    ) / 100;
 }
 
-export function getStep3NetMarginPrc(state, calcNumber) {
-    if (state.expenses.isManual) {
+export function getStep3NetProfitabilityPrc(props, calcNumber) {
+    if (props.modelState.expenses.isManual) {
         if (IS_DEBUG) {
-            console.log('NEPLOG: model: getStep3NetMarginPrc: state = ' + state + ', calcNumber = ' + calcNumber);
-            console.log(state);
-            console.log('getStep3IncomeTotal = ' + getStep3IncomeTotal(state, calcNumber) +
-                ', getStep3ExpensesTotal = ' + getStep3ExpensesTotal(state, calcNumber) +
-                ', getStep3GrossMargin = ' + getStep3GrossMargin(state));
+            console.log('NEPLOG: model: getStep3NetProfitabilityPrc: props = ' + props + ', calcNumber = ' + calcNumber);
+            console.log(props);
+            console.log('getStep3IncomeTotal = ' + getStep3IncomeTotal(props.modelState, calcNumber) +
+                ', getStep3ExpensesTotal = ' + getStep3ExpensesTotal(props, calcNumber) +
+                ', getStep3GrossProfitability = ' + getStep3GrossProfitability(props));
         }
         return (
-            // (getStep3IncomeTotal(state, calcNumber) * (1 - getStep3GrossMargin(state)) - getStep3ExpensesTotal(state)) /
+            // (getStep3IncomeTotal(state, calcNumber) * (1 - getStep3GrossProfitability(state)) - getStep3ExpensesTotal(state)) /
             // getStep3IncomeTotal(state, calcNumber) * 100).toFixed(2);
 
-            (getStep3IncomeTotal(state, calcNumber) -
-                (getStep3IncomeTotal(state, calcNumber) * (1 - getStep3GrossMargin(state)) +
-                    getStep3ExpensesTotal(state, calcNumber)
+            // [Выр - (Выр * (1 - Вал.рент) + Расх)] / Выр * 100
+            // = [Выр * Вал.рент - Расх] / Выр * 100
+            // = [Вал.рен - Расх/Выр] * 100
+            (N(getStep3IncomeTotal(props.modelState, calcNumber)) -
+                (N(getStep3IncomeTotal(props.modelState, calcNumber)) * (1 - N(getStep3GrossProfitability(props))) +
+                    N(getStep3ExpensesTotal(props, calcNumber))
                 )
             ) /
-            getStep3IncomeTotal(state, calcNumber) *
+            N(getStep3IncomeTotal(props.modelState, calcNumber)) *
             100
-        ).toFixed(2);
+        // ).toFixed(2);
+        );
     }
     else {
-        return (18.31).toFixed(2);
+        // return (18.31).toFixed(2);
+        // return (props.bigdata.netProfitability * 100).toFixed(2);
+        // return (props.bigdata.netPortability * 100).toFixed(2);
+        return (N(props.bigdata.netPortability) * 100 * 12);
     }
 }
 
-function getStep3NetMargin(state, calcNumber) {
-    return getStep3NetMarginPrc(state, calcNumber) / 100;
+function getStep3NetProfitability(props, calcNumber) {
+    return N(getStep3NetProfitabilityPrc(props, calcNumber)) / 100;
 }
 
-export function getStep3ExpensesTotal(state, calcNumber) {
-    if (state.expenses.isManual) {
+
+
+////////////////////
+// Step 3 - Expenses
+////////////////////
+
+export function getStep3ExpensesTotal(props, calcNumber) {
+    if (props.modelState.expenses.isManual) {
         return round(
-            getStep3IncomeTotal(state, calcNumber) * (1 - getStep3GrossMargin(state)) +
-            intOrZeroIfEmpty(state.expenses.managementCount) * intOrZeroIfEmpty(state.expenses.managementSalary) +
-            intOrZeroIfEmpty(state.expenses.employeeCount) * intOrZeroIfEmpty(state.expenses.employeeSalary) +
-            intOrZeroIfEmpty(state.expenses.rent) +
-            intOrZeroIfEmpty(state.expenses.transport) +
-            intOrZeroIfEmpty(state.expenses.taxes) +
-            intOrZeroIfEmpty(state.expenses.others)
+            N(getStep3IncomeTotal(props.modelState, calcNumber)) * (1 - N(getStep3GrossProfitability(props))) +
+            N(props.modelState.expenses.managementCount) * N(props.modelState.expenses.managementSalary) +
+            N(props.modelState.expenses.employeeCount) * N(props.modelState.expenses.employeeSalary) +
+            N(props.modelState.expenses.rent) +
+            N(props.modelState.expenses.transport) +
+            N(props.modelState.expenses.taxes) +
+            N(props.modelState.expenses.others)
         );
     }
     else {
         return (
             // getStep3IncomeTotal(state, calcNumber) -
-            // (getStep3IncomeTotal(state, calcNumber) * (1 - getStep3GrossMargin(state))) -
-            // getStep3IncomeTotal(state, calcNumber) * getStep3NetMargin(state, calcNumber)
-            getStep3IncomeTotal(state, calcNumber) * (1 - getStep3NetMargin(state, calcNumber))
-        ).toFixed(2);
+            // (getStep3IncomeTotal(state, calcNumber) * (1 - getStep3GrossProfitability(state))) -
+            // getStep3IncomeTotal(state, calcNumber) * getStep3NetProfitability(state, calcNumber)
+            N(getStep3IncomeTotal(props.modelState, calcNumber)) * (1 - N(getStep3NetProfitability(props, calcNumber)))
+        // ).toFixed(2);
+        );
     }
 }
 
-export function getStep3PrimeCost(state, calcNumber) {
+export function getStep3PrimeCost(props, calcNumber) {
     // if (state.expenses.isManual) {
     //     return intOrZeroIfEmpty(state.expenses.managementCount) * intOrZeroIfEmpty(state.expenses.managementSalary) +
     //         intOrZeroIfEmpty(state.expenses.employeeCount) * intOrZeroIfEmpty(state.expenses.employeeSalary) +
@@ -260,10 +310,32 @@ export function getStep3PrimeCost(state, calcNumber) {
     // }
     // else {
         return (
-            getStep3IncomeTotal(state, calcNumber) * (1 - getStep3GrossMargin(state))
-        ).toFixed(2);
+            N(getStep3IncomeTotal(props.modelState, calcNumber)) * (1 - N(getStep3GrossProfitability(props)))
+        // ).toFixed(2);
+        );
     // }
 }
+
+// function getStep3ExpensesCoef(props, calcNumber) {
+//     return (
+//         N(getStep3IncomeTotal(props.modelState, calcNumber)) * (
+//             N(getStep3GrossProfitability(props)) - N(getStep3NetProfitability(props, calcNumber))
+//         )
+//     )
+// }
+
+// export function getStep3ExpensesRentFromBigData(props, calcNumber) {
+//     return (
+//         props.bigdata.calculatedCostsDto === undefined ?
+//             undefined :
+//             props.bigdata.calculatedCostsDto.csInfrastructure * getStep3ExpensesCoef(props, calcNumber)
+//     );
+// }
+
+
+////////
+// Utils
+////////
 
 function emptyIfZero(value) {
     return value == 0 ? '' : value;
@@ -271,6 +343,17 @@ function emptyIfZero(value) {
 
 function intOrZeroIfEmpty(value) {
     return value == '' ? 0 : parseInt(value);
+}
+
+var filterFloat = function(value) {
+    if(/^(\-|\+)?([0-9]+(\.[0-9]+)?|Infinity)$/
+        .test(value))
+        return Number(value);
+    return NaN;
+}
+
+function N(value) {
+    return isNaN(value) ? 0 : Number(value);
 }
 
 function round(value, number = 2) {

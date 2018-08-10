@@ -18,6 +18,10 @@ export default function modelReducer(state = model.initialModelState, action) {
             // return {...state, [action.data.blockName]: {...state[action.data.blockName], [action.data.fieldName]: action.data.value}} ;
             // return model.updateState(state, action.data.blockName, action.data.fieldName, action.data.value)
             return model.updateState(state, action.data.field, action.data.value);
+
+        case modelConstants.COPY_BIGDATA_TO_FIELDS:
+            return model.copyBigdataToFields(state, action.data.props);
+
         default:
             return state;
     }

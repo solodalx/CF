@@ -67,6 +67,9 @@ class InputFieldsManualExpenses extends React.Component {
         }
         // this.props.modelAction.setExpensesManual(this.props.model, event.target.checked);
         this.props.modelAction.fieldUpdated('expenses:isManual', event.target.checked);
+        if (event.target.checked) {
+            this.props.modelAction.copyBigdataToFields(this.props);
+        }
         this.setState({[name]: event.target.checked});
     };
 
@@ -109,6 +112,7 @@ class InputFieldsManualExpenses extends React.Component {
 function mapStateToProps(store) {
     return {
         modelState: store.modelState,
+        bigdata: store.bigdataState.bigdata,
     }
 }
 

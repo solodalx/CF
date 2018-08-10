@@ -34,3 +34,19 @@ export function fieldUpdated(field, value) {
         })
     }
 }
+
+export function copyBigdataToFields(props) {
+    if (IS_DEBUG) {
+        console.log('NEPLOG: modelAction: copyBigdataToFields: props = ' + props);
+        console.log(props);
+    }
+    return (dispatch) => {
+        dispatch({
+            type: modelConstants.COPY_BIGDATA_TO_FIELDS,
+            data: {
+                props: props,
+            }
+        })
+    }
+}
+

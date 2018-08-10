@@ -7,7 +7,7 @@ export default function townsReducer(state = {
 }, action) {
     switch (action.type) {
         case GET_TOWNS_SUCCESS:
-            return {...state, towns: action.data};
+            return {...state, towns: action.data, suggestions: action.suggestions};
         default:
             return state;
     }
