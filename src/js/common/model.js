@@ -118,9 +118,9 @@ export function copyBigdataToFields(state, props) {
         ...state,
         expenses: {
             ...state.expenses,
-            // managementCount: '',
+            managementCount: 1,
             managementSalary: props.bigdata.calculatedCostsDto.csWageManagement * value,
-            // employeeCount: '',
+            employeeCount: 1,
             employeeSalary: props.bigdata.calculatedCostsDto.csWageProduction * value,
             rent: props.bigdata.calculatedCostsDto.csInfrastructure * value,
             transport: props.bigdata.calculatedCostsDto.csTransport * value,
@@ -219,7 +219,7 @@ export function getStep3IncomeTotal(state, calcNumber) {
 export function getStep3GrossProfitabilityFromBigDataPrc(props) {
     // return (64.63).toFixed(2);
     // return (props.bigdata.grossProfitability * 100).toFixed(2);
-    return N(props.bigdata.grossProfitability) * 100 * 12;
+    return N(props.bigdata.grossProfitability) * 100;
 }
 
 function getStep3GrossProfitability(props) {
@@ -248,13 +248,15 @@ export function getStep3NetProfitabilityPrc(props, calcNumber) {
             // [Выр - (Выр * (1 - Вал.рент) + Расх)] / Выр * 100
             // = [Выр * Вал.рент - Расх] / Выр * 100
             // = [Вал.рен - Расх/Выр] * 100
-            (N(getStep3IncomeTotal(props.modelState, calcNumber)) -
-                (N(getStep3IncomeTotal(props.modelState, calcNumber)) * (1 - N(getStep3GrossProfitability(props))) +
-                    N(getStep3ExpensesTotal(props, calcNumber))
-                )
-            ) /
-            N(getStep3IncomeTotal(props.modelState, calcNumber)) *
-            100
+
+            // (N(getStep3IncomeTotal(props.modelState, calcNumber)) -
+            //     (N(getStep3IncomeTotal(props.modelState, calcNumber)) * (1 - N(getStep3GrossProfitability(props))) +
+            //         N(getStep3ExpensesTotal(props, calcNumber))
+            //     )
+            // ) /
+            (N(getStep3IncomeTotal(props.modelState, calcNumber)) - N(getStep3ExpensesTotal(props, calcNumber))) /
+                N(getStep3IncomeTotal(props.modelState, calcNumber)) *
+                100
         // ).toFixed(2);
         );
     }
@@ -262,7 +264,7 @@ export function getStep3NetProfitabilityPrc(props, calcNumber) {
         // return (18.31).toFixed(2);
         // return (props.bigdata.netProfitability * 100).toFixed(2);
         // return (props.bigdata.netPortability * 100).toFixed(2);
-        return (N(props.bigdata.netPortability) * 100 * 12);
+        return (N(props.bigdata.netPortability) * 100);
     }
 }
 
