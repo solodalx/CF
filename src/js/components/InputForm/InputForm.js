@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import {Link} from 'react-router-dom'
 
 import * as regionsAction from '../../common/actions/regionsAction';
 import * as townsAction from '../../common/actions/townsAction';
@@ -527,6 +528,9 @@ class InputForm extends React.Component {
                                                 >
                                                     {activeStep === steps.length - 1 ? 'Рассчитать модель' : 'Далее'}
                                                 </Button>
+                                                <Link to='/output'>
+                                                    Output
+                                                </Link>
                                             </div>
                                         </div>
                                     </StepContent>

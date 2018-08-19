@@ -92,6 +92,9 @@ const styles = theme => ({
         //marginLeft: '15px',
         // height: 'auto',
     },
+    scrollX: {
+        overflowX: 'auto',
+    },
     tableRow: {
         '&:nth-of-type(odd)': {
             // backgroundColor: theme.palette.background.default,
@@ -205,7 +208,7 @@ class OutputWidgetCF extends React.Component {
                         <CardContent>
                             <Divider/>
                             {/*<div className={classes.panel}>*/}
-                            <div>
+                            <div className={classes.scrollX}>
                                 <Table>
                                     <TableHead>
                                         <TableRow>
