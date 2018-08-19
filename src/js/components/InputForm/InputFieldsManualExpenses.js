@@ -38,7 +38,7 @@ const styles = theme => ({
     paddingMinus10: {
         paddingLeft: -10,
     },
-    paddingZero: {
+    column: {
         paddingLeft: 0,
     },
     paddingRightZero: {
@@ -88,7 +88,7 @@ class InputFieldsManualExpenses extends React.Component {
                                        Использовать BigData
                                        {/*</span>*/}
                                     </div>
-                                    <div className={[classes.paddingZero, classes.paddingRightZero].join(' ') + ' col-auto'}>
+                                    <div className={[classes.column, classes.paddingRightZero].join(' ') + ' col-auto'}>
                                         <Switch
                                             checked={this.state.checkedManualExpenses}
                                             onChange={this.handleChange('checkedManualExpenses')}

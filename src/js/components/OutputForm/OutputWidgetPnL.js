@@ -31,10 +31,20 @@ import TableRow from '@material-ui/core/TableRow';
 import Divider from '@material-ui/core/Divider';
 import NumberFormat from 'react-number-format';
 
+const CustomTableCell = withStyles(theme => ({
+    head: {
+        // backgroundColor: theme.palette.common.black,
+        backgroundColor: '#9dcb9a',
+        color: theme.palette.common.white,
+    },
+    body: {
+        // fontSize: 14,
+    },
+}))(TableCell);
+
 const styles = theme => ({
     cardCanvas: {
         padding: '6px',
-        height: '100%'
     },
     card: {
         // maxWidth: 400,
@@ -44,10 +54,9 @@ const styles = theme => ({
         //     width: '100%',
         // },
         // [theme.breakpoints.up('md')]: {
-        //     // maxWidth: '50%',
+        //     // maxWidth: 500,
         // },
         // margin: 6,
-        height: '100%'
     },
     media: {
         height: 0,
@@ -91,29 +100,29 @@ const styles = theme => ({
     },
     tableCellFirst: {
         // width: 120,
-        // [theme.breakpoints.down('xs')]: {
-        //     minWidth: 50,
-        //     maxWidth: 240,
-        //     width: '100%',
-        // },
-        // [theme.breakpoints.up('sm')]: {
-        //     width: 240,
-        //     maxWidth: 240,
-        // },
+        [theme.breakpoints.down('xs')]: {
+            minWidth: 50,
+            maxWidth: 240,
+            width: '100%',
+        },
+        [theme.breakpoints.up('sm')]: {
+            width: 240,
+            // maxWidth: 240,
+        },
         paddingLeft: 12,
         // paddingRight: 12,
     },
     tableCell: {
-        width: 160,
-        // [theme.breakpoints.down('xs')]: {
-        //     minWidth: 50,
-        //     maxWidth: 140,
-        //     width: '100%',
-        // },
-        // [theme.breakpoints.up('sm')]: {
-        //     width: 140,
-        //     maxWidth: 140,
-        // },
+        // width: 160,
+        [theme.breakpoints.down('xs')]: {
+            minWidth: 50,
+            maxWidth: 160,
+            width: '100%',
+        },
+        [theme.breakpoints.up('sm')]: {
+            width: 160,
+            maxWidth: 160,
+        },
         paddingLeft: 12,
         paddingRight: 0,
     },
@@ -133,19 +142,28 @@ function numberAndPrc(valueNumber, suffixNumber, valuePrc) {
     return <div>{number(valueNumber, suffixNumber)} / {valuePrc}%</div>
 }
 
+function head(state) {
+    var fieldNames = ['Показатель / период'];
+    var numberOfPeriods = data(state).map(o => o.values.length).reduce((a, b) => Math.max(a, b));
+    for (let i = 1; i <= numberOfPeriods; i++) {
+        fieldNames.push(i + ' год');
+    }
+    return fieldNames;
+}
+
 function data(state) {
     return [
-        {name: 'Локация - г.Челябинск, центр города', value: '', oneRow: true},
-        {name: 'Месяц начала проекта', value: '08.2018 г.'},
-        {name: 'Месяц выхода на целевую проектную мощность', value: '11.2018 г.'},
-        {name: 'Бюджет', value: number(3350000, ' руб.')},
-        {name: 'Собственные средства', value: numberAndPrc(1600000, ' руб.', 49)},
-        {name: 'Заемные средства/ Соинвестирование сроком на 48 мес. под 14% годовых', value: numberAndPrc(1750000, ' руб.', 51)},
-        {name: 'Ежемесячный платеж по основному долгу 36 460 руб. и % 20 420 руб.', value: number(56870, ' руб.')},
+        {name: 'Выручка', values: [8236, 9025, 9000, 9000]},
+        {name: 'Себестоимость продаж', values: [2912, 3192, 3183, 3183]},
+        {name: 'Коммерческие и управленческие расходы', values: [2634, 2889, 2889, 2889]},
+        {name: 'Проценты к получению / уплате', values: [201, 161, 99, 38]},
+        {name: 'Прочие доходы / расходы', values: [9, 10, 10, 10]},
+        {name: 'Текущий налог на прибыль', values: [180, 180, 180, 180]},
+        {name: 'Чистая прибыль (убыток)', values: [2299, 2592, 2638, 2699]},
     ]
 }
 
-class OutputWidgetProjectParams extends React.Component {
+class OutputWidgetPnL extends React.Component {
     state = { expanded: false };
 
     handleExpandClick = () => {
@@ -159,7 +177,7 @@ class OutputWidgetProjectParams extends React.Component {
             <div className={classes.cardCanvas}>
                 <Card className={classes.card}>
                     <CardHeader
-                        title="Характеристики проекта"
+                        title="Отчет о финансовых результатах, тыс. руб."
                         // subheader="September 14, 2016"
                     />
                     {/*<CardContent>*/}
@@ -187,24 +205,39 @@ class OutputWidgetProjectParams extends React.Component {
                         <CardContent>
                             <Divider/>
                             {/*<div className={classes.panel}>*/}
+                            <div>
                                 <Table>
+                                    <TableHead>
+                                        <TableRow>
+                                            {head(null).map(n => {
+                                                return (
+                                                    <CustomTableCell className={classes.tableCell}>
+                                                        {n}
+                                                    </CustomTableCell>
+                                                )
+                                            })}
+                                        </TableRow>
+                                    </TableHead>
                                     <TableBody>
                                         {data(null).map(n => {
                                             return (
                                                 <TableRow className={classes.tableRow}>
-                                                    <TableCell component='th' scope='row' className={classes.tableCellFirst}>
+                                                    <CustomTableCell component='th' scope='row' className={classes.tableCellFirst}>
                                                         {n.name}
-                                                    </TableCell>
-                                                    <TableCell className={classes.tableCell}>
-                                                        {/*{n.value + n.suffix}*/}
-                                                        {n.value}
-                                                    </TableCell>
+                                                    </CustomTableCell>
+                                                    {n.values.map(v => {
+                                                        return (
+                                                            <CustomTableCell className={classes.tableCell}>
+                                                                {v}
+                                                            </CustomTableCell>
+                                                        )
+                                                    })}
                                                 </TableRow>
                                             );
                                         })}
                                     </TableBody>
                                 </Table>
-                            {/*</div>*/}
+                            </div>
                         </CardContent>
                     </Collapse>
                 </Card>
@@ -225,9 +258,9 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
-OutputWidgetProjectParams.propTypes = {
+OutputWidgetPnL.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
 // export default withStyles(styles)(OutputWidgetMain);
-export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(OutputWidgetProjectParams));
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(OutputWidgetPnL));

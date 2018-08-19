@@ -17,9 +17,9 @@ import Typography from '@material-ui/core/Typography';
 import red from '@material-ui/core/colors/red';
 import green from '@material-ui/core/colors/green';
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
+import Share from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
+// import MoreVertIcon from '@material-ui/icons/MoreVert';
 import ThumbUp from '@material-ui/icons/ThumbUp';
 import * as modelAction from "../../common/actions/modelAction";
 
@@ -32,17 +32,21 @@ import Divider from '@material-ui/core/Divider';
 import NumberFormat from 'react-number-format';
 
 const styles = theme => ({
+    cardCanvas: {
+        padding: '6px',
+    },
     card: {
         // maxWidth: 400,
-        [theme.breakpoints.down('sm')]: {
-            minWidth: 150,
-            maxWidth: 500,
-            width: '100%',
-        },
-        [theme.breakpoints.up('md')]: {
-            maxWidth: 500,
-        },
-        // margin: 12,
+        // [theme.breakpoints.down('sm')]: {
+        //     minWidth: 150,
+        //     maxWidth: 500,
+        //     width: '100%',
+        // },
+        // [theme.breakpoints.up('md')]: {
+        //     // maxWidth: 500,
+        //     // maxWidth: '50%',
+        // },
+        // margin: 6,
     },
     media: {
         height: 0,
@@ -97,7 +101,8 @@ const styles = theme => ({
     },
     tableRow: {
         '&:nth-of-type(odd)': {
-            backgroundColor: theme.palette.background.default,
+            // backgroundColor: theme.palette.background.default,
+            backgroundColor: '#f8fff8',
         },
     },
     tableCellFirst: {
@@ -131,13 +136,15 @@ const styles = theme => ({
 });
 
 function number(value, suffix) {
-    return <NumberFormat
+    return <span className='text-nowrap'>
+        <NumberFormat
             value={value}
             thousandSeparator=' '
             // prefix="$"
             suffix={suffix}
             displayType={'text'}
-        />;
+        />
+    </span>
 }
 
 function data(state) {
@@ -148,6 +155,14 @@ function data(state) {
         {name: 'Дисконтированный срок окупаемости (DPBP)', value: 16, suffix: ' мес.'},
         {name: 'Чистая приведенная стоимость (NPV)', value: 2984335, suffix: ' руб.'},
         {name: 'Внутренняя норма доходности (IRR)', value: 5.75, suffix: '%'},
+    ]
+}
+
+function data2(state) {
+    return [
+        {name: 'Снижение цены реализации за порцию до', value: 202, suffix: ' руб.'},
+        {name: 'Снижение объема продаж в месяц до', value: 2430, suffix: ' порций'},
+        {name: 'Рост издержек (за исключением амортизации) в месяц до', value: 410000, suffix: ' руб.'},
     ]
 }
 
@@ -162,7 +177,7 @@ class OutputWidgetMain extends React.Component {
         const { classes } = this.props;
 
         return (
-            //<div>
+            <div className={classes.cardCanvas}>
                 <Card className={classes.card}>
                     <CardHeader
                         title="Эффективность проекта"
@@ -227,36 +242,55 @@ class OutputWidgetMain extends React.Component {
                     {/*<Collapse in={this.state.expanded} timeout="auto" unmountOnExit>*/}
                     <Collapse in={true}>
                         <CardContent>
-                            <Divider/>
-                            <div className={classes.panel + ' container'}>
+                            {/*<Divider/>*/}
+                            {/*<div className={classes.panel + ' container'}>*/}
+                            <Typography variant='caption'>
+                                Справочно (сред.мес)
+                            </Typography>
+                            <div className='container'>
                                 <div className='row'>
-                                    <div className='col-2'>
-                                        <Typography variant='subheading'>
-                                            Справочно
-                                        </Typography>
+                                    <div className='col'>
                                         <Typography variant='caption'>
-                                            сред.мес.
+                                            Выручка: {number(760417, ' руб.')}
                                         </Typography>
                                     </div>
-                                    <div className='col offset-1'>
-                                        <Table>
-                                            <TableBody>
-                                                <TableRow className={classes.spravRow}>
-                                                    <TableCell component='th' scope='row' className={classes.spravCellFirst}>Выручка</TableCell>
-                                                    <TableCell className={classes.spravCell}>{number(760417, ' руб.')}</TableCell>
-                                                </TableRow>
-                                                <TableRow className={classes.spravRow}>
-                                                    <TableCell component='th' scope='row' className={classes.spravCellFirst}>Прибыль</TableCell>
-                                                    <TableCell className={classes.spravCell}>{number(218020, ' руб.')}</TableCell>
-                                                </TableRow>
-                                            </TableBody>
-                                        </Table>
+                                    <div className='col'>
+                                        <Typography variant='caption'>
+                                            Прибыль: {number(218020, ' руб.')}
+                                        </Typography>
                                     </div>
                                 </div>
                             </div>
-                            {/*<Divider/>*/}
-                            {/*<br/>*/}
-                            <div className={classes.panel}>
+                            {/*<div className='container'>*/}
+                                {/*<div className='row'>*/}
+                                    {/*<div className='col-2'>*/}
+                                        {/*<Typography variant='subheading'>*/}
+                                            {/*Справочно*/}
+                                        {/*</Typography>*/}
+                                        {/*<Typography variant='caption'>*/}
+                                            {/*сред.мес.*/}
+                                        {/*</Typography>*/}
+                                    {/*</div>*/}
+                                    {/*<div className='col offset-1'>*/}
+                                        {/*<Table>*/}
+                                            {/*<TableBody>*/}
+                                                {/*<TableRow className={classes.spravRow}>*/}
+                                                    {/*<TableCell component='th' scope='row' className={classes.spravCellFirst}>Выручка</TableCell>*/}
+                                                    {/*<TableCell className={classes.spravCell}>{number(760417, ' руб.')}</TableCell>*/}
+                                                {/*</TableRow>*/}
+                                                {/*<TableRow className={classes.spravRow}>*/}
+                                                    {/*<TableCell component='th' scope='row' className={classes.spravCellFirst}>Прибыль</TableCell>*/}
+                                                    {/*<TableCell className={classes.spravCell}>{number(218020, ' руб.')}</TableCell>*/}
+                                                {/*</TableRow>*/}
+                                            {/*</TableBody>*/}
+                                        {/*</Table>*/}
+                                    {/*</div>*/}
+                                {/*</div>*/}
+                            {/*</div>*/}
+                            <br/>
+                            <Divider/>
+                            {/*<div className={classes.panel}>*/}
+                            <div>
                                 <Table>
                                     <TableBody>
                                         {data(null).map(n => {
@@ -275,6 +309,31 @@ class OutputWidgetMain extends React.Component {
                                     </TableBody>
                                 </Table>
                             </div>
+                            <br/>
+                            <Typography variant='caption'>
+                                Проект становится неэффективным при любом из нижеперечисленных условий
+                                (NPV отрицателен на горизонте 60 месяцев)
+                            </Typography>
+                            <Divider/>
+                            <Table>
+                                <TableBody>
+                                    {data2(null).map(n => {
+                                        return (
+                                            <TableRow className={classes.tableRow}>
+                                                <TableCell component='th' scope='row' className={classes.tableCellFirst}>
+                                                    {n.name}
+                                                </TableCell>
+                                                <TableCell className={classes.tableCell}>
+                                                    {number(n.value, n.suffix)}
+                                                </TableCell>
+                                            </TableRow>
+                                        );
+                                    })}
+                                </TableBody>
+                            </Table>
+                            {/*<Typography variant='caption'>*/}
+                                {/**NPV отрицателен на горизонте 60 месяцев.*/}
+                            {/*</Typography>*/}
                             {/*<Typography paragraph variant="body2">*/}
                                 {/*Method:*/}
                             {/*</Typography>*/}
@@ -303,7 +362,7 @@ class OutputWidgetMain extends React.Component {
                         </CardContent>
                     </Collapse>
                 </Card>
-            //</div>
+            </div>
         );
     }
 }

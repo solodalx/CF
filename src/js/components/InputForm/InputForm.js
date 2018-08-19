@@ -53,8 +53,8 @@ import InputFieldStride from './InputFieldStride.js'
 import InputFieldsManualExpenses from './InputFieldsManualExpenses.js'
 import InputFieldCalculator from './InputFieldCalculator'
 import InputFieldAutocomplete from './InputFieldAutocomplete'
-import InputFieldRegionAutocomplete from './InputFieldRegionAutocomplete'
-import IntegrationReactSelect from './InputFieldRegionAutocomplete_example'
+// import InputFieldRegionAutocomplete from './InputFieldRegionAutocomplete'
+// import IntegrationReactSelect from './InputFieldRegionAutocomplete_example'
 import InputFieldSwitchable from './InputFieldSwitchable'
 
 import {IS_DEBUG} from '../../common/properties';
@@ -186,7 +186,7 @@ const styles = theme => ({
     paddingMinus10: {
         paddingLeft: -10,
     },
-    paddingZero: {
+    column: {
         paddingLeft: 0,
     },
     paddingBottomZero: {
@@ -492,7 +492,7 @@ class InputForm extends React.Component {
                                             {label}
                                         </div>
                                     </StepButton>
-                                    <StepContent className={classes.paddingZero}>
+                                    <StepContent className={classes.column}>
                                     {/*<StepContent>*/}
                                         {/*<div class="container">*/}
                                             {/*<div class="row">*/}
@@ -693,7 +693,7 @@ function getStepContent(step, props, state) {
                         {/*<ExpansionPanelSummary className={classes.paddingZero} expandIcon={<ExpandMoreIcon/>}>*/}
                         <ExpansionPanelSummary
                             classes={{
-                                root: [classes.paddingZero, classes.justifyStart].join(' '),
+                                root: [classes.column, classes.justifyStart].join(' '),
                                 firstChild: classes.compWidth,
                             }}
                             expandIcon={<ExpandMoreIcon />}
@@ -715,7 +715,7 @@ function getStepContent(step, props, state) {
                             {/*<InputFieldAmount className={classes.alignRight} id="field-input-assets-total" label="" tip="" />*/}
                         </ExpansionPanelSummary>
                         {/*<ExpansionPanelDetails className={classes.container}>*/}
-                        <ExpansionPanelDetails className={classes.paddingZero}>
+                        <ExpansionPanelDetails className={classes.column}>
                             <div class="container no-gutters">
                                 <div class="row justify-content-start">
                                     {/*<div className={"col " + classes.fixedWidth}>*/}
@@ -758,7 +758,7 @@ function getStepContent(step, props, state) {
                         {/*<ExpansionPanelSummary className={classes.paddingZero} expandIcon={<ExpandMoreIcon />}>*/}
                         <ExpansionPanelSummary
                             classes={{
-                                root: [classes.paddingZero, classes.justifyStart].join(' '),
+                                root: [classes.column, classes.justifyStart].join(' '),
                                 content: classes.compWidth,
                             }}
                             expandIcon={<ExpandMoreIcon />}
@@ -780,7 +780,7 @@ function getStepContent(step, props, state) {
                             </div>
                         </ExpansionPanelSummary>
                         {/*<ExpansionPanelDetails className={classes.container}>*/}
-                        <ExpansionPanelDetails className={classes.paddingZero}>
+                        <ExpansionPanelDetails className={classes.column}>
                             <div className="container no-gutters">
                                 <div className="row justify-content-start">
                                     <div className="col-sm-auto col-12">
@@ -900,7 +900,7 @@ function getStepContent(step, props, state) {
                                 </div>
                             </div>
                         </ExpansionPanelSummary>
-                        <ExpansionPanelDetails className={classes.paddingZero}>
+                        <ExpansionPanelDetails className={classes.column}>
                             <div className="container no-gutters">
                                 <div className="row justify-content-start">
                                     <InputFieldCalculator/>

@@ -15,6 +15,8 @@ import CmnAppBar from '../common/CmnAppBar'
 import OutputWidgetMain from './OutputWidgetMain'
 import OutputWidgetEfficiency from './OutputWidgetEfficiency'
 import OutputWidgetProjectParams from './OutputWidgetProjectParams'
+import OutputWidgetPnL from './OutputWidgetPnL'
+import OutputWidgetCF from './OutputWidgetCF'
 
 const theme = createMuiTheme({
     palette: {
@@ -23,18 +25,35 @@ const theme = createMuiTheme({
         //primary: { main: purple[500] }, // Purple and green play nicely together.
         //secondary: { main: '#11cb5f' }, // This is just green.A700 as hex.
         // background: {
-            // default: '#FFC107',
-            // paper: '#FAFAFA',
+        //     default: '#FFC107',
+        //     paper: '#fab88f',
         // },
-    },
-    canvas: {
-        color: grey[200],
-        backgroundColor: grey[200],
-        padding: 12,
     },
 });
 
 const styles = theme => ({
+    canvas: {
+        // color: grey[200],
+        backgroundColor: grey[400],
+        padding: 0,
+    },
+    canvas2: {
+        margin: 0,
+        maxWidth: '100%',
+    },
+    canvasMargin: {
+        margin: 20,
+    },
+    paddingZero: {
+        padding: 0,
+    },
+    fullHeight: {
+        height: '100%'
+    },
+    colPadding: {
+        paddingLeft: '6px',
+        paddingRight: '6px',
+    },
 });
 
 class OutputForm extends React.Component {
@@ -50,24 +69,40 @@ class OutputForm extends React.Component {
 
         return (
             <MuiThemeProvider theme={theme}>
-                <div>
+                <div className={classes.canvas}>
                     <CmnAppBar icon='back' title='Вернуться назад' iconLink='/input'/>
                     {/*<div className={classes.canvas + ' container'}>*/}
-                    <div className='container'>
+                    {/*<div className={classes.canvasMargin + 'container'}>*/}
+                    <div className={classes.canvas2 + ' container'}>
                         <div className='row'>
-                            <div className='col'>
-                                <div className={classes.canvas}>
+                            <div className={classes.paddingZero + ' col'}>
+                                <div>
                                     <OutputWidgetMain/>
                                 </div>
                             {/*</div>*/}
                             {/*<div className='col'>*/}
-                                <div className={classes.canvas}>
-                                    <OutputWidgetEfficiency/>
+                                {/*<div>*/}
+                                    {/*<OutputWidgetEfficiency/>*/}
+                                {/*</div>*/}
+                            </div>
+                            <div className={classes.paddingZero + ' col'}>
+                            {/*<div className='col'>*/}
+                                <div className={classes.fullHeight}>
+                                    <OutputWidgetProjectParams/>
                                 </div>
                             </div>
-                            <div className='col'>
-                                <div className={classes.canvas}>
-                                    <OutputWidgetProjectParams/>
+                        </div>
+                        <div className='row'>
+                            <div className={classes.paddingZero + ' col'}>
+                                <div>
+                                    <OutputWidgetPnL/>
+                                </div>
+                            </div>
+                        </div>
+                        <div className='row'>
+                            <div className={classes.paddingZero + ' col'}>
+                                <div>
+                                    <OutputWidgetCF/>
                                 </div>
                             </div>
                         </div>

@@ -17,9 +17,9 @@ import Typography from '@material-ui/core/Typography';
 import red from '@material-ui/core/colors/red';
 import green from '@material-ui/core/colors/green';
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
+import Share from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
+// import MoreVertIcon from '@material-ui/icons/MoreVert';
 import ThumbUp from '@material-ui/icons/ThumbUp';
 import * as modelAction from "../../common/actions/modelAction";
 
@@ -32,17 +32,21 @@ import Divider from '@material-ui/core/Divider';
 import NumberFormat from 'react-number-format';
 
 const styles = theme => ({
+    cardCanvas: {
+        padding: '6px',
+    },
     card: {
         // maxWidth: 400,
-        [theme.breakpoints.down('sm')]: {
-            minWidth: 150,
-            maxWidth: 500,
-            width: '100%',
-        },
-        [theme.breakpoints.up('md')]: {
-            maxWidth: 500,
-        },
-        // margin: 12,
+        // [theme.breakpoints.down('sm')]: {
+        //     minWidth: 150,
+        //     maxWidth: 500,
+        //     width: '100%',
+        // },
+        // [theme.breakpoints.up('md')]: {
+        //     // maxWidth: 500,
+        //     // maxWidth: '50%',
+        // },
+        // margin: 6,
     },
     media: {
         height: 0,
@@ -97,7 +101,8 @@ const styles = theme => ({
     },
     tableRow: {
         '&:nth-of-type(odd)': {
-            backgroundColor: theme.palette.background.default,
+            // backgroundColor: theme.palette.background.default,
+            backgroundColor: '#f8fff8',
         },
     },
     tableCellFirst: {
@@ -159,7 +164,7 @@ class OutputWidgetEfficiency extends React.Component {
         const { classes } = this.props;
 
         return (
-            //<div>
+            <div className={classes.cardCanvas}>
                 <Card className={classes.card}>
                     <CardHeader
                         title="Проект становится неэффективным при любом из нижеперечисленных условий*"
@@ -190,7 +195,7 @@ class OutputWidgetEfficiency extends React.Component {
                         </Typography>
                     </CardContent>
                 </Card>
-            //</div>
+            </div>
         );
     }
 }

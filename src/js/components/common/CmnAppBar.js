@@ -28,8 +28,9 @@ const styles = theme => ({
         paddingLeft: 0,
         paddingRight: 0,
     },
-    paddingZero: {
+    column: {
         paddingLeft: 0,
+        height: '100%'
     },
     colorPrimary: {
         color: 'white',
@@ -82,7 +83,7 @@ class CmnAppBar extends React.Component {
                                     </IconButton>
                                 </Tooltip>
                             </div>
-                            <div className={classes.paddingZero + " col text-left"}>
+                            <div className={classes.column + " col text-left"}>
                                 <Typography variant="title" color="inherit">
                                     Бизнес - стартер
                                 </Typography>
