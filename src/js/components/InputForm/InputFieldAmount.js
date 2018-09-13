@@ -143,7 +143,8 @@ class InputFieldAmount extends React.Component {
                         id={this.props.id}
                         label={this.props.label}
                         // className={classes.textField}
-                        className={classes.inputWidth}
+                        // className={classes.inputWidth}
+                        className={this.props.invisible ? classes.invisible : classes.inputWidth}
                         // value={model.getValueById(this.props.model, this.props.id)}
                         value={this.props.value}
                         // value={model.getValue(this.props.modelState, this.props.blockName, this.props.fieldName)}

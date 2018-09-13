@@ -254,6 +254,8 @@ export function getStep3NetProfitabilityPrc(props, calcNumber) {
             //         N(getStep3ExpensesTotal(props, calcNumber))
             //     )
             // ) /
+
+            // (Выр - Расх) / Выр
             (N(getStep3IncomeTotal(props.modelState, calcNumber)) - N(getStep3ExpensesTotal(props, calcNumber))) /
                 N(getStep3IncomeTotal(props.modelState, calcNumber)) *
                 100

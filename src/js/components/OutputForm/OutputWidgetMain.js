@@ -2,6 +2,9 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
+import * as outputAction from "../../common/actions/outputAction";
+import {IS_DEBUG} from "../../common/properties";
+
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import classnames from 'classnames';
@@ -21,7 +24,6 @@ import Share from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 // import MoreVertIcon from '@material-ui/icons/MoreVert';
 import ThumbUp from '@material-ui/icons/ThumbUp';
-import * as modelAction from "../../common/actions/modelAction";
 
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -147,14 +149,37 @@ function number(value, suffix) {
     </span>
 }
 
-function data(state) {
+// function getValue(props, field) {
+//     // let val = '';
+//     // try {
+//         if (IS_DEBUG) {
+//             console.log('NEPLOG: OutputWidgetMain: getValue: props = ' + props + ' field = ' + field + ' props.output[field] = ' + props.output[field]);
+//             console.log(props);
+//             console.log(props.output[field]);
+//         }
+//         // val = 555;
+//         return props.output[field];
+//     // } catch (e) {
+//     //     console.log('NEPLOG: OutputWidgetMain: getValue: errorMessage = ' + e.message);
+//     // }
+//     // return val;
+// }
+
+function data(props) {
     return [
-        {name: 'Точка безубыточности, единиц продукции в мес.', value: 1527, suffix: ' ед.'},
-        {name: 'Срок окупаемости (PBP)', value: 14, suffix: ' мес.'},
+        // {name: 'Точка безубыточности, единиц продукции в мес.', value: 1527, suffix: ' ед.'},
+        // {name: 'Срок окупаемости (PBP)', value: 14, suffix: ' мес.'},
+        // {name: 'Ставка дисконтирования', value: 15, suffix: '%'},
+        // {name: 'Дисконтированный срок окупаемости (DPBP)', value: 16, suffix: ' мес.'},
+        // {name: 'Чистая приведенная стоимость (NPV)', value: 2984335, suffix: ' руб.'},
+        // {name: 'Внутренняя норма доходности (IRR)', value: 5.75, suffix: '%'},
+        // {name: 'Точка безубыточности, единиц продукции в мес.', value: getValue(props, 'pop1'), suffix: ' ' + getValue(props, 'popMeasure')},
+        {name: 'Точка безубыточности, единиц продукции в мес.', value: props.output.pop1, suffix: ' ' + props.output.popMeasure},
+        {name: 'Срок окупаемости (PBP)', value: props.output.pbp, suffix: ' мес.'},
         {name: 'Ставка дисконтирования', value: 15, suffix: '%'},
-        {name: 'Дисконтированный срок окупаемости (DPBP)', value: 16, suffix: ' мес.'},
-        {name: 'Чистая приведенная стоимость (NPV)', value: 2984335, suffix: ' руб.'},
-        {name: 'Внутренняя норма доходности (IRR)', value: 5.75, suffix: '%'},
+        {name: 'Дисконтированный срок окупаемости (DPBP)', value: props.output.dpbp, suffix: ' мес.'},
+        {name: 'Чистая приведенная стоимость (NPV)', value: props.output.npv, suffix: ' руб.'},
+        {name: 'Внутренняя норма доходности (IRR)', value: props.output.irr * 100, suffix: '%'},
     ]
 }
 
@@ -293,7 +318,7 @@ class OutputWidgetMain extends React.Component {
                             <div>
                                 <Table>
                                     <TableBody>
-                                        {data(null).map(n => {
+                                        {data(this.props).map(n => {
                                             return (
                                                 <TableRow className={classes.tableRow}>
                                                     <TableCell component='th' scope='row' className={classes.tableCellFirst}>
@@ -369,13 +394,13 @@ class OutputWidgetMain extends React.Component {
 
 function mapStateToProps(store) {
     return {
-        // modelState: store.modelState,
+        output: store.outputState.output,
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        // modelAction: bindActionCreators(modelAction, dispatch),
+        outputAction: bindActionCreators(outputAction, dispatch),
     }
 }
 

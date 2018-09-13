@@ -8,6 +8,7 @@ export const GET_BUSINESSAREA_API = '/api/data/business-types';
 export const GET_ENVIRONMENT_API = '/api/data/environments';
 export const GET_TAXMODE_API = '/api/data/tax-systems';
 export const GET_BIGDATA_API = '/api/data/calculated-big-data';
+export const GET_OUTPUT_API = '/api/data/forecast';
 
 // export const IS_DEBUG = true;
 export const IS_DEBUG = false;

@@ -8,15 +8,19 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 import grey from "@material-ui/core/colors/grey";
 
+import * as outputAction from '../../common/actions/outputAction';
 import * as modelAction from '../../common/actions/modelAction';
 import * as model from "../../common/model";
 import {IS_DEBUG} from '../../common/properties';
+
 import CmnAppBar from '../common/CmnAppBar'
 import OutputWidgetMain from './OutputWidgetMain'
 import OutputWidgetEfficiency from './OutputWidgetEfficiency'
 import OutputWidgetProjectParams from './OutputWidgetProjectParams'
 import OutputWidgetPnL from './OutputWidgetPnL'
 import OutputWidgetCF from './OutputWidgetCF'
+import OutputWidgetChart from './OutputWidgetChart'
+import OutputWidgetChartFinFlow from './OutputWidgetChartFinFlow'
 
 const theme = createMuiTheme({
     palette: {
@@ -60,11 +64,19 @@ class OutputForm extends React.Component {
     state = {
     };
 
+    componentDidMount = (event) => {
+        if (IS_DEBUG) {
+            console.log('NEPLOG: OutputForm: componentDidMount: props = ' + this.props);
+            console.log(this.props);
+            console.log(this.state);
+        }
+    };
+
     render() {
         const { classes } = this.props;
         if (IS_DEBUG) {
-            console.log('NEPLOG: OutputForm: render: modelState = ' + this.props.modelState);
-            console.log(this.props.modelState);
+            console.log('NEPLOG: OutputForm: render: output = ' + this.props.output);
+            console.log(this.props.output);
         }
 
         return (
@@ -106,6 +118,20 @@ class OutputForm extends React.Component {
                                 </div>
                             </div>
                         </div>
+                        <div className='row'>
+                            <div className={classes.paddingZero + ' col'}>
+                                <div>
+                                    <OutputWidgetChart/>
+                                </div>
+                            </div>
+                        </div>
+                        <div className='row'>
+                            <div className={classes.paddingZero + ' col'}>
+                                <div>
+                                    <OutputWidgetChartFinFlow/>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </MuiThemeProvider>
@@ -115,13 +141,15 @@ class OutputForm extends React.Component {
 
 function mapStateToProps(store) {
     return {
-        modelState: store.modelState,
+        // modelState: store.modelState,
+        output: store.outputState.output,
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        modelAction: bindActionCreators(modelAction, dispatch),
+        // modelAction: bindActionCreators(modelAction, dispatch),
+        outputAction: bindActionCreators(outputAction, dispatch),
     }
 }
 

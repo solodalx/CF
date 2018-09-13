@@ -9,6 +9,8 @@ import environmentReducer from '../reducer/environmentReducer';
 import taxmodeReducer from '../reducer/taxmodeReducer';
 import bigdataReducer from '../reducer/bigdataReducer';
 import modelReducer from '../reducer/modelReducer';
+import outputReducer from '../reducer/outputReducer';
+// import outputModelReducer from '../reducer/outputModelReducer';
 
 import {regionsActions} from '../constants/regionsConstants';
 import {townsActions} from '../constants/townsConstants';
@@ -17,6 +19,8 @@ import {environmentActions} from '../constants/environmentConstants';
 import {taxmodeActions} from '../constants/taxmodeConstants';
 import {bigdataActions} from '../constants/bigdataConstants';
 import {modelActions} from '../constants/modelConstants';
+import {outputActions} from '../constants/outputConstants';
+// import {outputModelActions} from '../constants/outputModelConstants';
 
 
 const rootReducer = combineReducers({
@@ -27,6 +31,8 @@ const rootReducer = combineReducers({
     taxmodeState: filterActions(taxmodeReducer, taxmodeActions),
     bigdataState: filterActions(bigdataReducer, bigdataActions),
     modelState: filterActions(modelReducer, modelActions),
+    outputState: filterActions(outputReducer, outputActions),
+    // outputModelState: filterActions(outputModelReducer, outputModelActions),
 });
 
 export default function cofigureStore(initialState) {

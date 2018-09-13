@@ -30,6 +30,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Divider from '@material-ui/core/Divider';
 import NumberFormat from 'react-number-format';
+import * as outputAction from "../../common/actions/outputAction";
 
 const styles = theme => ({
     cardCanvas: {
@@ -202,13 +203,13 @@ class OutputWidgetEfficiency extends React.Component {
 
 function mapStateToProps(store) {
     return {
-        // modelState: store.modelState,
+        output: store.outputState.output,
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        // modelAction: bindActionCreators(modelAction, dispatch),
+        outputAction: bindActionCreators(outputAction, dispatch),
     }
 }
 

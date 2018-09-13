@@ -1,7 +1,7 @@
-import axios from 'axios'
-import qs from 'qs';
+// import axios from 'axios'
+// import qs from 'qs';
 
-// import {post} from '../utils/http';
+import {post} from '../utils/http';
 import * as properties from '../properties';
 import {GET_BIGDATA_SUCCESS} from "../constants/bigdataConstants";
 
@@ -16,10 +16,10 @@ export function getBigdata(townId, businessAreaId, environmentId) {
                 'environmentId': environmentId,
             };
             // );
-            console.log('NEPLOG: bigdataAction: getBigdata(begin): url = ' + url + ', params = ' + params);
-            console.log(params);
+            // console.log('NEPLOG: bigdataAction: getBigdata(begin): url = ' + url + ', params = ' + params);
+            // console.log(params);
 
-            let response = axios.post(url, params);
+            // let response = axios.post(url, params);
             // let response = axios.post(url, params, {
             //     headers: {
             //         'Content-Type': 'application/json',
@@ -46,9 +46,10 @@ export function getBigdata(townId, businessAreaId, environmentId) {
             // };
             // let response = axios(options);
 
-            console.log('NEPLOG: bigdataAction: getBigdata: response1 = ' + response);
-            console.log(response);
-            response
+            // console.log('NEPLOG: bigdataAction: getBigdata: response1 = ' + response);
+            // console.log(response);
+            // response
+            post(url, params)
                 .then(response => {
                     console.log('NEPLOG: bigdataAction: getBigdata: response = ' + response);
                     console.log(response);
@@ -61,10 +62,7 @@ export function getBigdata(townId, businessAreaId, environmentId) {
                 .catch(errorMessage => {
                     console.log('NEPLOG: bigdataAction: getBigdata: errorMessage = ' + errorMessage);
                 });
-            console.log('NEPLOG: bigdataAction: getBigdata(end)');
-
-
-
+            // console.log('NEPLOG: bigdataAction: getBigdata(end)');
 
             // get(url, params).then((response) => {
             // post(url, params)

@@ -10,7 +10,7 @@ export function get(url, params, cancelToken) {
 }
 
 export function post(url, body) {
-    axios.defaults.headers.post['Content-Type'] = 'application/json';
+    // axios.defaults.headers.post['Content-Type'] = 'application/json';
 
     if (IS_DEBUG) {
         console.log('NEPLOG: https: post: url = ' + url + ', body = ' + body);

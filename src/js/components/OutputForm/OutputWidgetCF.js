@@ -2,6 +2,10 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
+import * as outputAction from "../../common/actions/outputAction";
+import * as outputModel from "../../common/outputModel";
+import {IS_DEBUG} from "../../common/properties";
+
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import classnames from 'classnames';
@@ -117,54 +121,57 @@ const styles = theme => ({
     },
     tableCell: {
         // width: 160,
+        textAlign: 'right',
         [theme.breakpoints.down('xs')]: {
-            minWidth: 50,
-            maxWidth: 160,
+            minWidth: 80,
+            maxWidth: 180,
             width: '100%',
         },
         [theme.breakpoints.up('sm')]: {
-            width: 160,
-            maxWidth: 160,
+            width: 180,
+            maxWidth: 180,
         },
         paddingLeft: 12,
-        paddingRight: 0,
+        paddingRight: 12,
     },
 });
 
 function number(value, suffix) {
-    return <NumberFormat
+    return <span className='text-nowrap'>
+        <NumberFormat
             value={value}
             thousandSeparator=' '
             // prefix="$"
             suffix={suffix}
             displayType={'text'}
-        />;
+        />
+    </span>
 }
 
 function numberAndPrc(valueNumber, suffixNumber, valuePrc) {
     return <div>{number(valueNumber, suffixNumber)} / {valuePrc}%</div>
 }
 
-function head(state) {
-    var fieldNames = ['Показатель / период'];
-    var numberOfPeriods = data(state).map(o => o.values.length).reduce((a, b) => Math.max(a, b));
-    for (let i = 1; i <= numberOfPeriods; i++) {
-        fieldNames.push(i + ' год');
-    }
-    return fieldNames;
-}
+// function head(state) {
+//     var fieldNames = ['Показатель / период'];
+//     var numberOfPeriods = data(state).map(o => o.values.length).reduce((a, b) => Math.max(a, b));
+//     for (let i = 1; i <= numberOfPeriods; i++) {
+//         fieldNames.push(i + ' год');
+//     }
+//     return fieldNames;
+// }
 
-function data(state) {
-    return [
-        {name: 'Денежные средства на начало периода', values: [0, 1501, 3056, 4656]},
-        {name: 'Операционный поток', values: [2653, 2753, 2737, 2737]},
-        {name: 'Инвестиционный поток', values: [-1850, 0, 0, 0]},
-        {name: 'Финансовый поток', values: [698, 1198, -1137, -1076]},
-        {name: 'Чистый денежный поток', values: [1501, 1555, 1600, 1661]},
-        {name: 'Остаток денежных средств на конец периода', values: [1501, 3056, 4656, 6318]},
-        {name: 'NVP', values: [449, 801, 1910, 2901]},
-    ]
-}
+// function data(state) {
+//     return [
+//         {name: 'Денежные средства на начало периода', values: [0, 1501, 3056, 4656]},
+//         {name: 'Операционный поток', values: [2653, 2753, 2737, 2737]},
+//         {name: 'Инвестиционный поток', values: [-1850, 0, 0, 0]},
+//         {name: 'Финансовый поток', values: [698, 1198, -1137, -1076]},
+//         {name: 'Чистый денежный поток', values: [1501, 1555, 1600, 1661]},
+//         {name: 'Остаток денежных средств на конец периода', values: [1501, 3056, 4656, 6318]},
+//         {name: 'NVP', values: [449, 801, 1910, 2901]},
+//     ]
+// }
 
 class OutputWidgetCF extends React.Component {
     state = { expanded: false };
@@ -175,6 +182,10 @@ class OutputWidgetCF extends React.Component {
 
     render() {
         const { classes } = this.props;
+        if (IS_DEBUG) {
+            console.log('NEPLOG: OutputWidgetCF: render: props = ' + this.props);
+            console.log(this.props);
+        }
 
         return (
             <div className={classes.cardCanvas}>
@@ -212,26 +223,28 @@ class OutputWidgetCF extends React.Component {
                                 <Table>
                                     <TableHead>
                                         <TableRow>
-                                            {head(null).map(n => {
-                                                return (
-                                                    <CustomTableCell className={classes.tableCell}>
-                                                        {n}
-                                                    </CustomTableCell>
-                                                )
-                                            })}
+                                            {(this.props.outputState.cfHeader === undefined) ? <br/> :
+                                                Object.values(this.props.outputState.cfHeader).map(n => {
+                                                    return (
+                                                        <CustomTableCell className={classes.tableCell}>
+                                                            {n}
+                                                        </CustomTableCell>
+                                                    )
+                                                })
+                                            }
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {data(null).map(n => {
+                                        {outputModel.getCfData(this.props).map(n => {
                                             return (
                                                 <TableRow className={classes.tableRow}>
                                                     <CustomTableCell component='th' scope='row' className={classes.tableCellFirst}>
                                                         {n.name}
                                                     </CustomTableCell>
-                                                    {n.values.map(v => {
+                                                    {Object.values(n.values).map(v => {
                                                         return (
                                                             <CustomTableCell className={classes.tableCell}>
-                                                                {v}
+                                                                {number(Math.round(v))}
                                                             </CustomTableCell>
                                                         )
                                                     })}
@@ -251,13 +264,13 @@ class OutputWidgetCF extends React.Component {
 
 function mapStateToProps(store) {
     return {
-        // modelState: store.modelState,
+        outputState: store.outputState,
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        // modelAction: bindActionCreators(modelAction, dispatch),
+        outputAction: bindActionCreators(outputAction, dispatch),
     }
 }
 

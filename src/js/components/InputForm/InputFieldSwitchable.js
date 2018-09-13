@@ -50,7 +50,7 @@ class InputFieldSwitchable extends React.Component {
                     control={
                         <div className="container">
                             {/*<div className="row flex-sm-nowrap align-items-center justify-content-start">*/}
-                            <div className="row flex-sm-nowrap justify-content-start">
+                            <div className="row flex-nowrap justify-content-start">
                                 <div className="col-1">
                                     <Tooltip title={this.state.checkedField ? 'Задайте вручную' : 'Загружено с BigData'} placement="center">
                                         <Switch

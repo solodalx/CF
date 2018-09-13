@@ -30,6 +30,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Divider from '@material-ui/core/Divider';
 import NumberFormat from 'react-number-format';
+import * as outputAction from "../../common/actions/outputAction";
 
 const styles = theme => ({
     cardCanvas: {
@@ -135,7 +136,7 @@ function numberAndPrc(valueNumber, suffixNumber, valuePrc) {
 
 function data(state) {
     return [
-        {name: 'Локация - г.Челябинск, центр города', value: '', oneRow: true},
+        // {name: 'Локация - г.Челябинск, центр города', value: '', oneRow: true},
         {name: 'Месяц начала проекта', value: '08.2018 г.'},
         {name: 'Месяц выхода на целевую проектную мощность', value: '11.2018 г.'},
         {name: 'Бюджет', value: number(3350000, ' руб.')},
@@ -185,6 +186,9 @@ class OutputWidgetProjectParams extends React.Component {
                     {/*<Collapse in={this.state.expanded} timeout="auto" unmountOnExit>*/}
                     <Collapse in={true}>
                         <CardContent>
+                            <Typography variant='caption' align='left' className={classes.tableCellFirst}>
+                                Локация - г.Челябинск, центр города
+                            </Typography>
                             <Divider/>
                             {/*<div className={classes.panel}>*/}
                                 <Table>
@@ -215,13 +219,13 @@ class OutputWidgetProjectParams extends React.Component {
 
 function mapStateToProps(store) {
     return {
-        // modelState: store.modelState,
+        output: store.outputState.output,
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        // modelAction: bindActionCreators(modelAction, dispatch),
+        outputAction: bindActionCreators(outputAction, dispatch),
     }
 }
 
