@@ -14,6 +14,8 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Tooltip from '@material-ui/core/Tooltip';
 
+import BigTip from '../common/BigTip'
+
 import * as fields from "../../common/constants/fieldConstants";
 import * as model from "../../common/model";
 
@@ -46,6 +48,8 @@ const styles = theme => ({
     },
     invisible: {
         display: 'none',
+    },
+    visible: {
     },
     inputLabel: {
         color: 'purple',
@@ -188,6 +192,9 @@ class InputFieldAmount extends React.Component {
                     {/*</FormControl>*/}
                 </Tooltip>
                 {/*<Tooltip id={this.props.id}>Подсказка</Tooltip>*/}
+                <span className={(this.props.bigTip == undefined) ? classes.invisible : classes.visible}>
+                    <BigTip/>
+                </span>
             </div>
         );
     }

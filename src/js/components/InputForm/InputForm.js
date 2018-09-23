@@ -44,6 +44,7 @@ import Switch from '@material-ui/core/Switch';
 
 import * as fields from '../../common/constants/fieldConstants'
 import CmnAppBar from '../common/CmnAppBar'
+import BigTip from '../common/BigTip'
 import InputFieldAmount from './InputFieldAmount.js'
 import InputFieldNumber from './InputFieldNumber.js'
 import InputFieldDate from './InputFieldDate.js'
@@ -84,6 +85,20 @@ const theme = createMuiTheme({
 });
 
 const styles = theme => ({
+    inputContainer: {
+    },
+    stepperContainer: {
+        // display: 'flex',
+        // justifyContent: 'center',
+        [theme.breakpoints.down('xs')]: {
+        },
+        [theme.breakpoints.up('sm')]: {
+            // display: 'flex',
+            // justifyContent: 'center',
+            paddingLeft: '15%',
+            paddingRight: '15%',
+        },
+    },
     // container: {
     //     display: 'flex',
     //     flexWrap: 'wrap',
@@ -130,13 +145,16 @@ const styles = theme => ({
         width: 200,
     },
     clientWidth: {
-        [theme.breakpoints.down('md')]: {
-            width: '70%',
-        },
-        [theme.breakpoints.up('lg')]: {
-            width: '55%',
-        },
-        zIndex: -1,
+        // [theme.breakpoints.down('xs')]: {
+        //     width: '75%',
+        // },
+        // [theme.breakpoints.up('sm')]: {
+        //     width: '80%',
+        // },
+        // [theme.breakpoints.up('lg')]: {
+        //     width: '55%',
+        // },
+        // zIndex: -1,
     },
     compWidth: {
         // width: 200,
@@ -340,6 +358,7 @@ class InputForm extends React.Component {
         // assetsBuildings: '',
         // value: 0,
         // townsSuggestions: [],
+        expandedAssets: false,
     };
 
     handleStep = step => () => {
@@ -394,6 +413,17 @@ class InputForm extends React.Component {
         this.setState({ [name]: event.target.value });
     };
 
+    handleExpandAssets = (expanded, frozen) => {
+        if (IS_DEBUG) {
+            console.log('NEPLOG: InputForm: handleExpandAssets: expanded = ' + expanded + ' frozed = ' + frozen);
+            console.log(this.props);
+        }
+        if (!frozen) {
+            // this.setState({expandedAssets: expanded})
+            this.props.modelAction.fieldUpdated('existingAssets:isExpanded', expanded);
+        }
+    }
+
     constructor(props) {
         super(props);
         // props.regionsAction.getRegions();
@@ -447,7 +477,7 @@ class InputForm extends React.Component {
             <MuiThemeProvider theme={theme}>
                 {/*<div className={classes.fullWidth}>*/}
                 {/*<div className={classes.overflowHidden}>*/}
-                <div>
+                <div className={classes.inputContainer}>
                     <CmnAppBar icon='cancel' title='Вернуться назад' iconLink='/'/>
                     {/*<HorizontalNonLinearAlternativeLabelStepper/>*/}
                     {/*<AppBar position="static" color="primary">*/}
@@ -478,92 +508,94 @@ class InputForm extends React.Component {
                     {/*</AppBar>*/}
                     {/*<InputFieldRegionAutocomplete/>*/}
 
-                    <div>
-                        <Stepper
-                            // className={[classes.clientWidth, classes.inputBackground].join(' ')}
-                            className={classes.clientWidth}
-                            activeStep={activeStep}
-                            orientation="vertical" nonLinear
-                        >
-                            {steps.map((label, index) => {
-                                return (
-                                    //<Step key={label} className={[classes.alignLeft, classes.noBorder].join(' ')}>
-                                    <Step key={label} className={classes.alignLeft}>
-                                    {/*<Step key={label}>*/}
-                                        {/*<StepLabel className={classes.stepHeading}>{label}</StepLabel>*/}
-                                        {/*<StepLabel>{label}</StepLabel>*/}
-                                        <StepButton
-                                            className={classes.noBorder}
-                                            onClick={this.handleStep(index)}
-                                        >
-                                            <div className={classes.dotted}>
-                                                {label}
-                                            </div>
-                                        </StepButton>
-                                        <StepContent className={classes.column}>
-                                        {/*<StepContent>*/}
-                                            {/*<div class="container">*/}
-                                                {/*<div class="row">*/}
-                                                    {/*<div class="col">*/}
-                                                        <Typography>{getStepContent(index, this.props, this.state)}</Typography>
+                    <div className={classes.stepperContainer}>
+                        {/*<div>*/}
+                            <Stepper
+                                // className={[classes.clientWidth, classes.inputBackground].join(' ')}
+                                className={classes.clientWidth}
+                                activeStep={activeStep}
+                                orientation="vertical" nonLinear
+                            >
+                                {steps.map((label, index) => {
+                                    return (
+                                        //<Step key={label} className={[classes.alignLeft, classes.noBorder].join(' ')}>
+                                        <Step key={label} className={classes.alignLeft}>
+                                        {/*<Step key={label}>*/}
+                                            {/*<StepLabel className={classes.stepHeading}>{label}</StepLabel>*/}
+                                            {/*<StepLabel>{label}</StepLabel>*/}
+                                            <StepButton
+                                                className={classes.noBorder}
+                                                onClick={this.handleStep(index)}
+                                            >
+                                                <div className={classes.dotted}>
+                                                    {label}
+                                                </div>
+                                            </StepButton>
+                                            <StepContent className={classes.column}>
+                                            {/*<StepContent>*/}
+                                                {/*<div class="container">*/}
+                                                    {/*<div class="row">*/}
+                                                        {/*<div class="col">*/}
+                                                            <Typography>{getStepContent(index, this.props, this.state, this)}</Typography>
+                                                        {/*</div>*/}
                                                     {/*</div>*/}
                                                 {/*</div>*/}
-                                            {/*</div>*/}
-                                            <div className={classes.actionsContainer}>
-                                                <div>
-                                                    <Button
-                                                        disabled={activeStep === 0}
-                                                        onClick={this.handleBack}
-                                                        // className={classes.button}
-                                                        className={[classes.button, classes.noBorder].join(' ')}
-                                                    >
-                                                        Назад
-                                                    </Button>
-                                                    {activeStep === steps.length - 1 ?
+                                                <div className={classes.actionsContainer}>
+                                                    <div>
                                                         <Button
-                                                            variant="raised"
-                                                            color="primary"
-                                                            onClick={this.handleRun}
-                                                            className={[classes.button, classes.noBorder].join(' ')}
-                                                            component={outputLink}
-                                                            // to='/output'
-                                                        >
-                                                            Рассчитать модель
-                                                        </Button> :
-                                                        <Button
-                                                            variant="raised"
-                                                            color="primary"
-                                                            onClick={this.handleNext}
+                                                            disabled={activeStep === 0}
+                                                            onClick={this.handleBack}
+                                                            // className={classes.button}
                                                             className={[classes.button, classes.noBorder].join(' ')}
                                                         >
-                                                            Далее
+                                                            Назад
                                                         </Button>
-                                                    }
-                                                    {/*<Button*/}
-                                                        {/*variant="raised"*/}
-                                                        {/*color="primary"*/}
-                                                        {/*onClick={(activeStep === steps.length - 1) ?*/}
-                                                            {/*this.handleRun :*/}
-                                                            {/*this.handleNext*/}
-                                                        {/*}*/}
-                                                        {/*className={[classes.button, classes.noBorder].join(' ')}*/}
-                                                    {/*>*/}
-                                                        {/*{activeStep === steps.length - 1 ? 'Рассчитать модель' : 'Далее'}*/}
-                                                    {/*</Button>*/}
-                                                    {/*<Link to='/output'>*/}
-                                                    <a
-                                                        href='http://vh231124.eurodir.ru/output.php'
-                                                        className={activeStep === steps.length - 1 ? classes.singleLink : classes.invisible}
-                                                    >
-                                                        старый прототип
-                                                    </a>
+                                                        {activeStep === steps.length - 1 ?
+                                                            <Button
+                                                                variant="raised"
+                                                                color="primary"
+                                                                onClick={this.handleRun}
+                                                                className={[classes.button, classes.noBorder].join(' ')}
+                                                                component={outputLink}
+                                                                // to='/output'
+                                                            >
+                                                                Рассчитать модель
+                                                            </Button> :
+                                                            <Button
+                                                                variant="raised"
+                                                                color="primary"
+                                                                onClick={this.handleNext}
+                                                                className={[classes.button, classes.noBorder].join(' ')}
+                                                            >
+                                                                Далее
+                                                            </Button>
+                                                        }
+                                                        {/*<Button*/}
+                                                            {/*variant="raised"*/}
+                                                            {/*color="primary"*/}
+                                                            {/*onClick={(activeStep === steps.length - 1) ?*/}
+                                                                {/*this.handleRun :*/}
+                                                                {/*this.handleNext*/}
+                                                            {/*}*/}
+                                                            {/*className={[classes.button, classes.noBorder].join(' ')}*/}
+                                                        {/*>*/}
+                                                            {/*{activeStep === steps.length - 1 ? 'Рассчитать модель' : 'Далее'}*/}
+                                                        {/*</Button>*/}
+                                                        {/*<Link to='/output'>*/}
+                                                        <a
+                                                            href='http://vh231124.eurodir.ru/output.php'
+                                                            className={activeStep === steps.length - 1 ? classes.singleLink : classes.invisible}
+                                                        >
+                                                            старый прототип
+                                                        </a>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </StepContent>
-                                    </Step>
-                                );
-                            })}
-                        </Stepper>
+                                            </StepContent>
+                                        </Step>
+                                    );
+                                })}
+                            </Stepper>
+                        {/*</div>*/}
                     </div>
                     {activeStep === steps.length && (
                         <Paper square elevation={0} className={classes.resetContainer}>
@@ -617,7 +649,7 @@ export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(I
 //     Object.assign({}, this.props.model, {[blockName]: Object.assign({}, this.props.model[blockName], {[fieldName]: value})})
 // }
 
-function getStepContent(step, props, state) {
+function getStepContent(step, props, state, th) {
     const { classes } = props;
 
     switch (step) {
@@ -721,7 +753,11 @@ function getStepContent(step, props, state) {
                     {/*<ExpansionPanel className={classes.fullWidth}>*/}
                     {/*<ExpansionPanel className={[classes.fullWidth, classes.noShadow].join(' ')}>*/}
                     {/*<ExpansionPanel className={[classes.panel, classes.fullWidth].join(' ')}>*/}
-                    <ExpansionPanel className={classes.panel}>
+                    <ExpansionPanel
+                        className={classes.panel}
+                        // expanded={state.expandedAssets}
+                        // expanded={props.modelState.existingAssets.isExpanded}
+                    >
                         {/*<ExpansionPanel className={[classes.fullWidth, classes.paddingZero].join(' ')}>*/}
                         {/*<ExpansionPanelSummary className={classes.paddingZero} expandIcon={<ExpandMoreIcon/>}>*/}
                         <ExpansionPanelSummary
@@ -730,11 +766,19 @@ function getStepContent(step, props, state) {
                                 firstChild: classes.compWidth,
                             }}
                             expandIcon={<ExpandMoreIcon />}
+                            // onClick={th.handleExpandAssets(!state.expandedAssets)}
+                            // onClick={th.handleExpandAssets(!props.modelState.existingAssets.isExpanded, props.modelState.existingAssets.isExpansionFrozen)}
                         >
                             <div class="container no-gutters">
                                 <div class="row justify-content-sm-between">
                                     <div class="col-sm-auto col-12">
-                                        <Typography className={classes.heading}>Имеющиеся активы</Typography>
+                                        <Typography
+                                            className={classes.heading}
+                                            // onClick={th.handleExpandAssets(!state.expandedAssets)}
+                                        >
+                                            Имеющиеся активы
+                                            <BigTip/>
+                                        </Typography>
                                     </div>
                                     <div className="w-100 d-sm-none"/>
                                     {/*<div className="col text-nowrap text-right">*/}
@@ -753,7 +797,7 @@ function getStepContent(step, props, state) {
                                 <div class="row justify-content-start">
                                     {/*<div className={"col " + classes.fixedWidth}>*/}
                                     <div className="col-sm-auto col-12">
-                                        <InputFieldAmount field='existingAssets:land' value={props.modelState.existingAssets.land} label="Земля" tip="Стоимость земли"/>
+                                        <InputFieldAmount field='existingAssets:land' value={props.modelState.existingAssets.land} label="Земля" tip="Стоимость земли" bigTip='BigTip'/>
                                         {/*<InputFieldAmount id={fields.FL_ASSETS_LAND} label="Земля" tip="Стоимость земли"/>*/}
                                         {/*<InputFieldAmount value={this.props.model.step2.existedAssets.land} label="Земля" tip="Стоимость земли"/>*/}
                                     </div>
