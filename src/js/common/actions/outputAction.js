@@ -4,7 +4,7 @@ import {GET_OUTPUT_SUCCESS} from "../constants/outputConstants";
 // import {GET_HEADER} from "../constants/outputModelConstants";
 import * as outputModel from '../outputModel'
 
-export function getOutput() {
+export function getOutput(props) {
     return (dispatch) => {
         if (properties.BACKEND_SERVER_IP != '') {
             let url = 'http://' + properties.BACKEND_SERVER_IP_80 + properties.GET_OUTPUT_API;
@@ -61,6 +61,112 @@ export function getOutput() {
                     "loanRate": null,
                     "opLoan": null,
                     "opLoanRate": null
+                }
+            };
+            let params = {
+                "projectCommonInfo": {
+                    "projName": "Чудо-Пельмень",
+                    "description": "Прекрасная пельменная в городе Челябинске",
+                    "startDate": "2019-01-01 00:00:00+03",
+                    "areaId": "f4b28893-313b-41d1-80bd-4f061f202b64",
+                    "businessTypeId": "3700ab0e-3b45-4ef9-9b85-23e17367ac6b",
+                    "environmentId": "3665c3d3-bc85-44d0-a4f9-6212a1a237a2",
+                    "duration": 60
+                },
+                "projectAsset": {
+                    "existingGround": 1500000,
+                    "existingEquipment": 25000,
+                    "existingTransport": 0,
+                    "existingIntellectual": 0,
+                    "existingOther": 250000,
+                    "newGround": 0,
+                    "newBuildings": 1500000,
+                    "newEquipment": 0,
+                    "newTransport": 0,
+                    "newIntellectual": 0,
+                    "newOther": 300000
+                },
+                "projectFinancingStructure": {
+                    "capitalOwnNew": 150000,
+                    "capitalOwnExisting": 1775000,
+                    "capitalLoan": 1650000,
+                    "loanRate": 0.12,
+                    "dividends": 50000,
+                    "discountRate": 0.13,
+                    "opLoan": 0,
+                    "opLoanRate": 0.11
+                },
+                "projectBalance": {
+                    "price": 250,
+                    "income": 562500,
+                    "returnOnProduct": 0.554033,
+                    "returnOnIncome": 0.051141,
+                    "calculationType": 0,
+                    "taxSystem": 0,
+                    "costsTaxes": 0,
+                    "costsProductSalary": 0,
+                    "costsProductStaff": 0,
+                    "costsWageProduction": 0,
+                    "costsManagementSalary": 0,
+                    "costsManagementStaff": 0,
+                    "costsWageManagement": 0,
+                    "costsRent": 0,
+                    "costsUtilities": 0,
+                    "costsTransport": 0,
+                    "costsOther": 0
+                }
+            };
+            let params = {
+                "projectCommonInfo": {
+                    "projName": "Чудо-Пельмень",
+                    "description": "Прекрасная пельменная в городе Челябинске",
+                    "startDate": "2019-01-01 00:00:00+03",
+                    "areaId": props.modelState.commons.towns,
+                    "businessTypeId": props.modelState.commons.businessArea,
+                    "environmentId": props.modelState.commons.environment,
+                    "duration": 60
+                },
+                "projectAsset": {
+                    "existingGround": props.modelState.existingAssets.land,
+                    "existingEquipment": props.modelState.existingAssets.equipment,
+                    "existingTransport": props.modelState.existingAssets.transport,
+                    "existingIntellectual": props.modelState.existingAssets.intangible,
+                    "existingOther": props.modelState.existingAssets.others,
+                    "newGround": props.modelState.plannedAssets.land,
+                    "newBuildings": props.modelState.plannedAssets.buildings,
+                    "newEquipment": props.modelState.plannedAssets.equipment,
+                    "newTransport": props.modelState.plannedAssets.transport,
+                    "newIntellectual": props.modelState.plannedAssets.intangible,
+                    "newOther": props.modelState.plannedAssets.others,
+                },
+                "projectFinancingStructure": {
+                    "capitalOwnNew": props.modelState,
+                    "capitalOwnExisting": 1775000,
+                    "capitalLoan": 1650000,
+                    "loanRate": 0.12,
+                    "dividends": 50000,
+                    "discountRate": 0.13,
+                    "opLoan": 0,
+                    "opLoanRate": 0.11
+                },
+                "projectBalance": {
+                    "price": 250,
+                    "income": 562500,
+                    "returnOnProduct": 0.554033,
+                    "returnOnIncome": 0.051141,
+                    "calculationType": 0,
+                    "taxSystem": 0,
+                    "costsTaxes": props.modelState.expenses.taxes,
+                    "costsProductSalary": props.modelState.expenses.employeeSalary,
+                    "costsProductStaff": props.modelState.expenses.employeeCount,
+                    "costsWageProduction": 0,
+                    "costsManagementSalary": props.modelState.expenses.managementSalary,
+                    "costsManagementStaff": props.modelState.expenses.managementCount,
+                    "costsWageManagement": 0,
+                    "costsRent": props.modelState.expenses.rent,
+                    "costsUtilities": 0,
+                    "costsTransport": props.modelState.expenses.transport,
+                    "costsOther": props.modelState.expenses.others
                 }
             };
             post(url, params)

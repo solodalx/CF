@@ -358,7 +358,7 @@ class InputForm extends React.Component {
         // assetsBuildings: '',
         // value: 0,
         // townsSuggestions: [],
-        expandedAssets: false,
+        // expandedAssets: false,
     };
 
     handleStep = step => () => {
@@ -396,7 +396,7 @@ class InputForm extends React.Component {
     handleRun = () => {
         // document.location.href='http://40.115.40.71:8118/output.php';
         // document.location.href='http://vh231124.eurodir.ru/output.php';
-        this.props.outputAction.getOutput();
+        this.props.outputAction.getOutput(this.props);
     };
 
     handleReset = () => {
@@ -413,16 +413,16 @@ class InputForm extends React.Component {
         this.setState({ [name]: event.target.value });
     };
 
-    handleExpandAssets = (expanded, frozen) => {
-        if (IS_DEBUG) {
-            console.log('NEPLOG: InputForm: handleExpandAssets: expanded = ' + expanded + ' frozed = ' + frozen);
-            console.log(this.props);
-        }
-        if (!frozen) {
-            // this.setState({expandedAssets: expanded})
-            this.props.modelAction.fieldUpdated('existingAssets:isExpanded', expanded);
-        }
-    }
+    // handleExpandAssets = (expanded, frozen) => {
+    //     if (IS_DEBUG) {
+    //         console.log('NEPLOG: InputForm: handleExpandAssets: expanded = ' + expanded + ' frozed = ' + frozen);
+    //         console.log(this.props);
+    //     }
+    //     if (!frozen) {
+    //         // this.setState({expandedAssets: expanded})
+    //         this.props.modelAction.fieldUpdated('existingAssets:isExpanded', expanded);
+    //     }
+    // }
 
     constructor(props) {
         super(props);

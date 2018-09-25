@@ -17,8 +17,8 @@ export const initialModelState = {
         transport: '',
         intangible: '',
         others: '',
-        isExpanded: false,
-        isExpansionFrozen: true,
+        // isExpanded: false,
+        // isExpansionFrozen: true,
     },
     plannedAssets: {
         land: '',

@@ -34,6 +34,11 @@ class BigTip extends React.Component {
         this.setState({open: false});
     };
 
+    handleOpenClose = (expand) => (event) => {
+        this.setState({open: expand});
+        event.stopPropagation();
+    };
+
     render() {
         const { classes } = this.props;
 
@@ -47,14 +52,17 @@ class BigTip extends React.Component {
                     // tooltipPosition="bottom-right"
                     iconStyle={{width: '32px', height: '32px'}}
                     style={{width: '48px', height: '48x', padding: '0px'}}
-                    onClick={this.handleOpen('paper')}
+                    // onClick={this.handleOpen('paper')}
+                    onClick={this.handleOpenClose(true)}
                 >
                     {/*<HelpIcon fontSize="small"/>*/}
                     <HelpIcon/>
                 </IconButton>
                <Dialog
                    open={this.state.open}
-                   onClose={this.handleClose}
+                   // onClose={this.handleClose}
+                   onClose={this.handleOpenClose(false)}
+                   onClick={this.handleOpenClose(true)}
                    // scroll={this.state.scroll}
                    aria-labelledby="scroll-dialog-title"
                >
@@ -65,7 +73,11 @@ class BigTip extends React.Component {
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={this.handleClose} color="primary">
+                        <Button
+                            // onClick={this.handleClose}
+                            onClick={this.handleOpenClose(false)}
+                            color="primary"
+                        >
                             Закрыть
                         </Button>
                     </DialogActions>
