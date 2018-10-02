@@ -75,8 +75,8 @@ class OutputForm extends React.Component {
     render() {
         const { classes } = this.props;
         if (IS_DEBUG) {
-            console.log('NEPLOG: OutputForm: render: output = ' + this.props.output);
-            console.log(this.props.output);
+            console.log('NEPLOG: OutputForm: render: outputState = ' + this.props.outputState);
+            console.log(this.props.outputState);
         }
 
         return (
@@ -125,13 +125,13 @@ class OutputForm extends React.Component {
                                 </div>
                             </div>
                         </div>
-                        <div className='row'>
-                            <div className={classes.paddingZero + ' col'}>
-                                <div>
-                                    <OutputWidgetChartFinFlow/>
-                                </div>
-                            </div>
-                        </div>
+                        {/*<div className='row'>*/}
+                            {/*<div className={classes.paddingZero + ' col'}>*/}
+                                {/*<div>*/}
+                                    {/*<OutputWidgetChartFinFlow/>*/}
+                                {/*</div>*/}
+                            {/*</div>*/}
+                        {/*</div>*/}
                     </div>
                 </div>
             </MuiThemeProvider>
@@ -142,7 +142,8 @@ class OutputForm extends React.Component {
 function mapStateToProps(store) {
     return {
         // modelState: store.modelState,
-        output: store.outputState.output,
+        // output: store.outputState.output,
+        outputState: store.outputState,
     }
 }
 

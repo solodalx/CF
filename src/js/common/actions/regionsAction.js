@@ -7,7 +7,7 @@ export function getRegions() {
     return (dispatch) => {
         if (properties.BACKEND_SERVER_IP != '') {
             // let url = 'http://40.115.40.71/api/data/regions'
-            let url = 'http://' + properties.BACKEND_SERVER_IP + properties.GET_REGIONS_API
+            let url = properties.BACKEND_SERVER_IP + properties.GET_REGIONS_API
 
             get(url).then((response) => {
                 console.log('NEPLOG: Regions REST response:')

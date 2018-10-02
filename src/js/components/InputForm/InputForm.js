@@ -367,7 +367,8 @@ class InputForm extends React.Component {
                 this.props.modelState.commons.towns.value,
                 this.props.modelState.commons.businessArea.value,
                 this.props.modelState.commons.environment.value
-            )
+            );
+            // this.props.modelAction.copyBigdataToFields(this.props);
         }
         this.setState({
             activeStep: step
@@ -380,7 +381,8 @@ class InputForm extends React.Component {
                 this.props.modelState.commons.towns.value,
                 this.props.modelState.commons.businessArea.value,
                 this.props.modelState.commons.environment.value
-            )
+            );
+            // this.props.modelAction.copyBigdataToFields(this.props);
         }
         this.setState({
             activeStep: this.state.activeStep + 1,
@@ -658,7 +660,7 @@ function getStepContent(step, props, state, th) {
                 <div class={classes.panel + " container no-gutters"}>
                     <div class="row justify-content-start">
                         <div class="col">
-                            <InputFieldDate id="field-input-general-datestart" label="Дата начала проекта" tip="Когда планируете осуществлять первые инвестиции в проект" defaultValue=""/>
+                            <InputFieldDate id="dateStart" label="Дата начала проекта" tip="Когда планируете осуществлять первые инвестиции в проект" defaultValue="" bigTip/>
                         </div>
                         {/*<div class="col">*/}
                             {/*<InputFieldNumber id="field-input-general-term" label="Срок" tip="Срок проекта" defaultValue="60" adornment="мес." disabled/>*/}
@@ -682,6 +684,7 @@ function getStepContent(step, props, state, th) {
                         {/*</div>*/}
                         <div className="col">
                             <InputFieldAutocomplete
+                                id='town'
                                 field='commons:towns'
                                 value={props.modelState.commons.towns}
                                 // suggestions={getTownsSuggestions2(props.towns, props.regions)}
@@ -693,6 +696,7 @@ function getStepContent(step, props, state, th) {
                                 title='Город'
                                 placeholder='Выберите город...'
                                 // isMulti
+                                bigTip
                             />
                         </div>
                         {/*</div>*/}
@@ -700,6 +704,7 @@ function getStepContent(step, props, state, th) {
                         <div class="col">
                             {/*<InputFieldArea/>*/}
                             <InputFieldAutocomplete
+                                id='businessArea'
                                 field='commons:businessArea'
                                 value={props.modelState.commons.businessArea}
                                 suggestions={getBusinessAreaSuggestions(props.businessArea)}
@@ -708,6 +713,7 @@ function getStepContent(step, props, state, th) {
                                 // menuPosition='fixed'
                                 // menuPosition='absolute'
                                 // isMulti
+                                bigTip
                             />
                         </div>
                         <div className="col">
@@ -777,7 +783,7 @@ function getStepContent(step, props, state, th) {
                                             // onClick={th.handleExpandAssets(!state.expandedAssets)}
                                         >
                                             Имеющиеся активы
-                                            <BigTip/>
+                                            <BigTip id='existingAssets'/>
                                         </Typography>
                                     </div>
                                     <div className="w-100 d-sm-none"/>
@@ -797,7 +803,7 @@ function getStepContent(step, props, state, th) {
                                 <div class="row justify-content-start">
                                     {/*<div className={"col " + classes.fixedWidth}>*/}
                                     <div className="col-sm-auto col-12">
-                                        <InputFieldAmount field='existingAssets:land' value={props.modelState.existingAssets.land} label="Земля" tip="Стоимость земли" bigTip='BigTip'/>
+                                        <InputFieldAmount field='existingAssets:land' value={props.modelState.existingAssets.land} label="Земля" tip="Стоимость земли"/>
                                         {/*<InputFieldAmount id={fields.FL_ASSETS_LAND} label="Земля" tip="Стоимость земли"/>*/}
                                         {/*<InputFieldAmount value={this.props.model.step2.existedAssets.land} label="Земля" tip="Стоимость земли"/>*/}
                                     </div>

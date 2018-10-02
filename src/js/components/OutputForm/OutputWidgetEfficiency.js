@@ -203,7 +203,8 @@ class OutputWidgetEfficiency extends React.Component {
 
 function mapStateToProps(store) {
     return {
-        output: store.outputState.output,
+        // output: store.outputState.output,
+        outputState: store.outputState,
     }
 }
 

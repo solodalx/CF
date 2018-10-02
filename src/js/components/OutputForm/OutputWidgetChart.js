@@ -53,19 +53,19 @@ function repeateArray(obj, count) {
 
 function getData(props) {
     if (props.outputState.output == null) return [];
-    if (props.outputState.output.pnlData == null) return [];
-    if (props.outputState.output.cfData == null) return [];
+    if (props.outputState.output.projectProfitAndLosses == null) return [];
+    if (props.outputState.output.projectProfitAndLosses == null) return [];
 
     return [{
         label: 'Выручка',
         // data: [0, 8236, 9025, 9000, 9000],
-        data: Object.values(props.outputState.output.pnlData.income),
+        data: Object.values(props.outputState.output.projectProfitAndLosses.income),
         yAxisID: 'axis1',
         // type: 'line',
         type: 'bar',
         borderColor: 'rgb(75, 192, 192)',
         // backgroundColor: ['rgba(75, 192, 192, 0.2)',],
-        backgroundColor: repeateArray('rgba(75, 192, 192, 0.2)', Object.values(props.outputState.output.pnlData.income).length),
+        backgroundColor: repeateArray('rgba(75, 192, 192, 0.2)', Object.values(props.outputState.output.projectProfitAndLosses.income).length),
         fill: 'false',
         borderWidth: 1,
     // }, {
@@ -81,7 +81,7 @@ function getData(props) {
     // }, {
     //     label: 'Прибыль (убыток) от продаж',
     //     // data: [0, 2479, 2772, 2818, 2879],
-    //     data: Object.values(props.outputState.output.pnlData.ebit),
+    //     data: Object.values(props.outputState.output.projectProfitAndLosses.ebit),
     //     type: 'line',
     //     borderColor: 'rgb(153, 102, 255)',
     //     backgroundColor: [
@@ -104,7 +104,7 @@ function getData(props) {
     // }, {
     //     label: 'Чистая прибыль (убыток)',
     //     // data: [0, 2299, 2592, 2638, 2699],
-    //     data: Object.values(props.outputState.output.pnlData.netRevenue),
+    //     data: Object.values(props.outputState.output.projectProfitAndLosses.netRevenue),
     //     type: 'line',
     //     borderColor: 'rgb(54, 162, 235)',
     //     backgroundColor: [
@@ -115,7 +115,7 @@ function getData(props) {
     }, {
         label: 'Рентабельность',
         // data: [0, 2299, 2592, 2638, 2699],
-        data: Object.values(props.outputState.output.pnlData.actualReturn ),
+        data: Object.values(props.outputState.output.projectProfitAndLosses.actualReturn ),
         yAxisID: 'axis2',
         type: 'line',
         borderColor: 'rgb(54, 162, 235)',
@@ -140,15 +140,15 @@ function getData(props) {
     // }, {
     //     label: 'CF',
     //     // data: [-7000, 2299, 2592, 2638, 2699],
-    //     data: (props.outputState.output.cfData.financialFlow == null) ? [] : Object.values(props.outputState.output.cfData.financialFlow.out.total),
+    //     data: (props.outputState.output.projectCashFlow.financialFlow == null) ? [] : Object.values(props.outputState.output.projectCashFlow.financialFlow.out.total),
     //     type: 'bar',
     //     borderColor: 'rgb(54, 162, 235)',
-    //     backgroundColor: repeateArray('rgba(54, 162, 235, 0.2)', Object.values(props.outputState.output.cfData.financialFlow.out.total).length),
+    //     backgroundColor: repeateArray('rgba(54, 162, 235, 0.2)', Object.values(props.outputState.output.projectCashFlow.financialFlow.out.total).length),
     //     borderWidth: 1,
     }, {
         label: 'NPV',
         // data: [-7000, -4701, -2109, 529, 3228],
-        data: Object.values(props.outputState.output.cfData.npv),
+        data: Object.values(props.outputState.output.projectCashFlow.npv),
         yAxisID: 'axis1',
         type: 'line',
         borderColor: 'rgb(75, 192, 64)',

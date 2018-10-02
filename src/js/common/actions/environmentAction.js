@@ -6,7 +6,7 @@ import {IS_DEBUG} from "../properties";
 export function getEnvironment() {
     return (dispatch) => {
         if (properties.BACKEND_SERVER_IP != '') {
-            let url = 'http://' + properties.BACKEND_SERVER_IP + properties.GET_ENVIRONMENT_API
+            let url = properties.BACKEND_SERVER_IP + properties.GET_ENVIRONMENT_API
 
             get(url).then((response) => {
                 if (IS_DEBUG) {

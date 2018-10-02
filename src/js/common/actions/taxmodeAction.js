@@ -5,7 +5,7 @@ import {GET_TAXMODE_SUCCESS} from "../constants/taxmodeConstants";
 export function getTaxmode() {
     return (dispatch) => {
         if (properties.BACKEND_SERVER_IP != '') {
-            let url = 'http://' + properties.BACKEND_SERVER_IP + properties.GET_TAXMODE_API
+            let url = properties.BACKEND_SERVER_IP + properties.GET_TAXMODE_API
 
             get(url).then((response) => {
                 console.log('NEPLOG: Tax mode REST response:')

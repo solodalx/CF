@@ -56,6 +56,7 @@ const styles = theme => ({
 class InputFieldsManualExpenses extends React.Component {
     state = {
         checkedManualExpenses: false,
+        // checkedManualExpenses: true,
         // checkedManualExpenses: this.props.modelAction.getExpensesManual(this.props.model),
     };
 
@@ -93,6 +94,7 @@ class InputFieldsManualExpenses extends React.Component {
                                             checked={this.state.checkedManualExpenses}
                                             onChange={this.handleChange('checkedManualExpenses')}
                                             value="checkedManualExpenses"
+                                            // disabled
                                         />
                                     </div>
                                     <div className='col-2 text-left'>

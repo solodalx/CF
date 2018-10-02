@@ -134,16 +134,42 @@ function numberAndPrc(valueNumber, suffixNumber, valuePrc) {
     return <div>{number(valueNumber, suffixNumber)} / {valuePrc}%</div>
 }
 
-function data(state) {
+function data(props) {
+    if (props.outputState.output == null) return [];
+    if (props.outputState.output.projectMonthsDates == null) return [];
+
     return [
         // {name: 'Локация - г.Челябинск, центр города', value: '', oneRow: true},
-        {name: 'Месяц начала проекта', value: '08.2018 г.'},
-        {name: 'Месяц выхода на целевую проектную мощность', value: '11.2018 г.'},
-        {name: 'Бюджет', value: number(3350000, ' руб.')},
-        {name: 'Собственные средства', value: numberAndPrc(1600000, ' руб.', 49)},
-        {name: 'Заемные средства/ Соинвестирование сроком на 48 мес. под 14% годовых', value: numberAndPrc(1750000, ' руб.', 51)},
-        {name: 'Ежемесячный платеж по основному долгу 36 460 руб. и % 20 420 руб.', value: number(56870, ' руб.')},
+        {name: 'Месяц начала проекта', value: props.outputState.output.projectMonthsDates[0]},
+        // {name: 'Месяц выхода на целевую проектную мощность', value: '11.2018 г.'},
+        {name: 'Бюджет', value: number(props.outputState.output.totalInvestments, ' руб.')},
+        {
+            name: 'Собственные средства',
+            value: numberAndPrc(props.outputState.output.ownInvestments, ' руб.',
+                props.outputState.output.ownInvestments / props.outputState.output.totalInvestments * 100
+            )
+        },
+        {
+            name: 'Заемные средства/ Соинвестирование сроком на ' +
+                props.outputState.output.thirdPartyInvestments.duration +
+                ' мес. под ' +
+                (props.outputState.output.thirdPartyInvestments.interest * 100) +
+                '% годовых',
+            value: numberAndPrc(props.outputState.output.thirdPartyInvestments.sum, ' руб.',
+                props.outputState.output.thirdPartyInvestments.sum / props.outputState.output.totalInvestments * 100
+            )
+        },
+        // {name: 'Ежемесячный платеж по основному долгу 36 460 руб. и % 20 420 руб.', value: number(56870, ' руб.')},
     ]
+}
+
+function getLocation(props) {
+    if (props.outputState.output == null) return '';
+    if (props.outputState.output.location == null) return '';
+    return (
+        props.outputState.output.location.region + ', ' +
+        props.outputState.output.location.city
+    )
 }
 
 class OutputWidgetProjectParams extends React.Component {
@@ -187,13 +213,13 @@ class OutputWidgetProjectParams extends React.Component {
                     <Collapse in={true}>
                         <CardContent>
                             <Typography variant='caption' align='left' className={classes.tableCellFirst}>
-                                Локация - г.Челябинск, центр города
+                                Локация - {getLocation(this.props)}
                             </Typography>
                             <Divider/>
                             {/*<div className={classes.panel}>*/}
                                 <Table>
                                     <TableBody>
-                                        {data(null).map(n => {
+                                        {data(this.props).map(n => {
                                             return (
                                                 <TableRow className={classes.tableRow}>
                                                     <TableCell component='th' scope='row' className={classes.tableCellFirst}>
@@ -219,7 +245,8 @@ class OutputWidgetProjectParams extends React.Component {
 
 function mapStateToProps(store) {
     return {
-        output: store.outputState.output,
+        // output: store.outputState.output,
+        outputState: store.outputState,
     }
 }
 

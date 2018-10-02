@@ -8,7 +8,7 @@ import {GET_BIGDATA_SUCCESS} from "../constants/bigdataConstants";
 export function getBigdata(townId, businessAreaId, environmentId) {
     return (dispatch) => {
         if (properties.BACKEND_SERVER_IP != '') {
-            let url = 'http://' + properties.BACKEND_SERVER_IP_80 + properties.GET_BIGDATA_API;
+            let url = properties.BACKEND_SERVER_IP + properties.GET_BIGDATA_API;
             // let params = JSON.stringify({
             let params = {
                 'areaId': townId,

@@ -49,6 +49,7 @@ export const initialModelState = {
 
     expenses: {
         isManual: false,
+        // isManual: true,
         managementCount: 0,
         managementSalary: 0,
         employeeCount: 0,

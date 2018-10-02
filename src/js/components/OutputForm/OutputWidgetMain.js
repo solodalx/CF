@@ -174,21 +174,27 @@ function data(props) {
         // {name: 'Чистая приведенная стоимость (NPV)', value: 2984335, suffix: ' руб.'},
         // {name: 'Внутренняя норма доходности (IRR)', value: 5.75, suffix: '%'},
         // {name: 'Точка безубыточности, единиц продукции в мес.', value: getValue(props, 'pop1'), suffix: ' ' + getValue(props, 'popMeasure')},
-        {name: 'Точка безубыточности, единиц продукции в мес.', value: props.output.pop1, suffix: ' ' + props.output.popMeasure},
-        {name: 'Срок окупаемости (PBP)', value: props.output.pbp, suffix: ' мес.'},
+        {name: 'Точка безубыточности, единиц продукции в мес.', value: read(props.outputState.output.projectEfficiency, 'pop'), suffix: ' ' + read(props.outputState.output.projectEfficiency, 'popMeasure')},
+        {name: 'Срок окупаемости (PBP)', value: read(props.outputState.output.projectEfficiency, 'pbp'), suffix: ' мес.'},
         {name: 'Ставка дисконтирования', value: 15, suffix: '%'},
-        {name: 'Дисконтированный срок окупаемости (DPBP)', value: props.output.dpbp, suffix: ' мес.'},
-        {name: 'Чистая приведенная стоимость (NPV)', value: props.output.npv, suffix: ' руб.'},
-        {name: 'Внутренняя норма доходности (IRR)', value: props.output.irr * 100, suffix: '%'},
+        {name: 'Дисконтированный срок окупаемости (DPBP)', value: read(props.outputState.output.projectEfficiency, 'dpbp'), suffix: ' мес.'},
+        {name: 'Чистая приведенная стоимость (NPV)', value: read(props.outputState.output.projectEfficiency, 'npv'), suffix: ' руб.'},
+        {name: 'Внутренняя норма доходности (IRR)', value: (read(props.outputState.output.projectEfficiency, 'irr') * 100), suffix: '%'},
     ]
 }
 
-function data2(state) {
-    return [
-        {name: 'Снижение цены реализации за порцию до', value: 202, suffix: ' руб.'},
-        {name: 'Снижение объема продаж в месяц до', value: 2430, suffix: ' порций'},
-        {name: 'Рост издержек (за исключением амортизации) в месяц до', value: 410000, suffix: ' руб.'},
-    ]
+// function data2(state) {
+//     return [
+//         {name: 'Снижение цены реализации за порцию до', value: 202, suffix: ' руб.'},
+//         {name: 'Снижение объема продаж в месяц до', value: 2430, suffix: ' порций'},
+//         {name: 'Рост издержек (за исключением амортизации) в месяц до', value: 410000, suffix: ' руб.'},
+//     ]
+// }
+
+function read(parent, field) {
+    if (parent === undefined)
+        return '';
+    return parent[field];
 }
 
 class OutputWidgetMain extends React.Component {
@@ -335,27 +341,27 @@ class OutputWidgetMain extends React.Component {
                                 </Table>
                             </div>
                             <br/>
-                            <Typography variant='caption'>
-                                Проект становится неэффективным при любом из нижеперечисленных условий
-                                (NPV отрицателен на горизонте 60 месяцев)
-                            </Typography>
-                            <Divider/>
-                            <Table>
-                                <TableBody>
-                                    {data2(null).map(n => {
-                                        return (
-                                            <TableRow className={classes.tableRow}>
-                                                <TableCell component='th' scope='row' className={classes.tableCellFirst}>
-                                                    {n.name}
-                                                </TableCell>
-                                                <TableCell className={classes.tableCell}>
-                                                    {number(n.value, n.suffix)}
-                                                </TableCell>
-                                            </TableRow>
-                                        );
-                                    })}
-                                </TableBody>
-                            </Table>
+                            {/*<Typography variant='caption'>*/}
+                                {/*Проект становится неэффективным при любом из нижеперечисленных условий*/}
+                                {/*(NPV отрицателен на горизонте 60 месяцев)*/}
+                            {/*</Typography>*/}
+                            {/*<Divider/>*/}
+                            {/*<Table>*/}
+                                {/*<TableBody>*/}
+                                    {/*{data2(null).map(n => {*/}
+                                        {/*return (*/}
+                                            {/*<TableRow className={classes.tableRow}>*/}
+                                                {/*<TableCell component='th' scope='row' className={classes.tableCellFirst}>*/}
+                                                    {/*{n.name}*/}
+                                                {/*</TableCell>*/}
+                                                {/*<TableCell className={classes.tableCell}>*/}
+                                                    {/*{number(n.value, n.suffix)}*/}
+                                                {/*</TableCell>*/}
+                                            {/*</TableRow>*/}
+                                        {/*);*/}
+                                    {/*})}*/}
+                                {/*</TableBody>*/}
+                            {/*</Table>*/}
                             {/*<Typography variant='caption'>*/}
                                 {/**NPV отрицателен на горизонте 60 месяцев.*/}
                             {/*</Typography>*/}
@@ -394,7 +400,8 @@ class OutputWidgetMain extends React.Component {
 
 function mapStateToProps(store) {
     return {
-        output: store.outputState.output,
+        // output: store.outputState.output,
+        outputState: store.outputState,
     }
 }
 

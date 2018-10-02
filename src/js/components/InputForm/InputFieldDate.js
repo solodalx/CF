@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Tooltip from '@material-ui/core/Tooltip';
+import BigTip from "../common/BigTip";
 
 const styles = theme => ({
     // container: {
@@ -16,7 +17,12 @@ const styles = theme => ({
     // },
     inputLabel: {
         color: 'purple',
-    }
+    },
+    invisible: {
+        display: 'none',
+    },
+    visible: {
+    },
 });
 
 
@@ -43,6 +49,9 @@ class InputFieldDate extends React.Component {
                         }}
                     />
                 </Tooltip>
+                <span className={(this.props.bigTip == undefined) ? classes.invisible : classes.visible}>
+                    <BigTip id={this.props.id}/>
+                </span>
             </div>
             // </form>
         );

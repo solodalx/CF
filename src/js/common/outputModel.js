@@ -15,7 +15,7 @@ export function getPnlHeader(output, suffix) {
     // }
     // return fieldNames;
     var header = {firstColumn: 'Показатель / период'};
-    Object.keys(output.pnlData.income).forEach(
+    Object.keys(output.projectProfitAndLosses.income).forEach(
         (k, i) => header[k] = i + (suffix === undefined ? ' период' : ' ' + suffix)
     );
     if (IS_DEBUG) {
@@ -27,7 +27,7 @@ export function getPnlHeader(output, suffix) {
 
 export function getCfHeader(output, suffix) {
     var header = {firstColumn: 'Показатель / период'};
-    Object.keys(output.cfData.moneyAtStart).forEach(
+    Object.keys(output.projectCashFlow.moneyAtStart).forEach(
         (k, i) => header[k] = i + (suffix === undefined ? ' период' : ' ' + suffix)
     );
     if (IS_DEBUG) {
@@ -39,7 +39,7 @@ export function getCfHeader(output, suffix) {
 
 export function getPnlCfLabels(output, suffix) {
     var header = {};
-    Object.keys(output.pnlData.income).forEach(
+    Object.keys(output.projectProfitAndLosses.income).forEach(
         (k, i) => header[k] = i + (suffix === undefined ? ' период' : ' ' + suffix)
     );
     if (IS_DEBUG) {
@@ -55,40 +55,41 @@ export function getPnlData(props) {
         console.log(props);
     }
     if (props.outputState.output == null) return [];
-    if (props.outputState.output.pnlData == null) return [];
+    if (props.outputState.output.projectProfitAndLosses == null) return [];
     if (IS_DEBUG) {
-        console.log(props.outputState.output.pnlData.income);
-        console.log(Object.keys(props.outputState.output.pnlData.income).length);
+        console.log(props.outputState.output.projectProfitAndLosses.income);
+        console.log(Object.keys(props.outputState.output.projectProfitAndLosses.income).length);
     }
     return [
-        {name: 'Выручка', values: props.outputState.output.pnlData.income},
-        {name: 'Себестоимость продаж', values: props.outputState.output.pnlData.productionCosts},
-        {name: 'Управленческие расходы', values: props.outputState.output.pnlData.managementCosts},
-        {name: 'Накладные расходы', values: props.outputState.output.pnlData.fixedCosts},
-        {name: 'Проценты к получению / уплате', values: props.outputState.output.pnlData.loanCosts, coef: -1},
-        {name: 'Прочие доходы / расходы', values: props.outputState.output.pnlData.otherCosts, coef: -1},
+        {name: 'Выручка', values: props.outputState.output.projectProfitAndLosses.income},
+        {name: 'Себестоимость продаж', values: props.outputState.output.projectProfitAndLosses.productionCosts},
+        {name: 'Управленческие расходы', values: props.outputState.output.projectProfitAndLosses.managementCosts},
+        {name: 'Накладные расходы', values: props.outputState.output.projectProfitAndLosses.fixedCosts},
+        {name: 'Проценты к получению / уплате', values: props.outputState.output.projectProfitAndLosses.loanCosts, coef: -1},
+        {name: 'Прочие доходы / расходы', values: props.outputState.output.projectProfitAndLosses.otherCosts, coef: -1},
         // {name: 'Текущий налог на прибыль', values: [180, 180, 180, 180]},
-        {name: 'Чистая прибыль (убыток)', values: props.outputState.output.pnlData.netRevenue},
+        {name: 'Чистая прибыль (убыток)', values: props.outputState.output.projectProfitAndLosses.netRevenue},
+        {name: 'Фактическая рентабельность', values: props.outputState.output.projectProfitAndLosses.actualReturn},
     ]
 }
 
 export function getCfData(props) {
     if (props.outputState.output == null) return [];
-    if (props.outputState.output.cfData == null) return [];
+    if (props.outputState.output.projectCashFlow == null) return [];
     return [
-        {name: 'Денежные средства на начало периода', values: props.outputState.output.cfData.moneyAtStart},
+        {name: 'Денежные средства на начало периода', values: props.outputState.output.projectCashFlow.moneyAtStart},
         {name: 'Операционный поток', values:
-                (props.outputState.output.cfData.operationalFlow == null) ? [] :
-                    props.outputState.output.cfData.operationalFlow.net},
+                (props.outputState.output.projectCashFlow.operationalFlow == null) ? [] :
+                    props.outputState.output.projectCashFlow.operationalFlow.net},
         {name: 'Инвестиционный поток', values:
-                (props.outputState.output.cfData.investmentsFlow == null) ? [] :
-                    props.outputState.output.cfData.investmentsFlow.net},
+                (props.outputState.output.projectCashFlow.investmentsFlow == null) ? [] :
+                    props.outputState.output.projectCashFlow.investmentsFlow.net},
         {name: 'Финансовый поток', values:
-                (props.outputState.output.cfData.financialFlow == null) ? [] :
-                    props.outputState.output.cfData.financialFlow.net},
-        {name: 'Чистый денежный поток', values: props.outputState.output.cfData.netCashFlow},
-        {name: 'Остаток денежных средств на конец периода', values: props.outputState.output.cfData.moneyAtEnd},
-        {name: 'NPV', values: props.outputState.output.cfData.npv},
+                (props.outputState.output.projectCashFlow.financialFlow == null) ? [] :
+                    props.outputState.output.projectCashFlow.financialFlow.net},
+        {name: 'Чистый денежный поток', values: props.outputState.output.projectCashFlow.netCashFlow},
+        {name: 'Остаток денежных средств на конец периода', values: props.outputState.output.projectCashFlow.moneyAtEnd},
+        {name: 'NPV', values: props.outputState.output.projectCashFlow.npv},
     ]
 }
 

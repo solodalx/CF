@@ -18,6 +18,7 @@ import { emphasize } from '@material-ui/core/styles/colorManipulator';
 
 import Tooltip from '@material-ui/core/Tooltip';
 import {IS_DEBUG} from '../../common/properties';
+import BigTip from "../common/BigTip";
 
 const styles = theme => ({
     root: {
@@ -57,6 +58,18 @@ const styles = theme => ({
     },
     inputWidth: {
         [theme.breakpoints.down('xs')]: {
+            minWidth: 120,
+            maxWidth: 300,
+            width: '100%',
+        },
+        [theme.breakpoints.up('sm')]: {
+            minWidth: 300,
+            width: 300,
+            maxWidth: 300,
+        },
+    },
+    inputWidth2: {
+        [theme.breakpoints.down('xs')]: {
             minWidth: 150,
             maxWidth: 350,
             width: '100%',
@@ -69,6 +82,11 @@ const styles = theme => ({
     },
     purple: {
         color: 'purple',
+    },
+    invisible: {
+        display: 'none',
+    },
+    visible: {
     },
 });
 
@@ -211,35 +229,42 @@ class InputFieldAutocomplete extends React.Component {
                     <br/>
                     {this.props.title}
                 </Typography>
-                <NoSsr>
-                    {/*<Select*/}
-                        {/*classes={classes}*/}
-                        {/*options={suggestions}*/}
-                        {/*components={components}*/}
-                        {/*value={this.state.single}*/}
-                        {/*onChange={this.handleChange('single')}*/}
-                        {/*placeholder="Search a country (start with a)"*/}
-                    {/*/>*/}
-                    {/*<Tooltip title={this.props.tip} placement="center">*/}
-                        <Select
-                            classes={classes}
-                            options={this.props.suggestions}
-                            // filterOptions={filterOptions}
-                            components={components}
-                            value={this.state.multi}
-                            onChange={this.handleChange('multi')}
-                            // placeholder="Select multiple countries"
-                            placeholder={this.props.placeholder}
-                            isMulti={this.props.isMulti == undefined ? false : this.props.isMulti}
-                            // menuPosition='fixed'
-                            menuPosition='absolute'
-                            // menuPosition={this.props.menuPosition}
-                            // menuPlacement='auto'
-                            maxMenuHeight={this.props.maxMenuHeight == undefined ? 200 : this.props.maxMenuHeight}
-                            // menuIsOpen={inputValue.length > 2 ? true : false}
-                        />
-                    {/*</Tooltip>*/}
-                </NoSsr>
+                    <NoSsr>
+                        {/*<Select*/}
+                            {/*classes={classes}*/}
+                            {/*options={suggestions}*/}
+                            {/*components={components}*/}
+                            {/*value={this.state.single}*/}
+                            {/*onChange={this.handleChange('single')}*/}
+                            {/*placeholder="Search a country (start with a)"*/}
+                        {/*/>*/}
+                        {/*<Tooltip title={this.props.tip} placement="center">*/}
+                        <div className='row flex-nowrap'>
+                            {/*<div className={classes.inputWidth2}>*/}
+                                <Select
+                                    classes={classes}
+                                    options={this.props.suggestions}
+                                    // filterOptions={filterOptions}
+                                    components={components}
+                                    value={this.state.multi}
+                                    onChange={this.handleChange('multi')}
+                                    // placeholder="Select multiple countries"
+                                    placeholder={this.props.placeholder}
+                                    isMulti={this.props.isMulti == undefined ? false : this.props.isMulti}
+                                    // menuPosition='fixed'
+                                    menuPosition='absolute'
+                                    // menuPosition={this.props.menuPosition}
+                                    // menuPlacement='auto'
+                                    maxMenuHeight={this.props.maxMenuHeight == undefined ? 200 : this.props.maxMenuHeight}
+                                    // menuIsOpen={inputValue.length > 2 ? true : false}
+                                />
+                                <span className={(this.props.bigTip == undefined) ? classes.invisible : classes.visible}>
+                                    <BigTip id={this.props.id}/>
+                                </span>
+                            {/*</div>*/}
+                        </div>
+                        {/*</Tooltip>*/}
+                    </NoSsr>
             </div>
         );
     }

@@ -6,7 +6,7 @@ import {IS_DEBUG} from "../properties";
 export function getBusinessArea() {
     return (dispatch) => {
         if (properties.BACKEND_SERVER_IP != '') {
-            let url = 'http://' + properties.BACKEND_SERVER_IP + properties.GET_BUSINESSAREA_API
+            let url = properties.BACKEND_SERVER_IP + properties.GET_BUSINESSAREA_API
 
             get(url).then((response) => {
                 if (IS_DEBUG) {

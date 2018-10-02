@@ -7,7 +7,7 @@ import {IS_DEBUG} from "../properties";
 export function getTowns() {
     return (dispatch) => {
         if (properties.BACKEND_SERVER_IP != '') {
-            let regionsUrl = 'http://' + properties.BACKEND_SERVER_IP + properties.GET_REGIONS_API
+            let regionsUrl = properties.BACKEND_SERVER_IP + properties.GET_REGIONS_API
             let regions = null;
             get(regionsUrl).then((response) => {
                 if (IS_DEBUG) {
@@ -21,7 +21,7 @@ export function getTowns() {
                 })
             })
 
-            let url = 'http://' + properties.BACKEND_SERVER_IP + properties.GET_TOWNS_API
+            let url = properties.BACKEND_SERVER_IP + properties.GET_TOWNS_API
             get(url).then((response) => {
                 if (IS_DEBUG) {
                     console.log('NEPLOG: Towns REST response:')

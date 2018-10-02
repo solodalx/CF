@@ -2,6 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as modelAction from '../../common/actions/modelAction';
+import {customdata} from '../../common/customdata';
 
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -18,8 +19,41 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 const styles = theme => ({
     button: {
+    },
+    invisible: {
+        display: 'none',
+    },
+    visible: {
     }
 });
+
+function getTipHeading(id) {
+    if (customdata.fieldDescriptions[id] === undefined)
+        return ''
+    return customdata.fieldDescriptions[id].heading;
+}
+
+function getTipDescription(id) {
+    if (customdata.fieldDescriptions[id] === undefined)
+        return ''
+    return customdata.fieldDescriptions[id].description;
+}
+
+function getTipType(id) {
+    let tip = customdata.fieldDescriptions[id];
+    if (tip === undefined)
+        return ''
+    let type = tip.type;
+    if (type === undefined) {
+        if (tip.description.length < 200) {
+            type = 'tooltip'
+        }
+        else {
+            type = 'dialog'
+        }
+    }
+    return type;
+}
 
 class BigTip extends React.Component {
     state = {
@@ -44,32 +78,42 @@ class BigTip extends React.Component {
 
         return (
             <span>
-                <IconButton
-                    color='secondary'
-                    // className={classes.button}
-                    aria-label='info'
-                    // tooltip='tooltip'
-                    // tooltipPosition="bottom-right"
-                    iconStyle={{width: '32px', height: '32px'}}
-                    style={{width: '48px', height: '48x', padding: '0px'}}
-                    // onClick={this.handleOpen('paper')}
-                    onClick={this.handleOpenClose(true)}
+                <Tooltip
+                    title={getTipType(this.props.id) === 'tooltip' ? getTipDescription(this.props.id) : ''}
+                    placement='right'
                 >
-                    {/*<HelpIcon fontSize="small"/>*/}
-                    <HelpIcon/>
-                </IconButton>
-               <Dialog
-                   open={this.state.open}
-                   // onClose={this.handleClose}
-                   onClose={this.handleOpenClose(false)}
-                   onClick={this.handleOpenClose(true)}
-                   // scroll={this.state.scroll}
-                   aria-labelledby="scroll-dialog-title"
-               >
-                    <DialogTitle id="scroll-dialog-title">Описание</DialogTitle>
+                    <IconButton
+                        color='secondary'
+                        // className={classes.button}
+                        aria-label='info'
+                        // tooltip='tooltip'
+                        // tooltipPosition="bottom-right"
+                        iconStyle={{width: '32px', height: '32px'}}
+                        style={{width: '48px', height: '48x', padding: '0px'}}
+                        // onClick={this.handleOpen('paper')}
+                        onClick={this.handleOpenClose(true)}
+                    >
+                        {/*<HelpIcon fontSize="small"/>*/}
+                        <HelpIcon/>
+                    </IconButton>
+                </Tooltip>
+                <Dialog
+                    className={getTipType(this.props.id) === 'dialog' ? classes.visible : classes.invisible}
+                    open={this.state.open}
+                    // onClose={this.handleClose}
+                    onClose={this.handleOpenClose(false)}
+                    onClick={this.handleOpenClose(true)}
+                    // scroll={this.state.scroll}
+                    aria-labelledby="scroll-dialog-title"
+                >
+                    <DialogTitle id="scroll-dialog-title">
+                        {/*Описание*/}
+                        {getTipHeading(this.props.id)}
+                    </DialogTitle>
                     <DialogContent>
                         <DialogContentText>
-                            Инвестиции подразумевают капитальные вложения, например, приобретение зданий и оборудования для будущего проекта. Это сумма всех планируемых вами затрат на реализацию проекта.
+                            {/*Инвестиции подразумевают капитальные вложения, например, приобретение зданий и оборудования для будущего проекта. Это сумма всех планируемых вами затрат на реализацию проекта.*/}
+                            {getTipDescription(this.props.id)}
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions>

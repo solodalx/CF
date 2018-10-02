@@ -193,7 +193,7 @@ class InputFieldAmount extends React.Component {
                 </Tooltip>
                 {/*<Tooltip id={this.props.id}>Подсказка</Tooltip>*/}
                 <span className={(this.props.bigTip == undefined) ? classes.invisible : classes.visible}>
-                    <BigTip/>
+                    <BigTip id={this.props.id}/>
                 </span>
             </div>
         );
