@@ -15,7 +15,8 @@ import InputForm from './js/components/InputForm/InputForm.js'
 
 ReactDOM.render(
     <Provider store={configureStore()}>
-        <BrowserRouter>
+        {/*<BrowserRouter>*/}
+        <BrowserRouter basename="/ui">
             <App />
             {/*<Route path='/' component={InputForm} />*/}
             {/*<Route path='/output' component={OutputForm} />*/}
@@ -23,4 +24,4 @@ ReactDOM.render(
     </Provider>,
     document.getElementById('root')
 );
-registerServiceWorker();
+// registerServiceWorker();

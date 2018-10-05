@@ -8,24 +8,11 @@ import {IS_DEBUG} from "../../common/properties";
 
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import classnames from 'classnames';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
 import Collapse from '@material-ui/core/Collapse';
-import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import red from '@material-ui/core/colors/red';
 import green from '@material-ui/core/colors/green';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import Share from '@material-ui/icons/Share';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-// import MoreVertIcon from '@material-ui/icons/MoreVert';
-import ThumbUp from '@material-ui/icons/ThumbUp';
-import * as modelAction from "../../common/actions/modelAction";
 
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -37,7 +24,6 @@ import NumberFormat from 'react-number-format';
 
 const CustomTableCell = withStyles(theme => ({
     head: {
-        // backgroundColor: theme.palette.common.black,
         backgroundColor: '#9dcb9a',
         color: theme.palette.common.white,
     },
@@ -93,15 +79,12 @@ const styles = theme => ({
         borderRadius: '25px !important',
         margin: '10px',
         width: '95%'
-        //marginLeft: '15px',
-        // height: 'auto',
     },
     scrollX: {
         overflowX: 'auto',
     },
     tableRow: {
         '&:nth-of-type(odd)': {
-            // backgroundColor: theme.palette.background.default,
             backgroundColor: '#f8fff8',
         },
     },
@@ -192,29 +175,7 @@ class OutputWidgetCF extends React.Component {
                 <Card className={classes.card}>
                     <CardHeader
                         title="Отчет о движении денежных средств, тыс. руб."
-                        // subheader="September 14, 2016"
                     />
-                    {/*<CardContent>*/}
-                    {/*</CardContent>*/}
-                    {/*<CardActions className={classes.actions} disableActionSpacing>*/}
-                        {/*<IconButton aria-label="Add to favorites">*/}
-                            {/*<FavoriteIcon />*/}
-                        {/*</IconButton>*/}
-                        {/*<IconButton aria-label="Share">*/}
-                            {/*<ShareIcon />*/}
-                        {/*</IconButton>*/}
-                        {/*<IconButton*/}
-                            {/*className={classnames(classes.expand, {*/}
-                                {/*[classes.expandOpen]: this.state.expanded,*/}
-                            {/*})}*/}
-                            {/*onClick={this.handleExpandClick}*/}
-                            {/*aria-expanded={this.state.expanded}*/}
-                            {/*aria-label="Show more"*/}
-                        {/*>*/}
-                            {/*<ExpandMoreIcon />*/}
-                        {/*</IconButton>*/}
-                    {/*</CardActions>*/}
-                    {/*<Collapse in={this.state.expanded} timeout="auto" unmountOnExit>*/}
                     <Collapse in={true}>
                         <CardContent>
                             <Divider/>

@@ -9,24 +9,19 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import grey from "@material-ui/core/colors/grey";
 
 import * as outputAction from '../../common/actions/outputAction';
-import * as modelAction from '../../common/actions/modelAction';
-import * as model from "../../common/model";
 import {IS_DEBUG} from '../../common/properties';
 
 import CmnAppBar from '../common/CmnAppBar'
 import OutputWidgetMain from './OutputWidgetMain'
-import OutputWidgetEfficiency from './OutputWidgetEfficiency'
 import OutputWidgetProjectParams from './OutputWidgetProjectParams'
 import OutputWidgetPnL from './OutputWidgetPnL'
 import OutputWidgetCF from './OutputWidgetCF'
 import OutputWidgetChart from './OutputWidgetChart'
-import OutputWidgetChartFinFlow from './OutputWidgetChartFinFlow'
 
 const theme = createMuiTheme({
     palette: {
         // primary: {main: green[400]}, // Purple and green play nicely together.
         primary: {main: '#558B2F'}, // Purple and green play nicely together.
-        //primary: { main: purple[500] }, // Purple and green play nicely together.
         //secondary: { main: '#11cb5f' }, // This is just green.A700 as hex.
         // background: {
         //     default: '#FFC107',
@@ -37,7 +32,6 @@ const theme = createMuiTheme({
 
 const styles = theme => ({
     canvas: {
-        // color: grey[200],
         backgroundColor: grey[400],
         padding: 0,
     },
@@ -83,8 +77,6 @@ class OutputForm extends React.Component {
             <MuiThemeProvider theme={theme}>
                 <div className={classes.canvas}>
                     <CmnAppBar icon='back' title='Вернуться назад' iconLink='/input'/>
-                    {/*<div className={classes.canvas + ' container'}>*/}
-                    {/*<div className={classes.canvasMargin + 'container'}>*/}
                     <div className={classes.canvas2 + ' container'}>
                         <div className='row'>
                             <div className={classes.paddingZero + ' col'}>
@@ -141,15 +133,12 @@ class OutputForm extends React.Component {
 
 function mapStateToProps(store) {
     return {
-        // modelState: store.modelState,
-        // output: store.outputState.output,
         outputState: store.outputState,
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        // modelAction: bindActionCreators(modelAction, dispatch),
         outputAction: bindActionCreators(outputAction, dispatch),
     }
 }

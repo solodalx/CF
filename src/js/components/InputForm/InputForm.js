@@ -61,22 +61,13 @@ import InputFieldAutocomplete from './InputFieldAutocomplete'
 import InputFieldSwitchable from './InputFieldSwitchable'
 
 import {IS_DEBUG} from '../../common/properties';
-
-// import HorizontalNonLinearAlternativeLabelStepper from './TestStepper.js'
-// import SimpleTabs from '../Others/TabsExample.js'
-// import VerticalLinearStepper from '../Others/StepperExample'
-// import IntegrationReactSelect from './InputFieldRegionAutocomplete.js'
-//import IntegrationDownshift from './AutocompleteExample0.js'
-
+// import {pathname} from '../../common/properties';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import green from '@material-ui/core/colors/green'
 
 const theme = createMuiTheme({
     palette: {
-        // primary: {main: green[400]}, // Purple and green play nicely together.
         primary: {main: '#558B2F'}, // Purple and green play nicely together.
-        //primary: { main: purple[500] }, // Purple and green play nicely together.
-        //secondary: { main: '#11cb5f' }, // This is just green.A700 as hex.
         // background: {
         //     default: '#FFC107',
         //     paper: '#FAFAFA',
@@ -88,8 +79,6 @@ const styles = theme => ({
     inputContainer: {
     },
     stepperContainer: {
-        // display: 'flex',
-        // justifyContent: 'center',
         [theme.breakpoints.down('xs')]: {
         },
         [theme.breakpoints.up('sm')]: {
@@ -99,36 +88,9 @@ const styles = theme => ({
             paddingRight: '15%',
         },
     },
-    // container: {
-    //     display: 'flex',
-    //     flexWrap: 'wrap',
-    //     // flexGrow: 1,
-    //     // width: '100%',
-    //     backgroundColor: theme.palette.background.paper,
-    // },
-    // menuButton: {
-    //     marginLeft: -12,
-    //     marginRight: 20,
-    // },
-    // flex: {
-    //     // flex: 1,
-    // },
-    // stepHeading: {
-    //     fontSize: theme.typography.pxToRem(32),
-    //     fontWeight: theme.typography.fontWeightRegular,
-    // },
     heading: {
         fontSize: theme.typography.pxToRem(24),
         fontWeight: theme.typography.fontWeightRegular,
-        // [theme.breakpoints.down('xs')]: {
-        //     // fontSize: theme.typography.pxToRem(24),
-        //     fontWeight: 'bold',
-        // },
-        // [theme.breakpoints.up('sm')]: {
-        //     fontSize: theme.typography.pxToRem(24),
-        //     fontWeight: theme.typography.fontWeightRegular,
-        // },
-        // color: "",
     },
     overflowHidden: {
         overflow: 'hidden !important',
@@ -145,16 +107,6 @@ const styles = theme => ({
         width: 200,
     },
     clientWidth: {
-        // [theme.breakpoints.down('xs')]: {
-        //     width: '75%',
-        // },
-        // [theme.breakpoints.up('sm')]: {
-        //     width: '80%',
-        // },
-        // [theme.breakpoints.up('lg')]: {
-        //     width: '55%',
-        // },
-        // zIndex: -1,
     },
     compWidth: {
         // width: 200,
@@ -232,24 +184,9 @@ const styles = theme => ({
         // height: 'auto',
     },
     noBorder: {
-        // outline: 'none !important',
         '&:focus': {
             outline: 'none',
         },
-        // '&:focus, &$focusVisible': {
-        // '&:focus': {
-        //     zIndex: 1,
-        //     '& $imageBackdrop': {
-        //         opacity: 0.15,
-        //     },
-        //     '& $imageMarked': {
-        //         opacity: 0,
-        //     },
-        //     '& $imageTitle': {
-        //         border: '4px solid currentColor',
-        //     },
-        //     outline: 'none',
-        // },
     },
     invisible: {
         // display: 'none !important',
@@ -265,9 +202,7 @@ const styles = theme => ({
 
 function tabContainer(props) {
     return (
-        //<Typography component="div" style={{ padding: 8 * 3 }}>
         <Typography component="div" style={{display: 'flex', flexWrap: 'wrap'}}>
-        {/*<Typography component="div" className={props.container}>*/}
             {props.children}
         </Typography>
     );
@@ -299,8 +234,6 @@ function getTownsSuggestions0(towns, regions) {
 }
 
 function getTownsSuggestions(towns, regions) {
-    //, selectedRegions) {
-    // if (selectedRegions == '') {
     if (IS_DEBUG) {
         console.log('NEPLOG: InputForm: getTownsSuggestions: towns = ' + towns + ' regions = ' + regions);
         console.log(towns);
@@ -354,11 +287,6 @@ function getEnvironmentSuggestions(environments) {
 class InputForm extends React.Component {
     state = {
         activeStep: 0,
-        // assetsLand: '',
-        // assetsBuildings: '',
-        // value: 0,
-        // townsSuggestions: [],
-        // expandedAssets: false,
     };
 
     handleStep = step => () => {
@@ -368,7 +296,6 @@ class InputForm extends React.Component {
                 this.props.modelState.commons.businessArea.value,
                 this.props.modelState.commons.environment.value
             );
-            // this.props.modelAction.copyBigdataToFields(this.props);
         }
         this.setState({
             activeStep: step
@@ -396,8 +323,6 @@ class InputForm extends React.Component {
     };
 
     handleRun = () => {
-        // document.location.href='http://40.115.40.71:8118/output.php';
-        // document.location.href='http://vh231124.eurodir.ru/output.php';
         this.props.outputAction.getOutput(this.props);
     };
 
@@ -415,17 +340,6 @@ class InputForm extends React.Component {
         this.setState({ [name]: event.target.value });
     };
 
-    // handleExpandAssets = (expanded, frozen) => {
-    //     if (IS_DEBUG) {
-    //         console.log('NEPLOG: InputForm: handleExpandAssets: expanded = ' + expanded + ' frozed = ' + frozen);
-    //         console.log(this.props);
-    //     }
-    //     if (!frozen) {
-    //         // this.setState({expandedAssets: expanded})
-    //         this.props.modelAction.fieldUpdated('existingAssets:isExpanded', expanded);
-    //     }
-    // }
-
     constructor(props) {
         super(props);
         // props.regionsAction.getRegions();
@@ -439,18 +353,12 @@ class InputForm extends React.Component {
             // console.log(props.modelState);
             console.log(props);
             console.log(this.state);
+            // console.log(pathname);
+            console.log(`${process.env.PUBLIC_URL}/`);
         }
     }
 
     componentDidMount = (event) => {
-        // this.props.regionsAction.getRegions(event);
-        // this.props.townsAction.getTowns(event);
-        // this.props.businessAreaAction.getBusinessArea(event);
-        // this.props.environmentAction.getEnvironment(event);
-
-        // const towns = getTownsSuggestions(this.props.towns, this.props.regions);
-        // this.setState({ townsSuggestions: towns});
-
         if (IS_DEBUG) {
             console.log('NEPLOG: InputForm: componentDidMount: modelState = ' + this.props.modelState);
             // console.log(this.props.modelState);
@@ -459,10 +367,6 @@ class InputForm extends React.Component {
         }
     };
 
-    // updateState(blockName, fieldName) = (value) => {
-    //     Object.assign({}, this.props.model, {[blockName]: Object.assign({}, this.props.model[blockName], {[fieldName]: value})})
-    // }
-
     render() {
         const { classes } = this.props;
         const steps = getSteps();
@@ -470,7 +374,6 @@ class InputForm extends React.Component {
         const { value } = this.state;
         if (IS_DEBUG) {
             console.log('NEPLOG: InputForm: render: modelState = ' + this.props.modelState);
-            // console.log(this.props.modelState);
             console.log(this.props);
             console.log(this.state);
         }
@@ -481,34 +384,6 @@ class InputForm extends React.Component {
                 {/*<div className={classes.overflowHidden}>*/}
                 <div className={classes.inputContainer}>
                     <CmnAppBar icon='cancel' title='Вернуться назад' iconLink='/'/>
-                    {/*<HorizontalNonLinearAlternativeLabelStepper/>*/}
-                    {/*<AppBar position="static" color="primary">*/}
-                        {/*<Toolbar>*/}
-                            {/*<div class="contaner w-100">*/}
-                                {/*<div class="row align-items-center justify-content-between">*/}
-                                    {/*/!*<div class="col-1 no-gutters">*!/*/}
-                                    {/*<div class="col-1">*/}
-                                        {/*<IconButton className={classes.menuButton} color="inherit" aria-label="Menu">*/}
-                                            {/*<Cancel />*/}
-                                        {/*</IconButton>*/}
-                                    {/*</div>*/}
-                                    {/*/!*<div className="col-10 justify-content-start no-gutters">*!/*/}
-                                    {/*<div className="col-10 text-left">*/}
-                                        {/*/!*<Typography variant="title" color="inherit" className={classes.flex}>*!/*/}
-                                        {/*<Typography variant="title" color="inherit" className={classes.flex}>*/}
-                                            {/*/!*Ввод данных для расчета модели*!/*/}
-                                            {/*Независимая экспертиза проектов*/}
-                                            {/*/!*НЭП*!/*/}
-                                        {/*</Typography>*/}
-                                    {/*</div>*/}
-                                    {/*<div className="col-1">*/}
-                                        {/*<Button color="inherit">Login</Button>*/}
-                                    {/*</div>*/}
-                                {/*</div>*/}
-                            {/*</div>*/}
-                        {/*</Toolbar>*/}
-                    {/*</AppBar>*/}
-                    {/*<InputFieldRegionAutocomplete/>*/}
 
                     <div className={classes.stepperContainer}>
                         {/*<div>*/}
@@ -572,24 +447,6 @@ class InputForm extends React.Component {
                                                                 Далее
                                                             </Button>
                                                         }
-                                                        {/*<Button*/}
-                                                            {/*variant="raised"*/}
-                                                            {/*color="primary"*/}
-                                                            {/*onClick={(activeStep === steps.length - 1) ?*/}
-                                                                {/*this.handleRun :*/}
-                                                                {/*this.handleNext*/}
-                                                            {/*}*/}
-                                                            {/*className={[classes.button, classes.noBorder].join(' ')}*/}
-                                                        {/*>*/}
-                                                            {/*{activeStep === steps.length - 1 ? 'Рассчитать модель' : 'Далее'}*/}
-                                                        {/*</Button>*/}
-                                                        {/*<Link to='/output'>*/}
-                                                        <a
-                                                            href='http://vh231124.eurodir.ru/output.php'
-                                                            className={activeStep === steps.length - 1 ? classes.singleLink : classes.invisible}
-                                                        >
-                                                            старый прототип
-                                                        </a>
                                                     </div>
                                                 </div>
                                             </StepContent>
@@ -646,11 +503,6 @@ InputForm.propTypes = {
 // export default withStyles(styles)(InputForm);
 export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(InputForm));
 
-
-// var updateState(blockName, fieldName) = (value) => {
-//     Object.assign({}, this.props.model, {[blockName]: Object.assign({}, this.props.model[blockName], {[fieldName]: value})})
-// }
-
 function getStepContent(step, props, state, th) {
     const { classes } = props;
 
@@ -667,32 +519,12 @@ function getStepContent(step, props, state, th) {
                         {/*</div>*/}
                     </div>
                     <div class="row">
-                        {/*<div class="col">*/}
-                            {/*<IntegrationReactSelect/>*/}
-                            {/*<InputFieldRegion/>*/}
-                            {/*<InputFieldAutocomplete*/}
-                                {/*field='commons:regions'*/}
-                                {/*value={props.modelState.commons.regions}*/}
-                                {/*suggestions={getRegionsSuggestions(props.regions)}*/}
-                                {/*title='Регион'*/}
-                                {/*placeholder='Выберите регион...'*/}
-                                {/*isMulti*/}
-                            {/*/>*/}
-                        {/*</div>*/}
-                        {/*<div className="col">*/}
-                            {/*<InputFieldRegionEnv/>*/}
-                        {/*</div>*/}
                         <div className="col">
                             <InputFieldAutocomplete
                                 id='town'
                                 field='commons:towns'
                                 value={props.modelState.commons.towns}
-                                // suggestions={getTownsSuggestions2(props.towns, props.regions)}
-                                // suggestions={getTownsSuggestions2(props.towns, props.modelState.commons.regions)}
-                                // suggestions={getTownsSuggestions0(props.towns, props.regions)}
                                 suggestions={props.townsState.suggestions}
-                                // suggestions={state.townsSuggestions}
-                                //, props.modelState.commons.regions)}
                                 title='Город'
                                 placeholder='Выберите город...'
                                 // isMulti
@@ -731,10 +563,6 @@ function getStepContent(step, props, state, th) {
                         {/*<div className="col">*/}
                             {/*<InputFieldTax/>*/}
                         {/*</div>*/}
-                        {/*<div>*/}
-                        {/*<br/>*/}
-                        {/*<br/>*/}
-                    {/*</div>*/}
                     </div>
                     <br/>
                 </div>
@@ -756,24 +584,15 @@ function getStepContent(step, props, state, th) {
                             </div>
                         </div>
                     </div>
-                    {/*<ExpansionPanel className={classes.fullWidth}>*/}
-                    {/*<ExpansionPanel className={[classes.fullWidth, classes.noShadow].join(' ')}>*/}
-                    {/*<ExpansionPanel className={[classes.panel, classes.fullWidth].join(' ')}>*/}
                     <ExpansionPanel
                         className={classes.panel}
-                        // expanded={state.expandedAssets}
-                        // expanded={props.modelState.existingAssets.isExpanded}
                     >
-                        {/*<ExpansionPanel className={[classes.fullWidth, classes.paddingZero].join(' ')}>*/}
-                        {/*<ExpansionPanelSummary className={classes.paddingZero} expandIcon={<ExpandMoreIcon/>}>*/}
                         <ExpansionPanelSummary
                             classes={{
                                 root: [classes.column, classes.justifyStart].join(' '),
                                 firstChild: classes.compWidth,
                             }}
                             expandIcon={<ExpandMoreIcon />}
-                            // onClick={th.handleExpandAssets(!state.expandedAssets)}
-                            // onClick={th.handleExpandAssets(!props.modelState.existingAssets.isExpanded, props.modelState.existingAssets.isExpansionFrozen)}
                         >
                             <div class="container no-gutters">
                                 <div class="row justify-content-sm-between">
@@ -789,8 +608,6 @@ function getStepContent(step, props, state, th) {
                                     <div className="w-100 d-sm-none"/>
                                     {/*<div className="col text-nowrap text-right">*/}
                                     <div className="col-sm-auto col-12">
-                                        {/*<InputFieldAmount id={fields.FL_ASSETS_TOTAL} label="Всего" tip="Всего собственных средств" defaultValue={0} disabled/>*/}
-                                        {/*<InputFieldAmount value={model.getStep2TotalExistingAssets(props.modelState)} label="Всего" tip="Всего собственных средств" disabled/>*/}
                                         <InputFieldAmount value={model.getTotal(props.modelState.existingAssets)} label="Всего" tip="Всего собственных средств" disabled/>
                                     </div>
                                 </div>

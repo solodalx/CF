@@ -2,6 +2,8 @@
 // export const BACKEND_SERVER_IP = 'http://40.115.40.71';
 export const BACKEND_SERVER_IP = 'https://plan4business.online';
 // export const BACKEND_SERVER_IP_80 = '40.115.40.71:80';
+// export const pathname = `${process.env.PUBLIC_URL}/`;
+// export const pathname = '/';
 
 export const GET_REGIONS_API = '/api/data/regions';
 export const GET_TOWNS_API = '/api/data/areas';
